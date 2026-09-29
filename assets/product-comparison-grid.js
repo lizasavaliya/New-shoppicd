@@ -57,7 +57,7 @@ if (!customElements.get('product-comparison-grid')) {
         this.gridContainer.style.maxHeight = '';
         this.gridContainer.style.overflow = '';
         this.gridContainer.classList.remove('is-transitioning');
-      }, (parseFloat(window.getComputedStyle(this.gridContainer).transitionDuration) * 1000));
+      }, (Number.parseFloat(window.getComputedStyle(this.gridContainer).transitionDuration) * 1000));
     }
   }
 

@@ -46,7 +46,7 @@ if (!customElements.get('custom-pagination')) {
       // Bind click handler to load more button click
       this.loadMoreClickHandler = this.loadMoreClickHandler || this.handleLoadMoreClick.bind(this);
 
-      if (this.pagination && this.pagination.dataset.isMoreResults && this.results) {
+      if (this.pagination?.dataset.isMoreResults && this.results) {
         if (this.loadMoreButton) this.loadMoreButton.addEventListener('click', this.loadMoreClickHandler);
 
         if (this.infiniteScroll) {

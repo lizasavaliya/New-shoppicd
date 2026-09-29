@@ -158,29 +158,27 @@ if (!customElements.get('cart-drawer')) {
             setTimeout(() => cartItem.classList.add('cart-item--out'), index * 50);
           });
 
-          try {
-            fetch(`${theme.routes.cartClear}.js`, {
-              method: 'POST'
-            }).then((response) => {
-              if (!response.ok) throw new Error(response.status);
+          fetch(`${theme.routes.cartClear}.js`, {
+            method: 'POST'
+          }).then((response) => {
+            if (!response.ok) throw new Error(response.status);
 
-              // Broadcast individual events to update product cards
-              this.querySelectorAll('.cart-item').forEach((cartItem) => {
-                this.dispatchEvent(new CustomEvent('on:line-item:change', {
-                  bubbles: true,
-                  detail: {
-                    variantId: cartItem.dataset.variantId,
-                    newQuantity: 0
-                  }
-                }));
-              });
-
-              this.refreshCartDrawer();
+            // Broadcast individual events to update product cards
+            this.querySelectorAll('.cart-item').forEach((cartItem) => {
+              this.dispatchEvent(new CustomEvent('on:line-item:change', {
+                bubbles: true,
+                detail: {
+                  variantId: cartItem.dataset.variantId,
+                  newQuantity: 0
+                }
+              }));
             });
-          } catch (error) {
+
+            this.refreshCartDrawer();
+          }).catch((error) => {
             console.log('Error clearing cart:', error); // eslint-disable-line
             window.location.href = evt.target.href;
-          }
+          });
         }
       }
     }

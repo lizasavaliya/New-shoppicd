@@ -9,7 +9,7 @@ if (!customElements.get('discount-code')) {
     }
 
     init() {
-      if (navigator.clipboard && navigator.clipboard.writeText) {
+      if (navigator.clipboard?.writeText) {
         this.discountCodeBtn.addEventListener('click', this.copyCode.bind(this));
         this.discountCode.addEventListener('click', this.copyCode.bind(this));
       } else {

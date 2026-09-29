@@ -97,7 +97,7 @@ if (!customElements.get('media-gallery')) {
         this.setActiveMediaGroup(this.getMediaGroupFromOptionSelectors());
       }
 
-      if (evt.detail.variant && evt.detail.variant.featured_media) {
+      if (evt.detail.variant?.featured_media) {
         const variantMedia = this.viewer.querySelector(
           `[data-media-id="${evt.detail.variant.featured_media.id}"]`
         );
@@ -152,7 +152,7 @@ if (!customElements.get('media-gallery')) {
         this.viewerItems = this.querySelectorAll('.media-viewer__item');
         this.viewerItems.forEach((item) => {
           for (let i = 0; i < variantMediaData.variantMedia.length; i += 1) {
-            if (parseInt(item.dataset.mediaId, 10) === variantMediaData.variantMedia[i].mediaId) {
+            if (Number.parseInt(item.dataset.mediaId, 10) === variantMediaData.variantMedia[i].mediaId) {
               if (currentMediaOptionName !== variantMediaData.variantMedia[i].option) {
                 currentMediaOptionName = variantMediaData.variantMedia[i].option;
               }

@@ -36,7 +36,7 @@ if (!customElements.get('sticky-scroll-direction')) {
         document.documentElement.scrollTop + this.getBoundingClientRect().top - this.offsetTop,
         10
       );
-      this.defaultTop = headerIsSticky ? parseInt(this.headerHeight + 30, 10) : 48;
+      this.defaultTop = headerIsSticky ? Number.parseInt(this.headerHeight + 30, 10) : 48;
       this.scrollY = window.scrollY;
       this.minStickySize = this.dataset.minStickySize;
 
@@ -141,7 +141,7 @@ if (!customElements.get('sticky-scroll-direction')) {
       document.querySelectorAll(this.stickyHeightElems).forEach((elem) => {
         totalHeight += elem.getBoundingClientRect().height;
       });
-      this.parentElement.style.setProperty('--sticky-height', `${parseInt(totalHeight, 10)}px`);
+      this.parentElement.style.setProperty('--sticky-height', `${Number.parseInt(totalHeight, 10)}px`);
     }
 
     /**

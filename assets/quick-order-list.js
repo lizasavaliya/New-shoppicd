@@ -19,7 +19,7 @@ if (!customElements.get('quick-order-list')) {
       this.cartDrawer = document.getElementById('cart-drawer');
       this.itemStatus = document.getElementById('qol-line-item-status');
       this.currentItemCount = Array.from(this.querySelectorAll('[name="updates[]"]'))
-        .reduce((total, quantityInput) => total + parseInt(quantityInput.value, 10), 0);
+        .reduce((total, quantityInput) => total + Number.parseInt(quantityInput.value, 10), 0);
 
       this.addEventListener('click', this.handleClick.bind(this));
       this.addEventListener('change', debounce(this.handleChange.bind(this)));

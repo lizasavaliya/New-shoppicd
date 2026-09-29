@@ -171,7 +171,7 @@ if (!customElements.get('video-component')) {
 
         // Mute the video if a click didn't trigger its load
         const deferredMedia = this.closest('deferred-media');
-        if (!deferredMedia || deferredMedia.loadTrigger !== 'click') {
+        if (deferredMedia?.loadTrigger !== 'click') {
           this.player.muted = true;
         }
 

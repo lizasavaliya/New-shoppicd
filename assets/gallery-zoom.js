@@ -311,7 +311,7 @@ if (!customElements.get('gallery-zoom')) {
       if (evt) evt.preventDefault();
       if (this.thumbContainer.childElementCount < 2) return;
 
-      let previous = this.thumbContainer.querySelector('.gallery-zoom__thumb--active').previousElementSibling;
+      let previous = this.thumbContainer.querySelector('.gallery-zoom__thumb--active')?.previousElementSibling;
       while (!previous || !previous.offsetParent) {
         if (!previous) {
           previous = this.thumbContainer.lastElementChild;
@@ -330,7 +330,7 @@ if (!customElements.get('gallery-zoom')) {
       if (evt) evt.preventDefault();
       if (this.thumbContainer.childElementCount < 2) return;
 
-      let next = this.thumbContainer.querySelector('.gallery-zoom__thumb--active').nextElementSibling;
+      let next = this.thumbContainer.querySelector('.gallery-zoom__thumb--active')?.nextElementSibling;
       while (!next || !next.offsetParent) {
         if (!next) {
           next = this.thumbContainer.firstElementChild;

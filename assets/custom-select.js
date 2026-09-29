@@ -200,7 +200,7 @@ if (!customElements.get('custom-select')) {
       // Get the width of an element without side padding.
       const getHorizontalPadding = (el) => {
         const elStyle = getComputedStyle(el);
-        return parseFloat(elStyle.paddingLeft) + parseFloat(elStyle.paddingRight);
+        return Number.parseFloat(elStyle.paddingLeft) + Number.parseFloat(elStyle.paddingRight);
       };
 
       const buttonPadding = getHorizontalPadding(this.button);

@@ -5,7 +5,7 @@ if (!customElements.get('cart-note')) {
       super();
       this.disclosure = this.closest('details');
 
-      if (this.disclosure && this.disclosure.matches('.cart-note-disclosure')) {
+      if (this.disclosure?.matches('.cart-note-disclosure')) {
         this.cartNoteToggle = this.disclosure.querySelector('.js-show-note');
       }
 

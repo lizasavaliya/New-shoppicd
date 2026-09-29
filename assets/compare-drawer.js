@@ -235,7 +235,7 @@ if (!customElements.get('compare-drawer')) {
      * Opens the compare drawer
      * @param {Element} opener - Element that triggered opening of the drawer
      */
-    async open(opener) {
+    open(opener) {
       opener.classList.add('is-open');
       this.overlay.classList.add('overlay--over-nav');
       this.overlay.classList.add('js-compare-overlay');

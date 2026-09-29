@@ -50,8 +50,8 @@ if (!customElements.get('price-range')) {
      * @param {object} evt - Event object.
      */
     updateSliderInputs(evt) {
-      const minValue = parseInt(this.minNumberInput.value, 10);
-      const maxValue = parseInt(this.maxNumberInput.value, 10);
+      const minValue = Number.parseInt(this.minNumberInput.value, 10);
+      const maxValue = Number.parseInt(this.maxNumberInput.value, 10);
 
       if (minValue > maxValue - 10) {
         if (evt.target === this.minNumberInput) {

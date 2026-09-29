@@ -61,7 +61,7 @@
 
     btn.addEventListener('click', function () {
       const drawer = getDrawer();
-      const maxCompare = drawer ? parseInt(drawer.dataset.maxCompare, 10) : 10;
+      const maxCompare = drawer ? Number.parseInt(drawer.dataset.maxCompare, 10) : 10;
       const isComparing = CompareUtil.getSelectedProducts().some((p) => p.id === productId);
 
       if (isComparing) {

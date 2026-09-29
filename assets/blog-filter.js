@@ -11,7 +11,7 @@ if (!customElements.get('blog-filter')) {
         const link = this.querySelector(
           `#blog-filter-links a[data-tag="${evt.detail.selectedValue}"]`
         );
-        if (link && link.href && link.href !== '#') window.location.href = link.href;
+        if (link?.href && link.href !== '#') window.location.href = link.href;
       });
     }
   }

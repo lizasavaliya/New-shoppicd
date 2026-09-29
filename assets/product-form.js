@@ -356,10 +356,10 @@ if (!customElements.get('product-form')) {
         lineErrors.hidden = false;
         console.log(error); // eslint-disable-line
 
-        const oldQuantity = parseInt(this.quantityInput.dataset.initialValue, 10);
+        const oldQuantity = Number.parseInt(this.quantityInput.dataset.initialValue, 10);
         this.updateQuantityState(oldQuantity);
       } finally {
-        this.updateQuantityState(parseInt(quantity, 10));
+        this.updateQuantityState(Number.parseInt(quantity, 10));
         this.quantitySelector.removeAttribute('aria-disabled');
         if (this.cartDrawer) this.cartDrawer.refreshCartDrawer();
       }

@@ -169,7 +169,7 @@ class DockableSideDrawer extends HTMLElement {
     this.overlay.addEventListener('click', this.clickHandler);
 
     // Handle events after the drawer opens
-    const transitionDuration = parseFloat(getComputedStyle(this).getPropertyValue('--longest-transition-in-ms'));
+    const transitionDuration = Number.parseFloat(getComputedStyle(this).getPropertyValue('--longest-transition-in-ms'));
     setTimeout(() => {
       if (callback) callback();
       this.dispatchEvent(new CustomEvent(`on:${this.dataset.name}:after-open`, {
@@ -207,7 +207,7 @@ class DockableSideDrawer extends HTMLElement {
     this.overlay.removeEventListener('click', this.clickHandler);
 
     // Handle events after the drawer closes
-    const transitionDuration = parseFloat(getComputedStyle(this).getPropertyValue('--longest-transition-in-ms'));
+    const transitionDuration = Number.parseFloat(getComputedStyle(this).getPropertyValue('--longest-transition-in-ms'));
     setTimeout(() => {
       if (callback) callback();
       this.dispatchEvent(new CustomEvent(`on:${this.dataset.name}:after-close`, {

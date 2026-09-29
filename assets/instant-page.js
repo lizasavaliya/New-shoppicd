@@ -41,7 +41,7 @@ function init() {
 
   const chromiumUserAgentIndex = navigator.userAgent.indexOf('Chrome/');
   if (chromiumUserAgentIndex > -1) {
-    _chromiumMajorVersionInUserAgent = parseInt(navigator.userAgent.substring(chromiumUserAgentIndex + 'Chrome/'.length));
+    _chromiumMajorVersionInUserAgent = Number.parseInt(navigator.userAgent.substring(chromiumUserAgentIndex + 'Chrome/'.length));
   }
   // The user agent client hints API is a theoretically more reliable way to
   // get Chromium’s version… but it’s not available in Samsung Internet 20.
@@ -105,7 +105,7 @@ function init() {
       }
     }
     else {
-      const milliseconds = parseInt(intensity);
+      const milliseconds = Number.parseInt(intensity);
       if (!isNaN(milliseconds)) {
         _delayOnHover = milliseconds;
       }

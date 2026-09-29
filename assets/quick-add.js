@@ -114,7 +114,7 @@ if (!customElements.get('quick-add-drawer')) {
       if (!evt.target.matches('.js-quick-add')) return;
 
       // Close the cart drawer if it's open
-      if (this.cartDrawer && this.cartDrawer.ariaHidden === 'false') {
+      if (this.cartDrawer?.ariaHidden === 'false') {
         const overlay = document.querySelector('.js-overlay.is-visible');
         if (overlay) overlay.style.transitionDelay = '200ms';
 
@@ -147,7 +147,7 @@ if (!customElements.get('quick-add-drawer')) {
         link.href = url;
       });
 
-      if (evt.detail.variant && evt.detail.variant.featured_media) {
+      if (evt.detail.variant?.featured_media) {
         this.updateMedia(evt.detail.variant.featured_media);
       }
     }
@@ -156,7 +156,15 @@ if (!customElements.get('quick-add-drawer')) {
      * Opens the drawer and fetches the product details.
      * @param {Element} opener - Element that triggered opening of the drawer.
      */
-    async open(opener) {
+    open(opener) {
+      this.loadAndOpen(opener);
+    }
+
+    /**
+     * Fetches the product details (if needed) and opens the drawer.
+     * @param {Element} opener - Element that triggered opening of the drawer.
+     */
+    async loadAndOpen(opener) {
       opener.setAttribute('aria-disabled', 'true');
 
       if (this.notification) this.notification.hidden = true;
@@ -286,7 +294,7 @@ if (!customElements.get('quick-add-drawer')) {
       const footerContent = this.productEl.querySelector('.js-footer-content');
       this.footer.classList.remove('quick-add__footer-message');
 
-      if (footerContent && footerContent.hasChildNodes()) {
+      if (footerContent?.hasChildNodes()) {
         this.footerContent.innerHTML = footerContent.innerHTML;
       } else {
         this.footer.classList.add('quick-add__footer-message');

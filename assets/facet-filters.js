@@ -197,7 +197,7 @@ if (!customElements.get('facet-filters')) {
       if (evt.state !== null) {
         let searchParams = '';
 
-        if (evt.state && evt.state.searchParams) {
+        if (evt.state?.searchParams) {
           ({ searchParams } = evt.state);
         }
 
@@ -303,7 +303,7 @@ if (!customElements.get('facet-filters')) {
           if (typeof initLazyImages === 'function') initLazyImages();
 
           // Reinitialize any custom pagination
-          if (customPagination && customPagination.reload) customPagination.reload();
+          if (customPagination?.reload) customPagination.reload();
 
           // Update the URL.
           if (updateUrl) FacetFilters.updateURL(searchParams);

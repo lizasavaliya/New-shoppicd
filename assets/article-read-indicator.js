@@ -29,7 +29,7 @@ if (!customElements.get('article-read-indicator')) {
       const pos = this.article.getBoundingClientRect();
       // 200px after the end of the article
       const targetY = pos.height + this.article.offsetTop - window.innerHeight + 200;
-      const percentScrolled = parseInt((100 / targetY) * window.scrollY, 10);
+      const percentScrolled = Number.parseInt((100 / targetY) * window.scrollY, 10);
       this.style.setProperty('--pagination-percent', `${percentScrolled}%`);
       // Scrolled 300px past the end of the article
       this.classList.toggle('is-visible', window.scrollY - targetY < 300);

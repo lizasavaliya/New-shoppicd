@@ -30,7 +30,7 @@ if (!customElements.get('country-province-selector')) {
       // Remove current options.
       Array.from(this.provinceEl.options).forEach((option) => option.remove());
 
-      if (provinces && provinces.length === 0) {
+      if (provinces?.length === 0) {
         this.provinceContainer.hidden = true;
       } else {
         provinces.forEach((province) => {

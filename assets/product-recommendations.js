@@ -16,7 +16,7 @@ class ProductRecommendations extends HTMLElement {
       tmpl.innerHTML = await response.text();
 
       const el = tmpl.content.querySelector('product-recommendations');
-      if (el && el.hasChildNodes()) {
+      if (el?.hasChildNodes()) {
         this.innerHTML = el.innerHTML;
       }
 

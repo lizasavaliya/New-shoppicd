@@ -68,7 +68,7 @@ if (!customElements.get('shipping-calculator')) {
       const textEl = this.rates.querySelector('.js-rates-text');
       textEl.innerHTML = '';
 
-      if (data.shipping_rates && data.shipping_rates.length) {
+      if (data.shipping_rates?.length) {
         const headingLocaleStr = data.shipping_rates.length === 1 ? 'singleRate' : 'multipleRates';
         let rates = '';
 

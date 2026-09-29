@@ -15,7 +15,7 @@ if (!customElements.get('product-inventory')) {
 
       // Init
       this.updateInventory(
-        parseInt(this.dataset.inventoryQuantity, 10),
+        Number.parseInt(this.dataset.inventoryQuantity, 10),
         this.dataset.variantAvailable === 'true',
         this.dataset.inventoryPolicy
       );
@@ -66,9 +66,9 @@ if (!customElements.get('product-inventory')) {
         } else {
           inventoryLevel = 'none';
         }
-      } else if (count <= parseInt(this.dataset.thresholdVeryLow, 10)) {
+      } else if (count <= Number.parseInt(this.dataset.thresholdVeryLow, 10)) {
         inventoryLevel = 'very_low';
-      } else if (count <= parseInt(this.dataset.thresholdLow, 10)) {
+      } else if (count <= Number.parseInt(this.dataset.thresholdLow, 10)) {
         inventoryLevel = 'low';
       } else {
         inventoryLevel = 'normal';

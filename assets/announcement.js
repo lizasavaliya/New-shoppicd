@@ -139,7 +139,7 @@ if (!customElements.get('announcement-bar')) {
 
       countdowns.forEach(el => {
         const endDate = new Date(el.dataset.endDate).getTime();
-        if (!endDate || isNaN(endDate)) return;
+        if (!endDate || Number.isNaN(endDate)) return;
 
         const daysEl = el.querySelector('.js-cd-days');
         const hoursEl = el.querySelector('.js-cd-hours');
@@ -231,7 +231,7 @@ if (!customElements.get('announcement-bar')) {
 
     refreshFreeShippingMessages(blocks, totalPrice) {
       blocks.forEach(block => {
-        const goal = parseInt(block.dataset.fsGoal, 10);
+        const goal = Number.parseInt(block.dataset.fsGoal, 10);
         const msgEl = block.querySelector('.js-fs-message');
         if (!msgEl || !goal) return;
 

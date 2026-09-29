@@ -19,7 +19,7 @@ if (!customElements.get('cart-items')) {
       this.cartDrawer = document.getElementById('cart-drawer');
       this.itemStatus = document.getElementById('cart-line-item-status');
       this.currentTotalItemCount = Array.from(this.querySelectorAll('[name="updates[]"]')).reduce(
-        (total, quantityInput) => total + parseInt(quantityInput.value, 10),
+        (total, quantityInput) => total + Number.parseInt(quantityInput.value, 10),
         0
       );
 

@@ -10,7 +10,7 @@ if (!customElements.get('gift-card-recipient')) {
 
       // When JS is enabled, the recipient email field is required.
       // Input labels are changed to reflect this.
-      if (this.recipientEmailLabel && this.recipientEmailLabel.dataset.jsLabel) {
+      if (this.recipientEmailLabel?.dataset.jsLabel) {
         this.recipientEmailLabel.innerText = this.recipientEmailLabel.dataset.jsLabel;
       }
 

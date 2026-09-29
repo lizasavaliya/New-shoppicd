@@ -27,7 +27,7 @@ if (!customElements.get('product-message')) {
 
       if (this.dataset.persistentClose && !Shopify.designMode) {
         const closedMessages = theme.storageUtil.get('closed-messages', true) || [];
-        if (closedMessages && closedMessages.includes(this.dataset.blockId)) {
+        if (closedMessages?.includes(this.dataset.blockId)) {
           preventShow = true;
           this.remove();
         }
