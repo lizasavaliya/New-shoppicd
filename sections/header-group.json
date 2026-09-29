@@ -1,0 +1,167 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "type": "header",
+  "name": "Header Group",
+  "sections": {
+    "announcement": {
+      "type": "announcement",
+      "blocks": {
+        "free_shipping_9HRigk": {
+          "type": "free_shipping",
+          "settings": {
+            "icon": "none",
+            "icon_custom": "",
+            "default_message": "Free Shipping for all orders over {fs_amount}",
+            "progress_message": "Only {amount_to_fs} away from free shipping",
+            "success_message": "Congratulations! Your orders are free shipped!",
+            "link": "",
+            "link_new_tab": false,
+            "free_shipping_amount": 50
+          }
+        },
+        "announcement-1": {
+          "type": "announcement",
+          "settings": {
+            "text": "<p><strong>In Season</strong> Browse the best in seasonal flavour</p>"
+          }
+        },
+        "announcement_mUnhgD": {
+          "type": "announcement",
+          "settings": {
+            "text": "<p><strong>Offers &amp; Rollbacks</strong> Low prices on 100's of items</p>"
+          }
+        },
+        "promo_code_hVafxd": {
+          "type": "promo_code",
+          "settings": {
+            "icon": "none",
+            "icon_custom": "",
+            "text": "Hurry up! 30% OFF Sale Ends Soon {count_down}",
+            "link": "",
+            "link_new_tab": false,
+            "coupon_code": "",
+            "coupon_code_text_light": "",
+            "coupon_code_text_dark": "",
+            "countdown_timezone": "-04:00",
+            "countdown_year": 2026,
+            "countdown_month": "12",
+            "countdown_day": 1,
+            "countdown_hour": "01",
+            "countdown_minute": "00"
+          }
+        }
+      },
+      "block_order": [
+        "free_shipping_9HRigk",
+        "announcement-1",
+        "announcement_mUnhgD",
+        "promo_code_hVafxd"
+      ],
+      "settings": {
+        "announcement_homepage_only": false,
+        "link1": "",
+        "link1_label": "",
+        "link2": "",
+        "link2_label": "",
+        "enable_country_selector": true,
+        "enable_language_selector": true,
+        "bg_color": "#aae13e",
+        "text_color": "#174733",
+        "text_type_scale": "small",
+        "read_time": 5
+      }
+    },
+    "header": {
+      "type": "header",
+      "settings": {
+        "mobile_menu_position": "burger-left",
+        "enable_sticky": true,
+        "hide_menu": true,
+        "logo_text": "Various",
+        "logo_text_font": "montserrat_n7",
+        "logo_type_scale": "2",
+        "logo": "{{ shop.brand.logo }}",
+        "logo_width": 130,
+        "logo_h1": true,
+        "logo_position": "top-left",
+        "enable_search": true,
+        "minimise_search_mobile": true,
+        "minimise_search_desktop": false,
+        "menu": "",
+        "menu_center": true,
+        "link_toggle": "mobile",
+        "repeat_links": true,
+        "menu_featured_link": "Offers & Rollbacks",
+        "enable_customer_account_component": false,
+        "customer_account_menu": "customer-account-main-menu",
+        "cta_show": true,
+        "cta_icon": "leaf",
+        "cta_label": "In season now!",
+        "cta_link": "",
+        "cta_border_color": "#0d893e",
+        "cta_bg_color": "#0d893e",
+        "cta_text_color": "#ffffff",
+        "bg_color": "#0b4b30",
+        "text_color": "#ffffff",
+        "accent_color": "#c62020",
+        "desktop_menu_bg_color": "#ffffff",
+        "desktop_menu_text_color": "#333333",
+        "mobile_menu_bg_color": "#ffffff",
+        "mobile_menu_text_color": "#333333"
+      }
+    },
+    "drawer_menu_kCRAVL": {
+      "type": "drawer-menu",
+      "blocks": {
+        "drawer_menu_m7URhP": {
+          "type": "drawer_menu",
+          "settings": {
+            "menu_item": "",
+            "view_all_link": "",
+            "view_all_new_tab": false,
+            "view_all_title": "View all",
+            "promo_position": "right",
+            "promo_layout": "vertical",
+            "desktop_image_height": 250,
+            "mobile_image_height": 200
+          }
+        }
+      },
+      "block_order": [
+        "drawer_menu_m7URhP"
+      ],
+      "name": "Drawer menu",
+      "settings": {
+        "menu": "main-menu",
+        "desktop_trigger": "click",
+        "desktop_title": "Menu",
+        "mobile_title": "",
+        "menu_style": "primary",
+        "block_spacing": 20,
+        "show_1st_level_images": "first_product",
+        "show_2nd_level_collection_image": "above",
+        "show_2nd_level_images": "featured",
+        "collection_image_metafield": "",
+        "image_ratio_2nd": "1.777",
+        "enable_mobile": true,
+        "toggle_bg_color": "#1b3a1b",
+        "toggle_text_color": "#ffffff",
+        "color_scheme": "1",
+        "color_scheme_dark": "2"
+      }
+    }
+  },
+  "order": [
+    "announcement",
+    "header",
+    "drawer_menu_kCRAVL"
+  ]
+}

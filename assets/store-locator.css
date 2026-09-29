@@ -1,0 +1,367 @@
+/* =============================================================================
+   Store Locator — Trigger Button (sits inside .header__icons)
+   ============================================================================= */
+
+.store-locator__trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 10px;
+  background: none;
+  color: rgb(var(--icon-color, 34 34 34));
+  border: 1px solid rgba(var(--icon-color, 34 34 34) / 0.3);
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 1.5rem;
+  font-weight: 500;
+  line-height: 1;
+  white-space: nowrap;
+  transition: border-color 0.15s, background-color 0.15s;
+  /* Vertically align with the other header icons */
+  align-self: center;
+  margin-inline-end: 4px;
+}
+
+.store-locator__trigger:hover {
+  background-color: rgba(var(--icon-color, 34 34 34) / 0.06);
+  border-color: rgba(var(--icon-color, 34 34 34) / 0.5);
+}
+
+.store-locator__trigger svg {
+  flex-shrink: 0;
+}
+
+.store-locator__trigger-label:empty {
+  display: none;
+}
+
+.store-locator__trigger-chevron {
+  opacity: 0.7;
+}
+
+/* =============================================================================
+   Store Locator — Modal Window
+   ============================================================================= */
+
+.store-locator-section .store-locator__window {
+  background-color: var(--sl-bg, #fff);
+  color: var(--sl-text, #222);
+  width: min(95vw, 1000px);
+  height: min(88vh, 700px);
+  overflow: hidden;
+  border-radius: 12px;
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.18);
+  /* Override modal.css defaults */
+  min-height: 0;
+  min-width: 0;
+}
+
+/* =============================================================================
+   Store Locator — Header
+   ============================================================================= */
+
+.store-locator__head {
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--sl-border, #e8e8e8);
+  flex-shrink: 0;
+}
+
+.store-locator__title {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+}
+
+/* Close button — circle with light background */
+.store-locator__close {
+  position: static !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border-radius: 50%;
+  background-color: #eef0ee;
+  color: #1a1a1a;
+  flex-shrink: 0;
+  transition: background-color 0.15s;
+}
+
+.store-locator__close:hover {
+  background-color: #dde1dd;
+}
+
+.store-locator__close svg {
+  width: 14px;
+  height: 14px;
+}
+
+/* =============================================================================
+   Store Locator — Body (two-column layout)
+   ============================================================================= */
+
+.store-locator__body {
+  min-height: 0;
+}
+
+/* =============================================================================
+   Store Locator — Store List Panel
+   ============================================================================= */
+
+.store-locator__list-panel {
+  width: 380px;
+  flex-shrink: 0;
+  border-right: 1px solid var(--sl-border, #e8e8e8);
+  background-color: var(--sl-bg, #fff);
+}
+
+.store-locator__list-panel--right {
+  border-right: none;
+  border-left: 1px solid var(--sl-border, #e8e8e8);
+}
+
+.store-locator__list {
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* =============================================================================
+   Store Locator — Store Items (accordion)
+   ============================================================================= */
+
+.store-locator__item {
+  border-bottom: 1px solid var(--sl-border, #e8e8e8);
+}
+
+.store-locator__item-header {
+  padding: 16px 20px;
+  gap: 0;
+}
+
+/* Checkbox wrapper */
+.store-locator__check-label {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  padding-right: 12px;
+  flex-shrink: 0;
+}
+
+.store-locator__checkbox {
+  width: 17px;
+  height: 17px;
+  accent-color: var(--sl-accent, #333);
+  cursor: pointer;
+  margin: 0;
+  flex-shrink: 0;
+}
+
+/* Toggle button (store name + chevron) */
+.store-locator__item-toggle {
+  flex: 1;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  color: inherit;
+  font-size: 1.5rem;
+  font-weight: 500;
+  text-align: left;
+  min-width: 0;
+  gap: 8px;
+}
+
+.store-locator__item-name {
+  font-weight: 500;
+  font-size: 1.5rem;
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.store-locator__chevron {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
+  opacity: 0.55;
+}
+
+.store-locator__chevron svg {
+  width: 17px;
+  height: 17px;
+}
+
+.store-locator__item--active .store-locator__chevron {
+  transform: rotate(180deg);
+  opacity: 0.8;
+}
+
+/* =============================================================================
+   Store Locator — Expanded Item Details
+   ============================================================================= */
+
+.store-locator__item-details {
+  padding: 4px 20px 20px 46px;
+}
+
+.store-locator__item-details[hidden] {
+  display: none;
+}
+
+/* Fee row — blue dot indicator matches a "status available" signal */
+.store-locator__fee {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #1a73e8;
+}
+
+.store-locator__fee-dot {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: currentColor;
+  flex-shrink: 0;
+}
+
+.store-locator__ready-time {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+  color: var(--sl-text, #444);
+  line-height: 1.5;
+}
+
+.store-locator__address {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+  color: var(--sl-text, #444);
+  line-height: 1.5;
+}
+
+.store-locator__details {
+  font-size: 1.5rem;
+  margin-bottom: 16px;
+  color: var(--sl-text, #444);
+  line-height: 1.6;
+}
+
+.store-locator__details p {
+  margin-bottom: 4px;
+}
+
+.store-locator__directions-btn {
+  margin-top: 12px;
+  display: inline-flex;
+  font-size: 1.5rem;
+}
+
+/* =============================================================================
+   Store Locator — Footer (Select Store Button)
+   ============================================================================= */
+
+.store-locator__footer {
+  padding: 14px 20px;
+  border-top: 1px solid var(--sl-border, #e8e8e8);
+  flex-shrink: 0;
+}
+
+.store-locator__select-btn {
+  width: 100%;
+  text-align: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  padding-top: 12px;
+  padding-bottom: 12px;
+}
+
+/* =============================================================================
+   Store Locator — Map Panel
+   ============================================================================= */
+
+.store-locator__map-panel {
+  flex: 1;
+  overflow: hidden;
+  min-width: 0;
+  background-color: #f0f0f0;
+  position: relative;
+}
+
+.store-locator__map-frame {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+.store-locator__map-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  color: #bbb;
+  text-align: center;
+  padding: 24px;
+  font-size: 0.8125rem;
+  line-height: 1.5;
+}
+
+.store-locator__map-placeholder svg {
+  width: 40px;
+  height: 40px;
+  opacity: 0.4;
+}
+
+/* =============================================================================
+   Store Locator — Responsive (mobile)
+   ============================================================================= */
+
+@media (max-width: 768.98px) {
+  .store-locator__trigger {
+    padding: 5px 8px;
+    font-size: 1.25rem;
+  }
+
+  .store-locator__trigger-label {
+    display: none; /* show icon-only on small screens */
+  }
+
+  .store-locator-section .store-locator__window {
+    width: 95vw;
+    height: 90vh;
+  }
+
+  .store-locator__body {
+    flex-direction: column;
+  }
+
+  .store-locator__list-panel {
+    width: 100%;
+    flex-shrink: 0;
+    border-right: none;
+    border-bottom: 1px solid var(--sl-border, #e0e0e0);
+    max-height: 56%;
+  }
+
+  .store-locator__list-panel--right {
+    border-left: none;
+    border-bottom: 1px solid var(--sl-border, #e0e0e0);
+  }
+
+  .store-locator__map-panel {
+    flex: 1;
+    min-height: 160px;
+  }
+}

@@ -1,0 +1,351 @@
+{%- if section.blocks.size > 0 -%}
+  {{ 'store-locator.css' | asset_url | stylesheet_tag }}
+  {{ 'modal.css' | asset_url | stylesheet_tag }}
+  <script src="{{ 'store-locator.js' | asset_url }}" defer="defer"></script>
+
+  {%- liquid
+    assign bg_color     = section.settings.bg_color
+    assign text_color   = section.settings.text_color
+    assign border_color = section.settings.border_color
+    assign accent_color = section.settings.accent_color
+    assign auto_first   = section.settings.auto_select_first
+    assign first_block  = section.blocks | first
+  -%}
+
+  {%- style -%}
+    #{{ section.id }} {
+      --sl-bg:     {{ bg_color }};
+      --sl-text:   {{ text_color }};
+      --sl-border: {{ border_color }};
+      --sl-accent: {{ accent_color }};
+    }
+    #{{ section.id }}-trigger {
+      --sl-accent: {{ accent_color }};
+    }
+  {%- endstyle -%}
+
+  {%- comment -%} Trigger button — JS moves this into .header__icons at runtime {%- endcomment -%}
+  <button type="button"
+          class="store-locator__trigger no-js-hidden"
+          id="{{ section.id }}-trigger"
+          data-open="{{ section.id }}"
+          aria-haspopup="dialog"
+          aria-controls="{{ section.id }}">
+    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+      <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+    </svg>
+    <span class="store-locator__trigger-label"></span>
+    <svg class="store-locator__trigger-chevron" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="6 9 12 15 18 9"></polyline>
+    </svg>
+  </button>
+
+  {%- comment -%} Modal {%- endcomment -%}
+  <store-locator
+    class="store-locator-section modal invisible fixed top-0 left-0 w-full h-full flex justify-center items-center"
+    id="{{ section.id }}"
+    data-auto-select-first="{{ auto_first }}"
+    {%- if section.settings.google_maps_api_key != blank %} data-maps-key="{{ section.settings.google_maps_api_key | escape }}"{% endif %}>
+
+    <div class="store-locator__window modal__window has-motion relative flex flex-col"
+         role="dialog"
+         aria-labelledby="{{ section.id }}-title"
+         aria-modal="true"
+         tabindex="-1">
+
+      {%- comment -%} Header {%- endcomment -%}
+      <div class="store-locator__head flex items-center justify-between">
+        <h2 class="store-locator__title h4" id="{{ section.id }}-title">
+          {{- section.settings.modal_title | default: 'Choose your Location' -}}
+        </h2>
+        <button type="button" class="store-locator__close modal__close-btn js-close-modal">
+          {% render 'icon-close' %}
+          <span class="visually-hidden">{{ 'accessibility.close' | t }}</span>
+        </button>
+      </div>
+
+      {%- comment -%} Two-column body {%- endcomment -%}
+      <div class="store-locator__body flex flex-auto overflow-hidden">
+
+        {%- comment -%} Store list panel {%- endcomment -%}
+        <div class="store-locator__list-panel{% if section.settings.content_position == 'right' %} store-locator__list-panel--right{% endif %} flex flex-col">
+
+          <div class="store-locator__list flex-auto overflow-y-auto">
+            {%- for block in section.blocks -%}
+              {%- liquid
+                assign is_first = forloop.first
+                assign directions_url = 'https://www.google.com/maps/dir/?api=1&destination=' | append: block.settings.location_address | url_encode
+              -%}
+              <div class="store-locator__item{% if is_first and auto_first %} store-locator__item--active{% endif %}"
+                   data-block-id="{{ block.id }}"
+                   data-address="{{ block.settings.location_address | escape }}"
+                   {{ block.shopify_attributes }}>
+
+                <div class="store-locator__item-header flex items-center">
+                  <label class="store-locator__check-label" for="store-{{ block.id }}">
+                    <input type="checkbox"
+                           class="store-locator__checkbox"
+                           id="store-{{ block.id }}"
+                           name="selected-store"
+                           value="{{ block.id }}"
+                           {% if is_first and auto_first %}checked{% endif %}>
+                  </label>
+                  <button type="button"
+                          class="store-locator__item-toggle flex items-center justify-between"
+                          aria-expanded="{% if is_first and auto_first %}true{% else %}false{% endif %}"
+                          aria-controls="store-details-{{ block.id }}">
+                    <span class="store-locator__item-name">{{- block.settings.location_name | default: 'Store branch' -}}</span>
+                    <span class="store-locator__chevron" aria-hidden="true">{% render 'icon-chevron-down' %}</span>
+                  </button>
+                </div>
+
+                <div class="store-locator__item-details"
+                     id="store-details-{{ block.id }}"
+                     {% unless is_first and auto_first %}hidden{% endunless %}>
+
+                  {%- if block.settings.pickup_fee != blank -%}
+                    <div class="store-locator__fee flex items-center gap-2">
+                      <span class="store-locator__fee-dot" aria-hidden="true"></span>
+                      <span>{{- block.settings.pickup_fee -}}</span>
+                    </div>
+                  {%- endif -%}
+
+                  {%- if block.settings.ready_time != blank -%}
+                    <p class="store-locator__ready-time">{{- block.settings.ready_time -}}</p>
+                  {%- endif -%}
+
+                  {%- if block.settings.location_address != blank -%}
+                    <p class="store-locator__address">{{- block.settings.location_address -}}</p>
+                  {%- endif -%}
+
+                  {%- if block.settings.location_details != blank -%}
+                    <div class="store-locator__details rte">{{ block.settings.location_details }}</div>
+                  {%- endif -%}
+
+                  {%- if block.settings.nav_button_label != blank -%}
+                    <a href="{{ directions_url }}"
+                       target="_blank"
+                       rel="noopener noreferrer"
+                       class="store-locator__directions-btn btn {{ block.settings.nav_button_style | default: 'btn--primary' }}">
+                      {{- block.settings.nav_button_label -}}
+                    </a>
+                  {%- endif -%}
+
+                </div>
+              </div>
+            {%- endfor -%}
+          </div>
+
+          <div class="store-locator__footer">
+            <button type="button" class="store-locator__select-btn btn btn--primary w-full js-select-store">
+              {{- section.settings.pickup_button_label | default: 'Select store' -}}
+            </button>
+          </div>
+        </div>
+
+        {%- comment -%} Map panel {%- endcomment -%}
+        <div class="store-locator__map-panel{% if section.settings.content_position == 'right' %} order-first{% endif %}">
+          {%- if section.settings.google_maps_api_key != blank -%}
+            {%- assign default_q = first_block.settings.location_address | url_encode -%}
+            <iframe
+              class="store-locator__map-frame"
+              src="https://www.google.com/maps/embed/v1/place?key={{ section.settings.google_maps_api_key | escape }}&q={{ default_q }}"
+              width="100%"
+              height="100%"
+              style="border:0;"
+              allowfullscreen=""
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"
+              title="Store location map">
+            </iframe>
+          {%- else -%}
+            <div class="store-locator__map-placeholder flex flex-col items-center justify-center">
+              <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="48" height="48" fill="currentColor">
+                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+              </svg>
+              <p>Add a Google Maps API key in section settings to display the map.</p>
+            </div>
+          {%- endif -%}
+        </div>
+
+      </div>
+    </div>
+  </store-locator>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Store locator",
+  "class": "cc-store-locator",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "modal_title",
+      "label": "Modal title",
+      "default": "Choose your Location"
+    },
+    {
+      "type": "text",
+      "id": "trigger_label",
+      "label": "Trigger button label",
+      "default": "Store locator"
+    },
+    {
+      "type": "select",
+      "id": "content_position",
+      "label": "Content position",
+      "options": [
+        { "value": "left",  "label": "Left" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "text",
+      "id": "pickup_button_label",
+      "label": "Pickup button label",
+      "default": "Select store"
+    },
+    {
+      "type": "checkbox",
+      "id": "auto_select_first",
+      "label": "Automatically select the first store",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "Google Maps"
+    },
+    {
+      "type": "text",
+      "id": "google_maps_api_key",
+      "label": "Google Maps API key",
+      "info": "Required to display the map. [Get an API key](https://developers.google.com/maps/documentation/embed/get-api-key)"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text",
+      "default": "#333333"
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Border",
+      "default": "#e0e0e0"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent",
+      "default": "#333333"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "store_location",
+      "name": "Store location",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "store_image",
+          "label": "Store image"
+        },
+        {
+          "type": "select",
+          "id": "image_ratio",
+          "label": "Image ratio",
+          "info": "Applies specifically to images displayed within tabs.",
+          "options": [
+            { "value": "square",    "label": "Square (1:1)" },
+            { "value": "portrait",  "label": "Portrait (2:3)" },
+            { "value": "landscape", "label": "Landscape (3:2)" }
+          ],
+          "default": "square"
+        },
+        {
+          "type": "text",
+          "id": "location_name",
+          "label": "Location name",
+          "info": "The store name needs to match the name of your store defined in your location settings.",
+          "default": "Store branch"
+        },
+        {
+          "type": "text",
+          "id": "location_address",
+          "label": "Location address",
+          "info": "Google Map will find the exact location.",
+          "default": "123 Main St, City, State 12345"
+        },
+        {
+          "type": "text",
+          "id": "pickup_fee",
+          "label": "Pickup fee",
+          "default": "Free"
+        },
+        {
+          "type": "text",
+          "id": "ready_time",
+          "label": "Ready time",
+          "default": "Usually ready for pickup in 24 hours"
+        },
+        {
+          "type": "richtext",
+          "id": "location_details",
+          "label": "Location details",
+          "default": "<p>(+1) 555 000 000</p><p>Store hours<br>Mon - Fri, 9:00am - 6:00pm</p>"
+        },
+        {
+          "type": "header",
+          "content": "Button"
+        },
+        {
+          "type": "text",
+          "id": "nav_button_label",
+          "label": "Navigation button label",
+          "default": "Get directions"
+        },
+        {
+          "type": "select",
+          "id": "nav_button_style",
+          "label": "Button style",
+          "options": [
+            { "value": "btn--primary",   "label": "Primary" },
+            { "value": "btn--secondary", "label": "Secondary" },
+            { "value": "link",           "label": "Link" }
+          ],
+          "default": "btn--primary"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Store locator",
+      "category": "Store",
+      "blocks": [
+        { "type": "store_location" },
+        { "type": "store_location" },
+        { "type": "store_location" }
+      ]
+    }
+  ],
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  }
+}
+{% endschema %}

@@ -1,0 +1,302 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "type": "aside",
+  "name": "Overlay group",
+  "sections": {
+    "cart-drawer": {
+      "type": "cart-drawer",
+      "disabled": true,
+      "settings": {
+        "show_cart_page_link": true,
+        "show_backorder_text": false,
+        "show_vendor": false,
+        "position_cart_summary": "top",
+        "stick_footer": true,
+        "stick_footer_mobile": true,
+        "show_order_note": false,
+        "show_shipping_text_notice": false,
+        "show_additional_checkout_buttons": true,
+        "enable_empty_cart": false,
+        "enable_empty_cart_mobile": false,
+        "show_checkout_button": true,
+        "cart_terms_page": "",
+        "show_shipping_calculator": false,
+        "shipping_calculator_default_country": "United States",
+        "promoted_products_visibility": "empty-cart",
+        "promoted_products_heading": "Don't miss these deals",
+        "promoted_products_list": [],
+        "promoted_products_layout": "carousel",
+        "show_media_promotion": false,
+        "media_promotion_visibility": "always",
+        "link_url": "",
+        "media_promotion_min_height": 0,
+        "content": "<h4>Eat Fresh!</h4>",
+        "text_type_scale": "1em",
+        "text_width": 240,
+        "text_alignment": "justify-start items-center",
+        "button_label": "Shop Now",
+        "button_style": "link",
+        "text_color": "#ffffff",
+        "tint_color": "#aedb51",
+        "tint_opacity": 0
+      }
+    },
+    "product-compare": {
+      "type": "product-compare",
+      "blocks": {
+        "compare-1": {
+          "type": "image",
+          "settings": {
+            "show_line": false
+          }
+        },
+        "compare-3": {
+          "type": "title",
+          "settings": {
+            "show_line": false
+          }
+        },
+        "variants_gW7czT": {
+          "type": "variants",
+          "settings": {
+            "show_line": false
+          }
+        },
+        "compare-4": {
+          "type": "price",
+          "settings": {
+            "show_line": false
+          }
+        },
+        "compare-5": {
+          "type": "description",
+          "settings": {
+            "truncate_description": true,
+            "words_to_show": 16,
+            "show_line": true
+          }
+        },
+        "rating_xLFPcF": {
+          "type": "rating",
+          "settings": {
+            "show_line": true
+          }
+        },
+        "vendor_compare": {
+          "type": "vendor",
+          "settings": {
+            "show_line": true
+          }
+        },
+        "metafield_kVfPUh": {
+          "type": "metafield",
+          "settings": {
+            "metafields": "Origin:custom.origin\nFreshness Guarantee:custom.fresh\nSalt:custom.salt\nSugars:custom.sugars\nSaturates:custom.saturates\nFats:custom.fat\nEnergy:custom.energy",
+            "line": "solid"
+          }
+        }
+      },
+      "block_order": [
+        "compare-1",
+        "compare-3",
+        "variants_gW7czT",
+        "compare-4",
+        "compare-5",
+        "rating_xLFPcF",
+        "vendor_compare",
+        "metafield_kVfPUh"
+      ],
+      "settings": {}
+    },
+    "age_verification_popup_JdH4iY": {
+      "type": "age-verification-popup",
+      "blocks": {
+        "heading_n7yCFp": {
+          "type": "heading",
+          "settings": {
+            "heading": "Age verification",
+            "heading_size": "h4"
+          }
+        },
+        "text_GiLFbB": {
+          "type": "text",
+          "settings": {
+            "text": "<p>You must be at least 18 years old to access this site.</p>",
+            "text_size": ""
+          }
+        },
+        "button_nXK8L7": {
+          "type": "button",
+          "settings": {
+            "button_proceed_label": "I am over 18",
+            "button_proceed_style": "btn btn--primary",
+            "button_proceed_bg_color": "#070707",
+            "button_proceed_text_color": "#ffffff",
+            "button_cancel_label": "I am under 18",
+            "button_cancel_style": "btn btn--secondary",
+            "button_cancel_bg_color": "#555555",
+            "button_cancel_text_color": "#ffffff",
+            "cancel_text": "<p>We sell age restricted products, so you won't be permitted to purchase from our store.</p>"
+          }
+        },
+        "image_wMjJkX": {
+          "type": "image",
+          "settings": {
+            "image_position_desktop": "top",
+            "image_position_mobile": "hidden"
+          }
+        }
+      },
+      "block_order": [
+        "heading_n7yCFp",
+        "text_GiLFbB",
+        "button_nXK8L7",
+        "image_wMjJkX"
+      ],
+      "settings": {
+        "position": "justify-center items-center",
+        "text_align": "text-center",
+        "padding": "medium",
+        "shrink_width": true,
+        "heading_color": "#333333",
+        "text_color": "#333333",
+        "bg_color": "#ffffff",
+        "bg_grad": "",
+        "tint_opacity": 60
+      }
+    },
+    "pop_up_QRmXP6": {
+      "type": "pop-up",
+      "blocks": {
+        "subheading_ETbaHM": {
+          "type": "subheading",
+          "settings": {
+            "text": "Recipes & Inspiration"
+          }
+        },
+        "heading_JtPef3": {
+          "type": "heading",
+          "settings": {
+            "heading": "It's all about good taste!",
+            "heading_size": "h2"
+          }
+        },
+        "text_Yq7Mht": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Join our community to get exclusive offers, original recipes, event invites and more.</p>",
+            "text_size": ""
+          }
+        },
+        "newsletter_signup_GMQB8j": {
+          "type": "newsletter-signup",
+          "settings": {}
+        },
+        "social_GxjTm6": {
+          "type": "social",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "subheading_ETbaHM",
+        "heading_JtPef3",
+        "text_Yq7Mht",
+        "newsletter_signup_GMQB8j",
+        "social_GxjTm6"
+      ],
+      "settings": {
+        "trigger": "delay",
+        "delay": 30,
+        "show_to_guests_only": false,
+        "show_on_mobile": true,
+        "dismiss_days": 30,
+        "position": "justify-center items-center",
+        "text_align": "text-center",
+        "padding": "large",
+        "shrink_width": false,
+        "heading_color": "#ffffff",
+        "text_color": "#ffffff",
+        "bg_color": "#000000",
+        "bg_grad": "",
+        "tint_opacity": 10
+      }
+    },
+    "store_locator_V3Ciwi": {
+      "type": "store-locator",
+      "blocks": {
+        "store_location_cfQVae": {
+          "type": "store_location",
+          "settings": {
+            "image_ratio": "square",
+            "location_name": "Store branch",
+            "location_address": "75 9th Ave, New York, NY 10011-7006",
+            "pickup_fee": "Free",
+            "ready_time": "Usually ready for pickup in 24 hours",
+            "location_details": "<p>(+1) 555 000 000</p><p>Store hours<br/>Mon - Fri, 9:00am - 6:00pm</p>",
+            "nav_button_label": "Get directions",
+            "nav_button_style": "btn--primary"
+          }
+        },
+        "store_location_NQjNqT": {
+          "type": "store_location",
+          "settings": {
+            "image_ratio": "square",
+            "location_name": "Store branch",
+            "location_address": "123 Main St, City, State 12345",
+            "pickup_fee": "Free",
+            "ready_time": "Usually ready for pickup in 24 hours",
+            "location_details": "<p>(+1) 555 000 000</p><p>Store hours<br>Mon - Fri, 9:00am - 6:00pm</p>",
+            "nav_button_label": "Get directions",
+            "nav_button_style": "btn--primary"
+          }
+        },
+        "store_location_HKyXFA": {
+          "type": "store_location",
+          "settings": {
+            "image_ratio": "square",
+            "location_name": "Store branch",
+            "location_address": "123 Main St, City, State 12345",
+            "pickup_fee": "Free",
+            "ready_time": "Usually ready for pickup in 24 hours",
+            "location_details": "<p>(+1) 555 000 000</p><p>Store hours<br>Mon - Fri, 9:00am - 6:00pm</p>",
+            "nav_button_label": "Get directions",
+            "nav_button_style": "btn--primary"
+          }
+        }
+      },
+      "block_order": [
+        "store_location_cfQVae",
+        "store_location_NQjNqT",
+        "store_location_HKyXFA"
+      ],
+      "name": "Store locator",
+      "settings": {
+        "modal_title": "Choose your Location",
+        "trigger_label": "",
+        "content_position": "left",
+        "pickup_button_label": "",
+        "auto_select_first": false,
+        "google_maps_api_key": "",
+        "bg_color": "#ffffff",
+        "text_color": "#333333",
+        "border_color": "#e0e0e0",
+        "accent_color": "#333333"
+      }
+    }
+  },
+  "order": [
+    "cart-drawer",
+    "product-compare",
+    "age_verification_popup_JdH4iY",
+    "pop_up_QRmXP6",
+    "store_locator_V3Ciwi"
+  ]
+}

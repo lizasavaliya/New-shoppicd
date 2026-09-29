@@ -1,0 +1,568 @@
+{%- liquid
+  assign display_type = section.settings.display_type
+  assign carousel = false
+  if display_type == 'carousel'
+    assign carousel = true
+  endif
+  assign desktop_cols = section.settings.items_per_row_desktop
+  assign tablet_cols = section.settings.items_per_row_tablet
+  assign mobile_cols = section.settings.items_per_row_mobile
+  assign gap = section.settings.gap
+  assign heading_align = section.settings.heading_align
+  assign header_align = 'justify-between'
+  if heading_align == 'text-center'
+    assign header_align = 'justify-center'
+  elsif heading_align == 'text-end'
+    assign header_align = 'justify-end'
+  endif
+  assign section_bg_color = section.settings.section_bg_color
+  assign section_text_color = section.settings.section_text_color
+  assign card_bg_color = section.settings.card_bg_color
+  assign image_ratio = section.settings.image_ratio
+  if image_ratio == '16-9'
+    assign image_ratio_padding = 56.25
+  elsif image_ratio == '1-1'
+    assign image_ratio_padding = 100
+  else
+    assign image_ratio_padding = 75
+  endif
+  assign card_border_color = section.settings.card_border_color
+  assign card_title_color = section.settings.card_title_color
+  assign card_text_color = section.settings.card_text_color
+  assign button_text_color = section.settings.button_text_color
+  assign button_bg_color = section.settings.button_bg_color
+  assign button_border_color = section.settings.button_border_color
+  assign button_hover_bg_color = section.settings.button_hover_bg_color
+  assign show_nav = section.settings.show_navigation_arrows
+  assign autoplay_every = section.settings.autoplay_every
+  assign autoplay_enabled = false
+  if autoplay_every > 0
+    if carousel
+      assign autoplay_enabled = true
+    endif
+  endif
+
+  if carousel
+    assign grid_classes = 'grid-flow-col auto-cols-' | append: mobile_cols | append: ' sm:auto-cols-' | append: tablet_cols | append: ' lg:auto-cols-' | append: desktop_cols
+  else
+    assign grid_classes = 'grid-cols-' | append: mobile_cols | append: ' sm:grid-cols-' | append: tablet_cols | append: ' lg:grid-cols-' | append: desktop_cols
+  endif
+-%}
+
+{%- style -%}
+  #{{ section.id }} {
+    background-color: {{ section_bg_color }};
+    color: {{ section_text_color }};
+  }
+  #{{ section.id }} .clg__list {
+    gap: {{ gap }}px;
+  }
+  #{{ section.id }} .clg__card {
+    background-color: {{ card_bg_color }};
+    border: 1px solid {{ card_border_color }};
+    border-radius: 24px;
+    overflow: hidden;
+    min-height: 100%;
+  }
+  #{{ section.id }} .clg__card-body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+  }
+  #{{ section.id }} .clg__image {
+    position: relative;
+    overflow: hidden;
+    background-color: #eef2e7;
+  }
+  #{{ section.id }} .clg__image .img-fit {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  #{{ section.id }} .clg__image .media__placeholder,
+  #{{ section.id }} .clg__image .media__placeholder svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+  #{{ section.id }} .clg__card-body-inner {
+    padding: 1.5rem 1.5rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+  #{{ section.id }} .clg__heading {
+    color: {{ card_title_color }};
+    margin-bottom: 0.75rem;
+    font-weight: 700;
+    line-height: 1.1;
+  }
+  #{{ section.id }} .clg__content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  #{{ section.id }} .clg__bullet-list {
+    list-style: disc inside;
+    padding: 0;
+    margin: 0 0 1.5rem;
+  }
+  #{{ section.id }} .clg__bullet-list li {
+    margin-bottom: 0.45rem;
+    color: {{ card_text_color }};
+    font-size: 1.55rem;
+  }
+  #{{ section.id }} .clg__bullet-list li:last-child {
+    margin-bottom: 0;
+  }
+  #{{ section.id }} .clg__button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-height: 44px;
+    padding: 0.85rem 1.2rem;
+    color: {{ button_text_color }};
+    background-color: {{ button_bg_color }};
+    border: 1px solid {{ button_border_color }};
+    border-radius: 9999px;
+    text-align: center;
+    text-decoration: none;
+    font-weight: 600;
+    transition: background-color 0.2s ease, color 0.2s ease;
+  }
+  #{{ section.id }} .clg__button:hover,
+  #{{ section.id }} .clg__button:focus {
+    background-color: {{ button_hover_bg_color }};
+  }
+  #{{ section.id }} .clg__bullet-list {
+    margin: 0;
+    padding-left: 1rem;
+  }
+  #{{ section.id }} .clg__bullet-list li {
+    margin-bottom: 0.35rem;
+  }
+  #{{ section.id }} .clg__bullet-list li:last-child {
+    margin-bottom: 0;
+  }
+{%- endstyle -%}
+
+{%- unless section.settings.full_width -%}
+  <div class="container">
+{%- endunless -%}
+
+<div id="{{ section.id }}" class="section section--padded{% if section.settings.full_width %} section--full-width{% endif %}">
+  <div class="container">
+    {%- if section.settings.title != blank -%}
+      <div class="section__header flex items-center {{ header_align }} gap-x-theme mb-6">
+        <h2 class="h4 mb-0 text-{{ heading_align | remove: 'text-' }}">{{ section.settings.title | escape }}</h2>
+      </div>
+    {%- endif -%}
+  </div>
+
+  {%- if carousel -%}
+    <carousel-slider class="carousel block" inactive>
+      <div class="container">
+        <div class="slider" id="slider-{{ section.id }}">
+  {%- endif -%}
+
+  <div class="container">
+    <ul class="clg__list {% if carousel %}slider__grid {% endif %}grid {{ grid_classes }}" role="list">
+      {%- for block in section.blocks -%}
+        <li{% if carousel %} class="slider__item"{% endif %}>
+          <div class="clg__card" {% if settings.animations_enabled != "disabled" %} data-cc-animate="fade-in{% unless carousel %}-up{% endunless %}" data-cc-animate-delay="{{ forloop.index | times: 0.07 }}s"{% endif %}>
+            <div class="clg__image" style="padding-top: {{ image_ratio_padding }}%;">
+              {%- assign card_image = block.settings.image -%}
+              {%- if card_image == blank and block.settings.collection != blank -%}
+                {%- assign card_image = collections[block.settings.collection].featured_image -%}
+              {%- endif -%}
+
+              {%- if card_image != blank -%}
+                {% render 'image', image: card_image, widths: '320, 520, 720, 900', src_width: 520, class: 'img-fit' %}
+              {%- else -%}
+                {{ 'collection-1' | placeholder_svg_tag: 'media__placeholder img-fit' }}
+              {%- endif -%}
+            </div>
+
+            <div class="clg__card-body">
+              <div class="clg__card-body-inner">
+                <div class="clg__content">
+                  <p class="clg__heading h5 mb-4">{{ block.settings.heading | default: collections[block.settings.collection].title | escape }}</p>
+
+                  {%- assign bullet_items = '' -%}
+                  {%- for i in (1..4) -%}
+                    {%- assign bullet_key = 'text_' | append: i -%}
+                    {%- if block.settings[bullet_key] != blank -%}
+                      {%- capture bullet_items -%}
+                        {{ bullet_items }}<li class="clg__bullet">{{ block.settings[bullet_key] | escape }}</li>
+                      {%- endcapture -%}
+                    {%- endif -%}
+                  {%- endfor -%}
+
+                  {%- if bullet_items != blank -%}
+                    <ul class="clg__bullet-list mb-6">
+                      {{ bullet_items }}
+                    </ul>
+                  {%- endif -%}
+                </div>
+
+                {%- assign button_href = block.settings.button_link -%}
+                {%- if button_href == blank and block.settings.collection != blank -%}
+                  {%- assign button_href = collections[block.settings.collection].url -%}
+                {%- endif -%}
+              </div>
+
+              {%- if block.settings.button_label != blank -%}
+                <a class="clg__button" {% if button_href != blank %}href="{{ button_href }}"{% else %}role="link" aria-disabled="true"{% endif %}>
+                  {{ block.settings.button_label | escape }}
+                </a>
+              {%- endif -%}
+            </div>
+          </div>
+        </li>
+      {%- else -%}
+        {%- for i in (1..4) -%}
+          <li{% if carousel %} class="slider__item"{% endif %}>
+            <div class="clg__card p-6 flex flex-col h-full" data-cc-animate="fade-in" data-cc-animate-delay="{{ forloop.index | times: 0.07 }}s">
+              <div class="clg__image mb-6 relative">
+                {{ 'collection-1' | placeholder_svg_tag: 'media__placeholder img-fit' }}
+              </div>
+              <div class="clg__content flex-auto">
+                <p class="clg__heading h5 mb-4">Collection title</p>
+                <ul class="clg__bullet-list mb-6">
+                  <li class="clg__bullet">Category item</li>
+                  <li class="clg__bullet">Category item</li>
+                  <li class="clg__bullet">Category item</li>
+                </ul>
+              </div>
+              <a class="clg__button" role="link" aria-disabled="true">Shop all</a>
+            </div>
+          </li>
+        {%- endfor -%}
+      {%- endfor -%}
+    </ul>
+  </div>
+
+  {%- if carousel -%}
+        </div>
+        {%- if show_nav -%}
+          <div class="slider-nav slide-nav--inline justify-between items-center absolute top-0 h-full hidden md:flex no-js-hidden">
+            <button type="button" class="slider-nav__btn tap-target tap-target--left btn has-ltr-icon" name="prev" aria-controls="slider-{{ section.id }}">
+              <span class="visually-hidden">{{ 'general.slider.previous' | t }}</span>
+              {% render 'icon-chevron-left' %}
+            </button>
+            <button type="button" class="slider-nav__btn tap-target tap-target--right btn has-ltr-icon" name="next" aria-controls="slider-{{ section.id }}">
+              <span class="visually-hidden">{{ 'general.slider.next' | t }}</span>
+              {% render 'icon-chevron-right' %}
+            </button>
+          </div>
+        {%- endif -%}
+      </div>
+    </carousel-slider>
+  {%- endif -%}
+</div>
+
+{%- unless section.settings.full_width -%}
+  </div>
+{%- endunless -%}
+
+{%- if autoplay_enabled -%}
+  <script type="text/javascript">
+    (function() {
+      var sectionId = '{{ section.id }}';
+      var intervalMs = {{ autoplay_every | times: 1000 }};
+      function initAutoPlay() {
+        var sectionEl = document.getElementById(sectionId);
+        if (!sectionEl) return;
+        var carousel = sectionEl.querySelector('carousel-slider');
+        if (!carousel) return;
+        var slider = carousel.querySelector('.slider');
+        var items = carousel.querySelectorAll('.slider__item');
+        if (!slider || items.length < 2) return;
+        var paused = false;
+        var gap = {{ gap }};
+        var itemWidth = items[0].getBoundingClientRect().width;
+        var distance = itemWidth + gap;
+
+        sectionEl.addEventListener('mouseenter', function() { paused = true; });
+        sectionEl.addEventListener('mouseleave', function() { paused = false; });
+
+        setInterval(function() {
+          if (paused) return;
+          if (slider.scrollLeft + slider.clientWidth >= slider.scrollWidth - 2) {
+            slider.scrollTo({ left: 0, behavior: 'smooth' });
+          } else {
+            slider.scrollBy({ left: distance, behavior: 'smooth' });
+          }
+        }, intervalMs);
+      }
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initAutoPlay);
+      } else {
+        initAutoPlay();
+      }
+    })();
+  </script>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Collection list-group",
+  "tag": "section",
+  "class": "cc-collection-list-group",
+  "max_blocks": 20,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section header"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "Shop conveniently in Various supermarket"
+    },
+    {
+      "type": "select",
+      "id": "heading_align",
+      "label": "Heading alignment",
+      "options": [
+        { "value": "text-start", "label": "Left" },
+        { "value": "text-center", "label": "Center" },
+        { "value": "text-end", "label": "Right" }
+      ],
+      "default": "text-start"
+    },
+    {
+      "type": "header",
+      "content": "Display"
+    },
+    {
+      "type": "select",
+      "id": "display_type",
+      "label": "Display type",
+      "options": [
+        { "value": "grid", "label": "Grid" },
+        { "value": "carousel", "label": "Carousel" }
+      ],
+      "default": "grid"
+    },
+    {
+      "type": "range",
+      "id": "items_per_row_desktop",
+      "label": "Items per row (Desktop)",
+      "min": 2,
+      "max": 6,
+      "step": 1,
+      "default": 6
+    },
+    {
+      "type": "range",
+      "id": "items_per_row_tablet",
+      "label": "Items per row (Tablet)",
+      "min": 2,
+      "max": 4,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "range",
+      "id": "items_per_row_mobile",
+      "label": "Items per row (Mobile)",
+      "min": 1,
+      "max": 3,
+      "step": 1,
+      "default": 1
+    },
+    {
+      "type": "select",
+      "id": "image_ratio",
+      "label": "Card image ratio",
+      "options": [
+        { "value": "4-3", "label": "4:3" },
+        { "value": "16-9", "label": "16:9" },
+        { "value": "1-1", "label": "1:1" }
+      ],
+      "default": "4-3"
+    },
+    {
+      "type": "range",
+      "id": "gap",
+      "label": "Gap",
+      "min": 0,
+      "max": 48,
+      "step": 2,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "header",
+      "content": "Carousel behavior"
+    },
+    {
+      "type": "range",
+      "id": "autoplay_every",
+      "label": "Auto-play every (seconds)",
+      "min": 0,
+      "max": 20,
+      "step": 1,
+      "default": 6
+    },
+    {
+      "type": "checkbox",
+      "id": "show_navigation_arrows",
+      "label": "Show navigation arrows",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "section_bg_color",
+      "label": "Section background color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "section_text_color",
+      "label": "Section text color",
+      "default": "#111111"
+    },
+    {
+      "type": "color",
+      "id": "card_bg_color",
+      "label": "Card background color",
+      "default": "#f8faf6"
+    },
+    {
+      "type": "color",
+      "id": "card_border_color",
+      "label": "Card border color",
+      "default": "#dbe0d0"
+    },
+    {
+      "type": "color",
+      "id": "card_title_color",
+      "label": "Card heading color",
+      "default": "#111111"
+    },
+    {
+      "type": "color",
+      "id": "card_text_color",
+      "label": "Card text color",
+      "default": "#4c4c43"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Button text color",
+      "default": "#1f4229"
+    },
+    {
+      "type": "color",
+      "id": "button_bg_color",
+      "label": "Button background color",
+      "default": "#e5eedc"
+    },
+    {
+      "type": "color",
+      "id": "button_border_color",
+      "label": "Button border color",
+      "default": "#d2dfc6"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_bg_color",
+      "label": "Button hover background color",
+      "default": "#d7e7c7"
+    },
+    {
+      "type": "checkbox",
+      "id": "full_width",
+      "label": "Make section background full width",
+      "default": true
+    }
+  ],
+  "blocks": [
+    {
+      "type": "collection_item",
+      "name": "Collection card",
+      "settings": [
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Fallback collection"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Card image",
+          "info": "Overrides the collection image"
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Card heading",
+          "default": "Fruit & Vegetables"
+        },
+        {
+          "type": "text",
+          "id": "text_1",
+          "label": "Bullet text 1",
+          "default": "Fruit"
+        },
+        {
+          "type": "text",
+          "id": "text_2",
+          "label": "Bullet text 2",
+          "default": "Vegetables"
+        },
+        {
+          "type": "text",
+          "id": "text_3",
+          "label": "Bullet text 3",
+          "default": "Salad"
+        },
+        {
+          "type": "text",
+          "id": "text_4",
+          "label": "Bullet text 4",
+          "default": "Processed"
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "Button label",
+          "default": "Shop all"
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "Button link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Collection list-group",
+      "category": "Collections",
+      "blocks": [
+        { "type": "collection_item" },
+        { "type": "collection_item" },
+        { "type": "collection_item" },
+        { "type": "collection_item" },
+        { "type": "collection_item" },
+        { "type": "collection_item" }
+      ]
+    }
+  ],
+  "disabled_on": {
+    "groups": ["header", "footer", "aside"]
+  }
+}
+{% endschema %}

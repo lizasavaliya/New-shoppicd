@@ -1,0 +1,110 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "type": "footer",
+  "name": "Footer Group",
+  "sections": {
+    "footer": {
+      "type": "footer",
+      "blocks": {
+        "90d8d4b3-bbaf-4dfa-8098-b8f1abb401a5": {
+          "type": "newsletter",
+          "settings": {
+            "heading": "Recipes & Inspiration",
+            "text": "<p>Join our community to get exclusive offers, original recipes, event invites and more...</p>",
+            "button_style": "text",
+            "button_label": "Subscribe"
+          }
+        },
+        "f75b636b-2690-411e-bb81-c40df3033d64": {
+          "type": "text",
+          "settings": {
+            "heading": "",
+            "text": "<p></p><h4>(+84) 123 4567 89</h4><p><strong>Address:</strong> 75 9th Ave, New York, NY 10011-7006<br/><strong>Email: </strong> support@example.com<br/><strong>Mon-Sat:</strong> 9:00pm - 5:00pm</p><p></p>",
+            "show_social": true,
+            "columns_wide_on_desktop": 1,
+            "image_width": 45,
+            "link": "",
+            "open_in_new_tab": false
+          }
+        },
+        "link-list-2": {
+          "type": "link_list",
+          "settings": {
+            "heading": "All Departments",
+            "menu": "services",
+            "open_by_default_mobile": false,
+            "desktop_layout": "horizontal",
+            "row_style": "column"
+          }
+        },
+        "link-list-1": {
+          "type": "link_list",
+          "settings": {
+            "heading": "Help & Support",
+            "menu": "footer",
+            "open_by_default_mobile": false,
+            "desktop_layout": "horizontal",
+            "row_style": "column"
+          }
+        },
+        "enlarged_store_name_DqwGrd": {
+          "type": "enlarged_store_name",
+          "settings": {
+            "store_name": "SHOPPI.CD",
+            "desktop_font_size": 100,
+            "mobile_font_size": 100,
+            "font_style": "Bebas Neue",
+            "text_spacing": 8,
+            "desktop_logo_width": 100,
+            "mobile_logo_width": 65,
+            "top_padding": 0,
+            "bottom_padding": 0
+          }
+        },
+        "subfooter_TdbMiU": {
+          "type": "subfooter",
+          "settings": {
+            "show_block_divider": true,
+            "show_payment_icons": true,
+            "custom_payment_icons": "visa,master, diners_club, paypal, american_express",
+            "show_copyright_text": true,
+            "show_powered_by": true,
+            "custom_copyright_text": "",
+            "top_padding": 20,
+            "bottom_padding": 0,
+            "enable_country_selector": true,
+            "enable_language_selector": true,
+            "enable_follow_on_shop": false
+          }
+        }
+      },
+      "block_order": [
+        "90d8d4b3-bbaf-4dfa-8098-b8f1abb401a5",
+        "f75b636b-2690-411e-bb81-c40df3033d64",
+        "link-list-2",
+        "link-list-1",
+        "enlarged_store_name_DqwGrd",
+        "subfooter_TdbMiU"
+      ],
+      "settings": {
+        "show_payment_icons": true,
+        "show_powered_by": true,
+        "enable_country_selector": true,
+        "enable_language_selector": true,
+        "bg_color": "#eeeedf",
+        "text_color": "#333333"
+      }
+    }
+  },
+  "order": [
+    "footer"
+  ]
+}

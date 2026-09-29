@@ -1,0 +1,1164 @@
+{%- comment -%}theme-check-disable LiquidTag{%- endcomment -%}
+{%- comment -%}
+  Build: lg:col-span-1 lg:col-span-2 lg:col-span-3 lg:col-span-4 row-span-2 row-span-3
+{%- endcomment -%}
+
+{%- if section.index > 2 -%}
+  <link rel="stylesheet" href="{{ 'gallery.css' | asset_url }}" media="print" onload="this.media='all'">
+  <link rel="stylesheet" href="{{ 'product.css' | asset_url }}" media="print" onload="this.media='all'">
+  {%- if section.settings.mobile_carousel -%}
+    <link rel="stylesheet" href="{{ 'gallery-mobile-carousel.css' | asset_url }}" media="print" onload="this.media='all'">
+  {%- endif -%}
+{%- else -%}
+  {{ 'gallery.css' | asset_url | stylesheet_tag }}
+  {{ 'product.css' | asset_url | stylesheet_tag }}
+  {%- if section.settings.mobile_carousel -%}
+    {{ 'gallery-mobile-carousel.css' | asset_url | stylesheet_tag }}
+  {%- endif -%}
+{%- endif -%}
+
+{%- for block in section.blocks -%}
+  {%- if block.type == 'promotion' and block.settings.video_shopify != blank -%}
+    {%- if section.index > 2 -%}
+      <link rel="stylesheet" href="{{ 'video.css' | asset_url }}" media="print" onload="this.media='all'">
+    {%- else -%}
+      {{ 'video.css' | asset_url | stylesheet_tag }}
+    {%- endif -%}
+    <script src="{{ 'video.js' | asset_url }}" defer="defer"></script>
+    {%- break -%}
+  {%- endif -%}
+{%- endfor -%}
+
+{%- if settings.enable_quick_add -%}
+  <link rel="stylesheet" href="{{ 'quick-add.css' | asset_url }}" media="print" onload="this.media='all'">
+  <script src="{{ 'quick-add.js' | asset_url }}" defer="defer"></script>
+  <script src="{{ 'variant-picker.js' | asset_url }}" defer="defer"></script>
+  <script src="{{ 'product-form.js' | asset_url }}" defer="defer"></script>
+  <script src="{{ 'custom-select.js' | asset_url }}" defer="defer"></script>
+{%- endif -%}
+
+{%- liquid
+  assign breakpoint_md = 769
+  assign grid_classes = 'grid-cols-1'
+
+  assign color_scheme = section.settings.color_scheme
+  assign bg_color = false
+
+  if color_scheme == 'default'
+    assign bg_color = settings.bg_color
+  elsif color_scheme == '1'
+    assign bg_color = settings.color_scheme_1_bg_grad | default: settings.color_scheme_1_bg
+  elsif color_scheme == '2'
+    assign bg_color = settings.color_scheme_2_bg_grad | default: settings.color_scheme_2_bg
+  elsif color_scheme == '3'
+    assign bg_color = settings.color_scheme_3_bg_grad | default: settings.color_scheme_3_bg
+  endif
+
+  if bg_color == 'rgba(0,0,0,0)' or bg_color == settings.bg_color
+    assign bg_color = false
+  endif
+-%}
+
+{%- style -%}
+  {% for block in section.blocks %}
+    {%- if block.type == 'promotion' and block.settings.overlay_opacity > 0 -%}
+      .block-{{ block.id }} .media::after {
+        background-color: rgba(0, 0, 0, {{ block.settings.overlay_opacity | divided_by: 100.0 }});
+      }
+    {%- endif -%}
+  {% endfor %}
+
+  #{{ section.id }} .gallery-block { --overlay-border-radius: 0px; min-height: {{ section.settings.fixed_height_mobile }}px; }
+  {% unless section.settings.mobile_carousel %}#{{ section.id }} .gallery-block.row-span-2, #{{ section.id }} .gallery-block.row-span-3 { min-height: {{ section.settings.fixed_height_mobile | times: 1.75 }}px; }{% endunless %}
+
+  @media (min-width: {{ breakpoint_md }}px) {
+    #{{ section.id }} .gallery-block { min-height: calc({{ section.settings.fixed_height_desktop }}px + 8vw); }
+    #{{ section.id }} .gallery-block.row-span-2 { min-height: calc(calc({{ section.settings.fixed_height_desktop }}px + 8vw) * 2); }
+    #{{ section.id }} .gallery-block.row-span-3 { min-height: calc(calc({{ section.settings.fixed_height_desktop }}px + 8vw) * 3); }
+  }
+
+  #{{ section.id }} .pg-overlay-inner { padding: 1.25rem; }
+  #{{ section.id }} .pg-sale-label { position: absolute; z-index: 2; padding: 0.5rem 0.75rem; max-width: 6rem; text-align: center; }
+  #{{ section.id }} .pg-sale-label.sale-pos--top-left    { top: 12px; left: 12px; }
+  #{{ section.id }} .pg-sale-label.sale-pos--top-right   { top: 12px; right: 12px; }
+  #{{ section.id }} .pg-sale-label.sale-pos--bottom-left  { bottom: 12px; left: 12px; }
+  #{{ section.id }} .pg-sale-label.sale-pos--bottom-right { bottom: 12px; right: 12px; }
+  #{{ section.id }} .pg-sale-label.sale-style--circle { border-radius: 50%; aspect-ratio: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; max-width: 5.5rem; }
+  #{{ section.id }} .pg-sale-label p { margin: 0; line-height: 1.1; }
+  #{{ section.id }} .text-highlight--underline .cc-text-highlight { text-decoration: underline; }
+  #{{ section.id }} .text-highlight--bold .cc-text-highlight { font-weight: 700; }
+  #{{ section.id }} .text-highlight--italic .cc-text-highlight { font-style: italic; }
+  #{{ section.id }} .text-highlight--highlight .cc-text-highlight { background-color: currentColor; mix-blend-mode: multiply; padding: 0 0.15em; }
+  #{{ section.id }} .text-transform--uppercase { text-transform: uppercase; }
+  #{{ section.id }} .text-transform--lowercase { text-transform: lowercase; }
+  #{{ section.id }} .text-transform--capitalize { text-transform: capitalize; }
+  #{{ section.id }} .pg-video-embed { position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: 1; }
+  #{{ section.id }} .pg-video-embed iframe { position: absolute; top: 50%; left: 50%; width: 177.78%; height: 100%; transform: translate(-50%, -50%); border: 0; }
+  #{{ section.id }} .gallery-block { gap: 1rem; }
+  #{{ section.id }} .gallery-block > .flex-grow,
+  #{{ section.id }} .pg-simple-card__media {
+    border-radius: 1.25rem;
+    overflow: hidden;
+    background: rgb(var(--color-bg-alt, 238 242 244));
+  }
+  #{{ section.id }} .pg-simple-card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+  #{{ section.id }} .pg-simple-card__media {
+    position: relative;
+    display: block;
+    flex: 1 1 auto;
+    min-height: 0;
+  }
+  #{{ section.id }} .pg-simple-card__media .media,
+  #{{ section.id }} .pg-simple-card__media .media__placeholder,
+  #{{ section.id }} .pg-simple-card__media img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+  #{{ section.id }} .pg-simple-card__meta {
+    padding: 0.25rem 0 0;
+    text-align: center;
+  }
+  #{{ section.id }} .pg-simple-card__title {
+    margin: 0;
+  }
+  #{{ section.id }} .pg-simple-card__price,
+  #{{ section.id }} .pg-simple-card__count {
+    margin-top: 0.35rem;
+    justify-content: center;
+  }
+
+  {% for block in section.blocks %}
+    {%- if block.type == 'product' -%}
+      #{{ section.id }} .pg-product-{{ block.id }} .pg-simple-card__meta { text-align: {{ block.settings.content_alignment }}; }
+      #{{ section.id }} .pg-product-{{ block.id }} .pg-simple-card__price { justify-content: {% if block.settings.content_alignment == 'center' %}center{% elsif block.settings.content_alignment == 'right' %}flex-end{% else %}flex-start{% endif %}; }
+    {%- endif -%}
+  {% endfor %}
+{%- endstyle -%}
+
+<div class="section">
+  {%- if section.settings.title != blank or section.settings.button_label != blank -%}
+    <div class="container">
+      <div class="section__header items-center flex{% if section.settings.heading_align == 'text-center' %} flex-col text-center{% elsif section.settings.heading_align == 'text-end' %} flex-row-reverse flex-wrap{% else %} flex-row flex-wrap{% endif %} gap-x-theme"{% if settings.animations_enabled != "disabled" %} data-cc-animate{% endif %}>
+        {%- if section.settings.title != blank -%}
+          <h2 class="h4 mb-0 flex-auto {{ section.settings.heading_align }}">
+            {{- section.settings.title | escape -}}
+          </h2>
+        {%- endif -%}
+        {%- if section.settings.button_label != blank -%}
+          <a href="{{ section.settings.button_link }}" class="link">{{ section.settings.button_label | escape }}</a>
+        {%- endif -%}
+      </div>
+    </div>
+  {%- endif -%}
+
+  {% if section.settings.mobile_carousel %}<div class="gallery-mobile-carousel">{% endif %}
+
+  <div class="container" id="{{ section.id }}">
+    <div class="gallery gallery--with-gap grid {{ grid_classes }}{% if section.settings.mobile_carousel %} slider--mobile{% endif %}">
+
+      {%- for block in section.blocks -%}
+        {%- liquid
+          assign b_cols = block.settings.columns | default: 1
+          assign b_rows = block.settings.rows | default: 1
+        -%}
+
+        {%- if block.type == 'promotion' -%}
+          {%- liquid
+            assign img      = block.settings.image
+            assign m_img    = block.settings.image_mobile
+            assign is_link  = false
+            if block.settings.link_url != blank
+              assign is_link = true
+            endif
+
+            assign ovr_pos = block.settings.overlay_position | default: 'center'
+            assign ovr_items = 'items-center'
+            if ovr_pos == 'top'
+              assign ovr_items = 'items-start'
+            elsif ovr_pos == 'bottom'
+              assign ovr_items = 'items-end'
+            endif
+
+            assign content_align = block.settings.content_alignment | default: 'center'
+            assign ovr_justify = 'justify-center'
+            assign text_align  = 'text-center'
+            if content_align == 'left'
+              assign ovr_justify = 'justify-start'
+              assign text_align  = 'text-start'
+            elsif content_align == 'right'
+              assign ovr_justify = 'justify-end'
+              assign text_align  = 'text-end'
+            endif
+
+            assign has_main_content = false
+            if block.settings.enable_overlay
+              if block.settings.subtitle != blank or block.settings.title != blank or block.settings.text != blank or block.settings.button_label != blank or block.settings.icon != 'none' or block.settings.icon_custom_name != blank or block.settings.custom_icon_image != blank
+                assign has_main_content = true
+              endif
+            endif
+
+            assign has_below_content = false
+            unless block.settings.enable_overlay
+              if block.settings.subtitle != blank or block.settings.title != blank or block.settings.text != blank or block.settings.button_label != blank
+                assign has_below_content = true
+              endif
+            endunless
+
+            assign has_sale_label = false
+            if block.settings.sale_label_line1 != blank or block.settings.sale_label_line2 != blank or block.settings.sale_label_line3 != blank
+              assign has_sale_label = true
+            endif
+
+            assign block_color_scheme = block.settings.block_color_scheme | default: 'none'
+          -%}
+
+          {% if is_link %}<a href="{{ block.settings.link_url }}"{% if block.settings.link_new_tab %} target="_blank" rel="noopener noreferrer"{% endif %} {% else %}<div {% endif %}class="block-{{ block.id }} block relative flex flex-col gallery-block{% unless section.settings.mobile_carousel %} gallery-block--stacked{% endunless %} row-span-{{ b_rows }}{% if is_link %} hover:grow-media{% endif %}" {%- unless forloop.first %}tabindex="-1"{% endunless %} {{ block.shopify_attributes }}>
+
+            <div class="flex-grow overflow-hidden flex relative w-full h-full{% if is_link %} card__media{% endif %}">
+
+              <div class="media media--has-overlay absolute top-0 left-0 w-full h-full has-motion">
+                {%- if img != blank -%}
+                  {%- if m_img != blank -%}
+                    {%- liquid
+                      assign lazy_load = true
+                      assign fetchpriority = 'auto'
+                      if section.index <= 2 and block.settings.high_priority_image
+                        assign lazy_load = false
+                        assign fetchpriority = 'high'
+                      endif
+                    -%}
+                    {%- render 'image-desktop-and-mobile',
+                      class: 'img-fit',
+                      desktop_image: img,
+                      mobile_image: m_img,
+                      src_width_mobile: 800,
+                      widths_mobile: '480, 800, 980',
+                      src_width_desktop: 1200,
+                      widths_desktop: '480, 800, 980, 1200, 1440',
+                      lazy_load: lazy_load,
+                      fetchpriority: fetchpriority,
+                      sizes: '100vw',
+                      block: block
+                    -%}
+                  {%- else -%}
+                    {%- assign cols_factor = 4 | minus: b_cols | at_least: 1 -%}
+                    {%- capture sizes %}{% render 'sizes-attribute', grid: true, min: section.settings.gallery_cols_min, sm: cols_factor %}{% endcapture -%}
+                    {% render 'image',
+                      image: img,
+                      widths: '480, 800, 980, 1200, 1440',
+                      src_width: 800,
+                      src_placeholder: true,
+                      sizes: sizes,
+                      quality: 1,
+                      section_index: section.index,
+                      class: 'img-fit'
+                    %}
+                  {%- endif -%}
+                {%- else -%}
+                  {{ 'lifestyle-2' | placeholder_svg_tag: 'media__placeholder img-fit' }}
+                {%- endif -%}
+              </div>
+
+              {%- if block.settings.video_shopify != blank -%}
+                <deferred-media class="video-section__media media media--has-overlay overflow-hidden absolute top-0 left-0 w-full h-full" style="z-index:1;">
+                  <template>
+                    <video-component class="has-iframe absolute top-0 left-0 w-full h-full no-js-hidden"
+                                     data-autoplay="{{ block.settings.video_autoplay }}"
+                                     data-background="true">
+                      {{ block.settings.video_shopify | video_tag: class: 'img-fit pointer-events-none', playsinline: true, autoplay: block.settings.video_autoplay, muted: true, loop: true, controls: block.settings.show_sound_control, poster: '' | replace: '<img ', '<img loading="lazy" hidden ' }}
+                    </video-component>
+                  </template>
+                </deferred-media>
+              {%- elsif block.settings.video_url != blank -%}
+                <div class="pg-video-embed">
+                  <iframe src="{{ block.settings.video_url }}" frameborder="0" allowfullscreen loading="lazy"{% if block.settings.video_alt_text != blank %} title="{{ block.settings.video_alt_text | escape }}"{% endif %}></iframe>
+                </div>
+              {%- endif -%}
+
+              {%- if has_main_content -%}
+                <div class="absolute top-0 left-0 w-full h-full flex {{ ovr_items }} {{ ovr_justify }} p-6" style="z-index:2;"{% if settings.animations_enabled != "disabled" %} data-cc-animate="fade-in" data-cc-animate-delay="{{ forloop.index | times: 0.07 }}s"{% endif %}>
+                  <div class="pg-overlay-inner {{ text_align }}{% if block_color_scheme != 'none' %} color-scheme color-scheme--{{ block_color_scheme }}{% endif %}">
+
+                    {%- if block.settings.custom_icon_image != blank or block.settings.icon_custom_name != blank or block.settings.icon != 'none' -%}
+                      <div class="mb-3 flex {% if content_align == 'center' %}justify-center{% elsif content_align == 'right' %}justify-end{% else %}justify-start{% endif %}">
+                        {%- if block.settings.custom_icon_image != blank -%}
+                          {%- assign icon_style = 'width:' | append: block.settings.icon_size | append: 'px;height:' | append: block.settings.icon_size | append: 'px;object-fit:contain;' -%}
+                          {{ block.settings.custom_icon_image | image_url: width: 200 | image_tag: loading: 'lazy', widths: '50, 100, 150, 200', style: icon_style }}
+                        {%- else -%}
+                          {%- assign icon_name = block.settings.icon_custom_name | default: block.settings.icon -%}
+                          {% render 'icon', icon: icon_name, width: block.settings.icon_size, height: block.settings.icon_size %}
+                        {%- endif -%}
+                      </div>
+                    {%- endif -%}
+
+                    {%- if block.settings.subtitle != blank -%}
+                      <p class="subheading mb-1">{{ block.settings.subtitle | escape }}</p>
+                    {%- endif -%}
+
+                    {%- if block.settings.title != blank -%}
+                      <h3 class="mb-2 {{ block.settings.title_size }}">{{ block.settings.title | escape }}</h3>
+                    {%- endif -%}
+
+                    {%- if block.settings.text != blank -%}
+                      {%- assign rendered_text = block.settings.text | replace: '[', '<span class="cc-text-highlight">' | replace: ']', '</span>' -%}
+                      <div class="rte {{ block.settings.text_size }} text-highlight--{{ block.settings.highlight_effect }}{% if block.settings.text_transform != 'none' %} text-transform--{{ block.settings.text_transform }}{% endif %}">
+                        {{ rendered_text }}
+                      </div>
+                    {%- endif -%}
+
+                    {%- if block.settings.button_label != blank -%}
+                      <div class="mt-4">
+                        {%- if is_link -%}
+                          <span class="{{ block.settings.button_style }}">{{ block.settings.button_label | escape }}</span>
+                        {%- else -%}
+                          <a class="{{ block.settings.button_style }}" {% if block.settings.button_link != blank %}href="{{ block.settings.button_link }}"{% else %}role="link" aria-disabled="true"{% endif %}{% if block.settings.button_new_tab %} target="_blank" rel="noopener noreferrer"{% endif %}>
+                            {{- block.settings.button_label | escape -}}
+                          </a>
+                        {%- endif -%}
+                      </div>
+                    {%- endif -%}
+
+                  </div>
+                </div>
+              {%- endif -%}
+
+              {%- if has_sale_label -%}
+                {%- liquid
+                  assign sale_pos_class = 'sale-pos--top-left'
+                  if block.settings.sale_label_position == 'top-right'
+                    assign sale_pos_class = 'sale-pos--top-right'
+                  elsif block.settings.sale_label_position == 'bottom-left'
+                    assign sale_pos_class = 'sale-pos--bottom-left'
+                  elsif block.settings.sale_label_position == 'bottom-right'
+                    assign sale_pos_class = 'sale-pos--bottom-right'
+                  endif
+                  assign sale_style_class = 'sale-style--badge'
+                  if block.settings.sale_label_style == 'circle'
+                    assign sale_style_class = 'sale-style--circle'
+                  endif
+                -%}
+                <div class="pg-sale-label {{ sale_pos_class }} {{ sale_style_class }}" style="background-color: {{ block.settings.sale_label_bg_color }}; color: {{ block.settings.sale_label_text_color }};">
+                  {%- if block.settings.sale_label_line1 != blank -%}
+                    <p class="{{ block.settings.sale_label_line1_size }}">{{ block.settings.sale_label_line1 | newline_to_br }}</p>
+                  {%- endif -%}
+                  {%- if block.settings.sale_label_line2 != blank -%}
+                    <p class="{{ block.settings.sale_label_line2_size }}">{{ block.settings.sale_label_line2 | newline_to_br }}</p>
+                  {%- endif -%}
+                  {%- if block.settings.sale_label_line3 != blank -%}
+                    <p class="{{ block.settings.sale_label_line3_size }}">{{ block.settings.sale_label_line3 | newline_to_br }}</p>
+                  {%- endif -%}
+                </div>
+              {%- endif -%}
+
+            </div>
+
+            {%- if has_below_content -%}
+              <div class="gallery-block__text text-start{% if bg_color %} gallery-block__text--with-bg{% endif %}{% if color_scheme == 'default' %} {% unless section.settings.mobile_carousel %}mb-3 md:mb-0{% endunless %}{% else %} color-scheme color-scheme--{{ color_scheme }}{% endif %}"{% if settings.animations_enabled != "disabled" %} data-cc-animate{% endif %}>
+                {%- if block.settings.subtitle != blank -%}
+                  <p class="subheading mt-2 mb-0">{{ block.settings.subtitle | escape }}</p>
+                {%- endif -%}
+                {%- if block.settings.title != blank -%}
+                  <h3 class="mt-1 mb-1 {{ block.settings.title_size }}">{{ block.settings.title | escape }}</h3>
+                {%- endif -%}
+                {%- if block.settings.text != blank -%}
+                  {%- assign rendered_text_below = block.settings.text | replace: '[', '<span class="cc-text-highlight">' | replace: ']', '</span>' -%}
+                  <div class="rte {{ block.settings.text_size }} text-highlight--{{ block.settings.highlight_effect }}{% if block.settings.text_transform != 'none' %} text-transform--{{ block.settings.text_transform }}{% endif %}">{{ rendered_text_below }}</div>
+                {%- endif -%}
+                {%- if block.settings.button_label != blank -%}
+                  <div class="mt-3">
+                    <a class="{{ block.settings.button_style }}" {% if block.settings.button_link != blank %}href="{{ block.settings.button_link }}"{% else %}role="link" aria-disabled="true"{% endif %}{% if block.settings.button_new_tab %} target="_blank" rel="noopener noreferrer"{% endif %}>
+                      {{- block.settings.button_label | escape -}}
+                    </a>
+                  </div>
+                {%- endif -%}
+              </div>
+            {%- endif -%}
+
+          {% if is_link %}</a>{% else %}</div>{% endif %}
+
+        {%- elsif block.type == 'product' -%}
+          {%- liquid
+            assign product_obj = block.settings.product
+          -%}
+          <div class="block relative flex flex-col gallery-block{% unless section.settings.mobile_carousel %} gallery-block--stacked{% endunless %} row-span-{{ b_rows }}" {{ block.shopify_attributes }}>
+            <div class="pg-product-{{ block.id }} pg-simple-card h-full">
+              <a class="pg-simple-card__media hover:grow-media" {% if product_obj != blank %}href="{{ product_obj.url }}"{% else %}role="link" aria-disabled="true"{% endif %} aria-label="{% if product_obj != blank %}{{ product_obj.title | escape }}{% else %}{{ 'onboarding.product.title' | t | escape }}{% endif %}">
+                <div class="media">
+                  {%- if product_obj != blank and product_obj.featured_media != blank -%}
+                    {%- capture sizes %}{% render 'sizes-attribute', grid: true, min: section.settings.gallery_cols_min, sm: 2, lg: 3 %}{% endcapture -%}
+                    {% render 'image',
+                      image: product_obj.featured_media.preview_image,
+                      widths: '480, 800, 980, 1200, 1440',
+                      src_width: 800,
+                      src_placeholder: true,
+                      sizes: sizes,
+                      quality: 1,
+                      section_index: section.index,
+                      class: 'img-fit'
+                    %}
+                  {%- else -%}
+                    {{ 'product-1' | placeholder_svg_tag: 'media__placeholder img-fit' }}
+                  {%- endif -%}
+                </div>
+              </a>
+              <div class="pg-simple-card__meta">
+                <p class="pg-simple-card__title h6">
+                  {%- if product_obj != blank -%}
+                    <a href="{{ product_obj.url }}" class="text-current">{{ product_obj.title | escape }}</a>
+                  {%- else -%}
+                    {{ 'onboarding.product.title' | t }}
+                  {%- endif -%}
+                </p>
+                <div class="pg-simple-card__price flex">
+                  {%- if product_obj != blank -%}
+                    {% render 'price', product: product_obj, show_sale_color: settings.sale_price_color_card %}
+                  {%- else -%}
+                    <span class="theme-money">{{ 0 | money }}</span>
+                  {%- endif -%}
+                </div>
+              </div>
+            </div>
+          </div>
+
+        {%- elsif block.type == 'collection' -%}
+          {%- liquid
+            assign coll      = block.settings.collection
+            assign coll_img  = coll.featured_image
+            if coll_img == blank and coll != empty
+              assign coll_img = coll.all_products.first.featured_media.preview_image
+            endif
+          -%}
+          <div class="block relative flex flex-col gallery-block{% unless section.settings.mobile_carousel %} gallery-block--stacked{% endunless %} row-span-{{ b_rows }}" {{ block.shopify_attributes }}>
+            <div class="pg-simple-card h-full">
+              <a {% if coll != blank %}href="{{ coll.url }}"{% else %}role="link" aria-disabled="true"{% endif %} aria-label="{% if coll != blank %}{{ coll.title | escape }}{% else %}{{ 'onboarding.collection.title' | t | escape }}{% endif %}" class="pg-simple-card__media hover:grow-media">
+                <div class="media">
+                  {%- if coll != empty and coll_img != blank -%}
+                    {%- capture sizes %}{% render 'sizes-attribute', grid: true, min: section.settings.gallery_cols_min, sm: 2, lg: 3 %}{% endcapture -%}
+                    {% render 'image',
+                      image: coll_img,
+                      widths: '480, 800, 980, 1200, 1440',
+                      src_width: 800,
+                      src_placeholder: true,
+                      sizes: sizes,
+                      class: 'img-fit'
+                    %}
+                  {%- else -%}
+                    {%- capture placeholder_name -%}collection-{{ forloop.index | modulo: 6 | plus: 1 }}{%- endcapture -%}
+                    {{ placeholder_name | placeholder_svg_tag: 'media__placeholder img-fit' }}
+                  {%- endif -%}
+                </div>
+              </a>
+              <div class="pg-simple-card__meta">
+                <p class="pg-simple-card__title h6">
+                  {%- if coll != blank -%}
+                    <a href="{{ coll.url }}" class="text-current">{{ coll.title | escape }}</a>
+                  {%- else -%}
+                    {{ 'onboarding.collection.title' | t }}
+                  {%- endif -%}
+                </p>
+                {%- if block.settings.show_item_count and coll != blank -%}
+                  <p class="pg-simple-card__count text-sm text-theme-light mb-0">
+                    {{- 'collection.product_count' | t: count: coll.all_products_count -}}
+                  </p>
+                {%- endif -%}
+              </div>
+            </div>
+          </div>
+
+        {%- endif -%}
+      {%- endfor -%}
+
+    </div>
+  </div>
+
+  {% if section.settings.mobile_carousel %}</div>{% endif %}
+</div>
+
+{% schema %}
+{
+  "name": "Promotion grid",
+  "tag": "section",
+  "class": "cc-gallery cc-promotion-grid",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section header"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "Promotion grid"
+    },
+    {
+      "type": "select",
+      "id": "heading_align",
+      "label": "Heading alignment",
+      "options": [
+        { "value": "text-start",  "label": "Left" },
+        { "value": "text-center", "label": "Center" },
+        { "value": "text-end",    "label": "Right" }
+      ],
+      "default": "text-start"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "View more label"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "View more link"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "gallery_cols_max",
+      "min": 2,
+      "max": 4,
+      "step": 1,
+      "label": "Maximum columns on large screens",
+      "default": 4
+    },
+    {
+      "type": "checkbox",
+      "id": "mobile_carousel",
+      "label": "Show as a carousel on mobile",
+      "default": false
+    },
+    {
+      "type": "select",
+      "id": "gallery_cols_min",
+      "label": "Minimum columns on mobile",
+      "info": "Only applies when a carousel is not used on mobile.",
+      "options": [
+        { "value": "1", "label": "1" },
+        { "value": "2", "label": "2" }
+      ],
+      "default": "1"
+    },
+    {
+      "type": "range",
+      "id": "fixed_height_desktop",
+      "min": 50,
+      "max": 500,
+      "step": 10,
+      "unit": "px",
+      "label": "Minimum row height on large screens",
+      "default": 200
+    },
+    {
+      "type": "range",
+      "id": "fixed_height_mobile",
+      "min": 50,
+      "max": 500,
+      "step": 10,
+      "unit": "px",
+      "label": "Minimum row height on mobile",
+      "default": 280
+    },
+    {
+      "type": "header",
+      "content": "Style"
+    },
+    {
+      "type": "select",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "options": [
+        { "value": "default", "label": "Default" },
+        { "value": "1",       "label": "Scheme 1" },
+        { "value": "2",       "label": "Scheme 2" },
+        { "value": "3",       "label": "Scheme 3" }
+      ],
+      "default": "default"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "promotion",
+      "name": "Promotion",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_mobile",
+          "label": "Mobile image"
+        },
+        {
+          "type": "checkbox",
+          "id": "high_priority_image",
+          "label": "High priority image",
+          "info": "Load this image first for better above-the-fold performance",
+          "default": false
+        },
+        {
+          "type": "url",
+          "id": "link_url",
+          "label": "Link"
+        },
+        {
+          "type": "checkbox",
+          "id": "link_new_tab",
+          "label": "Open this link in a new tab",
+          "default": false
+        },
+        {
+          "type": "header",
+          "content": "Video"
+        },
+        {
+          "type": "video",
+          "id": "video_shopify",
+          "label": "Upload video"
+        },
+        {
+          "type": "text",
+          "id": "video_url",
+          "label": "Embed video from URL",
+          "info": "Supports YouTube and Vimeo. Shows when there is no uploaded video."
+        },
+        {
+          "type": "text",
+          "id": "video_alt_text",
+          "label": "Video alt text",
+          "info": "Describe the video to make it accessible to customers using screen readers."
+        },
+        {
+          "type": "checkbox",
+          "id": "show_sound_control",
+          "label": "Show sound control",
+          "info": "Videos are muted by default. Enable this setting to display the sound toggle button.",
+          "default": false
+        },
+        {
+          "type": "checkbox",
+          "id": "video_autoplay",
+          "label": "Enable video autoplay",
+          "default": true
+        },
+        {
+          "type": "header",
+          "content": "Overlay content"
+        },
+        {
+          "type": "checkbox",
+          "id": "enable_overlay",
+          "label": "Enable content overlay",
+          "default": true
+        },
+        {
+          "type": "select",
+          "id": "overlay_position",
+          "label": "Overlay content position",
+          "options": [
+            { "value": "top",    "label": "Top" },
+            { "value": "center", "label": "Center" },
+            { "value": "bottom", "label": "Bottom" }
+          ],
+          "default": "center"
+        },
+        {
+          "type": "range",
+          "id": "overlay_opacity",
+          "min": 0,
+          "max": 80,
+          "step": 5,
+          "unit": "%",
+          "label": "Overlay opacity",
+          "default": 20
+        },
+        {
+          "type": "header",
+          "content": "Layout"
+        },
+        {
+          "type": "range",
+          "id": "columns",
+          "min": 1,
+          "max": 4,
+          "step": 1,
+          "label": "Number of columns wide",
+          "default": 1
+        },
+        {
+          "type": "range",
+          "id": "rows",
+          "min": 1,
+          "max": 3,
+          "step": 1,
+          "label": "Number of rows tall",
+          "default": 2
+        },
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            { "value": "none",                  "label": "None" },
+            { "value": "award",                 "label": "Award" },
+            { "value": "box",                   "label": "Box" },
+            { "value": "briefcase",             "label": "Briefcase" },
+            { "value": "calendar",              "label": "Calendar" },
+            { "value": "chat_bubble",           "label": "Chat bubble" },
+            { "value": "check_mark",            "label": "Check mark" },
+            { "value": "check_mark_in_circle",  "label": "Check mark in circle" },
+            { "value": "clock",                 "label": "Clock" },
+            { "value": "credit_card",           "label": "Credit card" },
+            { "value": "dollar_sign",           "label": "Dollar sign" },
+            { "value": "dryer",                 "label": "Dryer" },
+            { "value": "email",                 "label": "Email" },
+            { "value": "eye",                   "label": "Eye" },
+            { "value": "feather",               "label": "Feather" },
+            { "value": "gift",                  "label": "Gift" },
+            { "value": "heart",                 "label": "Heart" },
+            { "value": "iron",                  "label": "Iron" },
+            { "value": "leaf",                  "label": "Leaf" },
+            { "value": "leather",               "label": "Leather" },
+            { "value": "lock",                  "label": "Lock" },
+            { "value": "map_pin",               "label": "Map pin" },
+            { "value": "pants",                 "label": "Pants" },
+            { "value": "percent",               "label": "Percent" },
+            { "value": "phone",                 "label": "Phone" },
+            { "value": "plane",                 "label": "Plane" },
+            { "value": "price_tag",             "label": "Price tag" },
+            { "value": "question_mark",         "label": "Question mark" },
+            { "value": "return",                "label": "Return" },
+            { "value": "ruler",                 "label": "Ruler" },
+            { "value": "scissors",              "label": "Scissors" },
+            { "value": "shirt",                 "label": "Shirt" },
+            { "value": "shoe",                  "label": "Shoe" },
+            { "value": "silhouette",            "label": "Silhouette" },
+            { "value": "star",                  "label": "Star" },
+            { "value": "truck",                 "label": "Truck" },
+            { "value": "washing",               "label": "Washing" }
+          ],
+          "default": "none"
+        },
+        {
+          "type": "text",
+          "id": "icon_custom_name",
+          "label": "Use another icon",
+          "info": "If you want to use different icons from the options above, look for an icon from our [icon list](https://cleancanvas.co.uk/support/various/icon-list) and fill the icon name here (E.g: badminton)."
+        },
+        {
+          "type": "image_picker",
+          "id": "custom_icon_image",
+          "label": "Custom icon image"
+        },
+        {
+          "type": "range",
+          "id": "icon_size",
+          "min": 20,
+          "max": 120,
+          "step": 5,
+          "unit": "px",
+          "label": "Icon size",
+          "default": 45
+        },
+        {
+          "type": "header",
+          "content": "Content"
+        },
+        {
+          "type": "text",
+          "id": "subtitle",
+          "label": "Subtitle",
+          "info": "Wrap your text between [] to add text highlights.\nE.g: Adding [marker] will underline [highlight] text."
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "info": "Wrap your text between [] to add text highlights.\nE.g: Adding [marker] will underline [highlight] text."
+        },
+        {
+          "type": "select",
+          "id": "title_size",
+          "label": "Title size",
+          "options": [
+            { "value": "h6", "label": "Extra small" },
+            { "value": "h5", "label": "Small" },
+            { "value": "h4", "label": "Medium" },
+            { "value": "h3", "label": "Large" },
+            { "value": "h2", "label": "Extra large" },
+            { "value": "h1", "label": "Extra extra large" }
+          ],
+          "default": "h3"
+        },
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Text",
+          "info": "Wrap your text between [] to add text highlights.\nE.g: Adding [marker] will underline [highlight] text."
+        },
+        {
+          "type": "select",
+          "id": "text_size",
+          "label": "Text size",
+          "options": [
+            { "value": "text-sm",   "label": "Small" },
+            { "value": "",          "label": "Medium" },
+            { "value": "text-lg",   "label": "Large" },
+            { "value": "text-xl",   "label": "Extra large" }
+          ],
+          "default": ""
+        },
+        {
+          "type": "select",
+          "id": "highlight_effect",
+          "label": "Highlight effect",
+          "options": [
+            { "value": "underline", "label": "Underline" },
+            { "value": "bold",      "label": "Bold" },
+            { "value": "italic",    "label": "Italic" },
+            { "value": "highlight", "label": "Highlight" },
+            { "value": "none",      "label": "None" }
+          ],
+          "default": "underline"
+        },
+        {
+          "type": "select",
+          "id": "text_transform",
+          "label": "Text transform",
+          "options": [
+            { "value": "none",       "label": "None" },
+            { "value": "uppercase",  "label": "Uppercase" },
+            { "value": "lowercase",  "label": "Lowercase" },
+            { "value": "capitalize", "label": "Capitalize" }
+          ],
+          "default": "none"
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "Button label"
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "Button link"
+        },
+        {
+          "type": "checkbox",
+          "id": "button_new_tab",
+          "label": "Open this link in a new tab",
+          "default": false
+        },
+        {
+          "type": "select",
+          "id": "button_style",
+          "label": "Button style",
+          "options": [
+            { "value": "btn btn--primary",   "label": "Primary" },
+            { "value": "btn btn--secondary", "label": "Secondary" }
+          ],
+          "default": "btn btn--secondary"
+        },
+        {
+          "type": "select",
+          "id": "content_alignment",
+          "label": "Content alignment",
+          "options": [
+            { "value": "left",   "label": "Left" },
+            { "value": "center", "label": "Center" },
+            { "value": "right",  "label": "Right" }
+          ],
+          "default": "center"
+        },
+        {
+          "type": "header",
+          "content": "Sale label"
+        },
+        {
+          "type": "text",
+          "id": "sale_label_line1",
+          "label": "Line 1"
+        },
+        {
+          "type": "select",
+          "id": "sale_label_line1_size",
+          "label": "Line 1 font size",
+          "options": [
+            { "value": "text-xs", "label": "Extra small" },
+            { "value": "text-sm", "label": "Small" },
+            { "value": "",        "label": "Medium" },
+            { "value": "text-lg", "label": "Large" },
+            { "value": "text-xl", "label": "Extra large" }
+          ],
+          "default": ""
+        },
+        {
+          "type": "text",
+          "id": "sale_label_line2",
+          "label": "Line 2"
+        },
+        {
+          "type": "select",
+          "id": "sale_label_line2_size",
+          "label": "Line 2 font size",
+          "options": [
+            { "value": "text-xs", "label": "Extra small" },
+            { "value": "text-sm", "label": "Small" },
+            { "value": "",        "label": "Medium" },
+            { "value": "text-lg", "label": "Large" },
+            { "value": "text-xl", "label": "Extra large" }
+          ],
+          "default": ""
+        },
+        {
+          "type": "text",
+          "id": "sale_label_line3",
+          "label": "Line 3"
+        },
+        {
+          "type": "select",
+          "id": "sale_label_line3_size",
+          "label": "Line 3 font size",
+          "options": [
+            { "value": "text-xs", "label": "Extra small" },
+            { "value": "text-sm", "label": "Small" },
+            { "value": "",        "label": "Medium" },
+            { "value": "text-lg", "label": "Large" },
+            { "value": "text-xl", "label": "Extra large" }
+          ],
+          "default": ""
+        },
+        {
+          "type": "select",
+          "id": "sale_label_position",
+          "label": "Sale label position",
+          "options": [
+            { "value": "top-left",     "label": "Top left" },
+            { "value": "top-right",    "label": "Top right" },
+            { "value": "bottom-left",  "label": "Bottom left" },
+            { "value": "bottom-right", "label": "Bottom right" }
+          ],
+          "default": "top-left"
+        },
+        {
+          "type": "select",
+          "id": "sale_label_style",
+          "label": "Sale label style",
+          "options": [
+            { "value": "circle", "label": "Circle" },
+            { "value": "badge",  "label": "Badge" }
+          ],
+          "default": "circle"
+        },
+        {
+          "type": "color",
+          "id": "sale_label_bg_color",
+          "label": "Sale label background",
+          "default": "#e32b2b"
+        },
+        {
+          "type": "color",
+          "id": "sale_label_text_color",
+          "label": "Sale label text color",
+          "default": "#ffffff"
+        },
+        {
+          "type": "header",
+          "content": "Colors"
+        },
+        {
+          "type": "select",
+          "id": "block_color_scheme",
+          "label": "Color scheme",
+          "options": [
+            { "value": "none",    "label": "None" },
+            { "value": "default", "label": "Default" },
+            { "value": "1",       "label": "Scheme 1" },
+            { "value": "2",       "label": "Scheme 2" },
+            { "value": "3",       "label": "Scheme 3" }
+          ],
+          "default": "none"
+        }
+      ]
+    },
+    {
+      "type": "product",
+      "name": "Product",
+      "settings": [
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Product"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_quickview",
+          "label": "Show \"Quick view\" button",
+          "default": true
+        },
+        {
+          "type": "select",
+          "id": "content_alignment",
+          "label": "Content alignment",
+          "options": [
+            { "value": "left",   "label": "Left" },
+            { "value": "center", "label": "Center" },
+            { "value": "right",  "label": "Right" }
+          ],
+          "default": "left"
+        },
+        {
+          "type": "select",
+          "id": "card_size",
+          "label": "Desktop size",
+          "options": [
+            { "value": "small",  "label": "Small" },
+            { "value": "medium", "label": "Medium" },
+            { "value": "large",  "label": "Large" }
+          ],
+          "default": "medium"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_vendor",
+          "label": "Show vendor",
+          "info": "Controlled by theme settings. This toggle is for reference.",
+          "default": false
+        },
+        {
+          "type": "checkbox",
+          "id": "show_product_rating",
+          "label": "Show product rating",
+          "info": "To display a rating, add a product rating app. Controlled by theme settings.",
+          "default": false
+        },
+        {
+          "type": "checkbox",
+          "id": "show_estimated_delivery",
+          "label": "Show estimated delivery date",
+          "default": false
+        },
+        {
+          "type": "checkbox",
+          "id": "show_inventory_status",
+          "label": "Show inventory status",
+          "default": false
+        },
+        {
+          "type": "header",
+          "content": "Layout"
+        },
+        {
+          "type": "range",
+          "id": "columns",
+          "min": 1,
+          "max": 4,
+          "step": 1,
+          "label": "Number of columns wide",
+          "default": 1
+        },
+        {
+          "type": "range",
+          "id": "rows",
+          "min": 1,
+          "max": 3,
+          "step": 1,
+          "label": "Number of rows tall",
+          "default": 1
+        }
+      ]
+    },
+    {
+      "type": "collection",
+      "name": "Collection",
+      "settings": [
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Collection"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_item_count",
+          "label": "Show item count",
+          "default": true
+        },
+        {
+          "type": "header",
+          "content": "Layout"
+        },
+        {
+          "type": "range",
+          "id": "columns",
+          "min": 1,
+          "max": 4,
+          "step": 1,
+          "label": "Number of columns wide",
+          "default": 1
+        },
+        {
+          "type": "range",
+          "id": "rows",
+          "min": 1,
+          "max": 3,
+          "step": 1,
+          "label": "Number of rows tall",
+          "default": 1
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Promotion grid",
+      "category": "Feature",
+      "blocks": [
+        {
+          "type": "promotion",
+          "settings": {
+            "subtitle": "Biggest Monthly Savings",
+            "text": "<p><strong>Earn Cashback Every Time [You Order Online]</strong></p>",
+            "button_label": "Order Now Today!",
+            "columns": 2,
+            "rows": 2,
+            "enable_overlay": true,
+            "overlay_position": "center"
+          }
+        },
+        {
+          "type": "product",
+          "settings": {
+            "columns": 1,
+            "rows": 1
+          }
+        },
+        {
+          "type": "collection",
+          "settings": {
+            "columns": 1,
+            "rows": 1,
+            "show_item_count": true
+          }
+        }
+      ]
+    }
+  ],
+  "disabled_on": {
+    "groups": [
+      "header",
+      "footer",
+      "aside"
+    ]
+  }
+}
+{% endschema %}

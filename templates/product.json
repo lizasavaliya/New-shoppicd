@@ -1,0 +1,484 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "blocks": {
+        "613a93aa-8edd-4bb9-b8f1-df3133990e99": {
+          "type": "vendor-sku",
+          "settings": {
+            "show_vendor": true,
+            "show_sku": false,
+            "show_barcode": false
+          }
+        },
+        "product-labels": {
+          "type": "product-labels",
+          "settings": {}
+        },
+        "title": {
+          "type": "title",
+          "settings": {
+            "show_weight": false
+          }
+        },
+        "3f73b6ee-a6b2-40ae-8379-a02a42756d8d": {
+          "type": "rating",
+          "settings": {}
+        },
+        "price": {
+          "type": "price",
+          "settings": {
+            "show_tax_and_shipping": false
+          }
+        },
+        "divider-0": {
+          "type": "divider",
+          "disabled": true,
+          "settings": {
+            "show_line": false
+          }
+        },
+        "richtext_7WPPPE": {
+          "type": "richtext",
+          "settings": {
+            "text": "<p><strong>Key Features:</strong></p><ul><li>Skinless, boneless fillet</li><li>Lean protein source</li><li>Quick and easy to cook</li><li>Ideal for healthy diets</li></ul>"
+          }
+        },
+        "text_with_icon_bFnnpA": {
+          "type": "text-with-icon",
+          "settings": {
+            "icon": "return",
+            "use_another_icon": "",
+            "icon_size": 28,
+            "text": "<p><strong>Free & easy returns</strong><br/>Return this item by mail or in store within 365 days for a full refund.</p>",
+            "highlight_effect": "underline",
+            "text_transform": "none",
+            "bg_color_light": "#e7f0f5",
+            "bg_transparent_light": false,
+            "text_color_light": "#3b464e",
+            "text_transparent_light": false,
+            "bg_color_dark": "#24333b",
+            "bg_transparent_dark": true,
+            "text_color_dark": "#f5f8fa",
+            "text_transparent_dark": true
+          }
+        },
+        "variant-picker": {
+          "type": "variant-picker",
+          "settings": {
+            "selector_style": "dropdown",
+            "enable_dynamic_availability": true,
+            "show_backorder_text": true,
+            "enable_size_chart": false,
+            "size_chart_variant": "Size",
+            "size_chart_page": ""
+          }
+        },
+        "text_with_icon_rRPzJR": {
+          "type": "text-with-icon",
+          "settings": {
+            "icon": "truck",
+            "use_another_icon": "",
+            "icon_size": 20,
+            "text": "<p>Delivered to Los Angeles, CA : Apr 14th - 23rd</p>",
+            "highlight_effect": "underline",
+            "text_transform": "none",
+            "bg_color_light": "#ffffff",
+            "bg_transparent_light": true,
+            "text_color_light": "#000000",
+            "text_transparent_light": false,
+            "bg_color_dark": "#ffffff",
+            "bg_transparent_dark": true,
+            "text_color_dark": "#f5f8fa",
+            "text_transparent_dark": true
+          }
+        },
+        "text_with_icon_g3aUVN": {
+          "type": "text-with-icon",
+          "settings": {
+            "icon": "leaf",
+            "use_another_icon": "",
+            "icon_size": 20,
+            "text": "<p>As low as $142/month. Affirm financing</p>",
+            "highlight_effect": "underline",
+            "text_transform": "none",
+            "bg_color_light": "#e7f0f5",
+            "bg_transparent_light": true,
+            "text_color_light": "#3b464e",
+            "text_transparent_light": false,
+            "bg_color_dark": "#24333b",
+            "bg_transparent_dark": true,
+            "text_color_dark": "#f5f8fa",
+            "text_transparent_dark": true
+          }
+        },
+        "text_with_icon_rpHeXL": {
+          "type": "text-with-icon",
+          "settings": {
+            "icon": "check_mark_in_circle",
+            "use_another_icon": "",
+            "icon_size": 20,
+            "text": "<p>30 days satisfaction guarantee</p>",
+            "highlight_effect": "underline",
+            "text_transform": "none",
+            "bg_color_light": "#e7f0f5",
+            "bg_transparent_light": true,
+            "text_color_light": "#3b464e",
+            "text_transparent_light": false,
+            "bg_color_dark": "#24333b",
+            "bg_transparent_dark": true,
+            "text_color_dark": "#f5f8fa",
+            "text_transparent_dark": true
+          }
+        },
+        "inventory_status_wRKGCB": {
+          "type": "inventory-status",
+          "settings": {
+            "show_urgency_message": true,
+            "text_very_low": "<p>- Almost gone!</p>",
+            "text_low": "<p>- Hurry while stocks last!</p>",
+            "text_normal": "",
+            "text_no_stock": "",
+            "text_no_stock_backordered": "<p>Backordered</p>"
+          }
+        },
+        "buy-buttons": {
+          "type": "buy-buttons",
+          "settings": {
+            "show_qty_selector": true,
+            "enable_dynamic_checkout": true,
+            "show_pickup_availability": true,
+            "show_gift_card_recipient": false,
+            "show_compare_btn": true,
+            "compare_btn_label": ""
+          }
+        },
+        "estimated_delivery_QR3nHF": {
+          "type": "estimated-delivery",
+          "settings": {
+            "hide_when_preorder": false,
+            "min_days": 3,
+            "max_days": 7,
+            "message": "<p>Estimated delivery between <strong>earliest_delivery_date and latest_delivery_date.</strong></p>",
+            "enable_tooltip": true,
+            "tooltip_content": "<p>Deliveries to rural areas in Western Australia may take an additional 2-3 business days.</p>",
+            "show_bg": false,
+            "bg_color_light": "#dceedf",
+            "text_color_light": "#018df3",
+            "text_transparent_light": false,
+            "bg_color_dark": "#24333b",
+            "bg_transparent_dark": true,
+            "text_color_dark": "#f5f8fa",
+            "text_transparent_dark": true
+          }
+        },
+        "payment_methods_k4rdKz": {
+          "type": "payment_methods",
+          "settings": {
+            "heading": "Pay with",
+            "text": "Your transaction is protected with advanced security measures to keep your information confidential",
+            "payment_icons": "visa, master, diners_club, paypal, american_express",
+            "show_background": true,
+            "bg_color_light": "#ffffff",
+            "heading_color_light": "",
+            "text_color_light": "",
+            "bg_color_dark": "",
+            "heading_color_dark": "",
+            "text_color_dark": ""
+          }
+        },
+        "share_TEAGFA": {
+          "type": "share",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "613a93aa-8edd-4bb9-b8f1-df3133990e99",
+        "product-labels",
+        "title",
+        "3f73b6ee-a6b2-40ae-8379-a02a42756d8d",
+        "price",
+        "divider-0",
+        "richtext_7WPPPE",
+        "text_with_icon_bFnnpA",
+        "variant-picker",
+        "text_with_icon_rRPzJR",
+        "text_with_icon_g3aUVN",
+        "text_with_icon_rpHeXL",
+        "inventory_status_wRKGCB",
+        "buy-buttons",
+        "estimated_delivery_QR3nHF",
+        "payment_methods_k4rdKz",
+        "share_TEAGFA"
+      ],
+      "settings": {
+        "stick_on_scroll": true,
+        "sticky_atc_panel": true,
+        "sticky_atc_position": "end-dock",
+        "sticky_atc_mobile": true,
+        "media_layout": "slider",
+        "media_size": "default",
+        "media_ratio": "1",
+        "media_crop": "none",
+        "enable_video_looping": false,
+        "enable_zoom": true,
+        "zoom_mode": "hover",
+        "enable_lightbox_mobile": false,
+        "hover_zoom": "large",
+        "stacked_scroll": "always",
+        "underline_active": true,
+        "media_arrows": "desktop",
+        "show_slide_count": true,
+        "media_thumbs": "desktop",
+        "lightbox_thumbnails": true,
+        "thumb_ratio": "1",
+        "thumb_crop": "none",
+        "border_color": "#eeeeee",
+        "bg_color": "#f4f4f4",
+        "enable_media_grouping": false,
+        "media_grouping_option": "Color,Colour,Couleur,Farbe"
+      }
+    },
+    "details": {
+      "type": "product-details",
+      "blocks": {
+        "description_block": {
+          "type": "description",
+          "settings": {
+            "heading": "About this item",
+            "heading_size": "medium",
+            "heading_align": "left",
+            "content_height": "full",
+            "text": "<p>Share information about this product with your customers.</p>"
+          }
+        },
+        "specifications_block": {
+          "type": "specifications",
+          "settings": {
+            "heading": "Product information",
+            "heading_size": "large",
+            "text": "<p>Let customers know more about your products by adding technical specifications and product features.</p>",
+            "table_detail": "Type: -\nBrand: Example Co.\nModel: Model Pro\n Length: -\n Material: -\n Weight: customized grams\nAdjustability: Adjustable weight settings.",
+            "text_align": "left",
+            "empty_field_text": "-"
+          }
+        },
+        "richtext_block": {
+          "type": "richtext",
+          "settings": {
+            "icon": "shield",
+            "use_another_icon": "",
+            "custom_icon": "shopify://shop_images/shield.svg",
+            "heading": "Authenticity Guaranteed",
+            "heading_size": "medium",
+            "heading_align": "left",
+            "text": "<p>Our products are guaranteed authentic. We accept multiple payment methods.</p>",
+            "text_alignment": "left",
+            "highlight_effect": "underline",
+            "text_transform": "none",
+            "show_payment_icons": true,
+            "custom_payment_icons": "visa, master, diners_club, paypal, american_express",
+            "show_border": true,
+            "color_scheme": "light"
+          }
+        }
+      },
+      "block_order": [
+        "description_block",
+        "specifications_block",
+        "richtext_block"
+      ],
+      "settings": {
+        "content_size": "default",
+        "placement": "left",
+        "text": "",
+        "show_image_first": false,
+        "color_scheme": "default",
+        "full_width": false
+      }
+    },
+    "collection_list_BAQbm6": {
+      "type": "collection-list",
+      "blocks": {
+        "collection_iNaKJM": {
+          "type": "collection",
+          "settings": {
+            "collection": ""
+          }
+        },
+        "collection_pYYfVE": {
+          "type": "collection",
+          "settings": {
+            "collection": ""
+          }
+        },
+        "collection_hxNA9y": {
+          "type": "collection",
+          "settings": {
+            "collection": ""
+          }
+        },
+        "collection_TiDYk3": {
+          "type": "collection",
+          "settings": {
+            "collection": ""
+          }
+        },
+        "collection_f6Tagd": {
+          "type": "collection",
+          "settings": {
+            "collection": ""
+          }
+        },
+        "collection_aPXRyJ": {
+          "type": "collection",
+          "settings": {
+            "collection": ""
+          }
+        }
+      },
+      "block_order": [
+        "collection_iNaKJM",
+        "collection_pYYfVE",
+        "collection_hxNA9y",
+        "collection_TiDYk3",
+        "collection_f6Tagd",
+        "collection_aPXRyJ"
+      ],
+      "name": "Collection list",
+      "settings": {
+        "title": "Shop By Dietary Need",
+        "heading_align": "text-center",
+        "button_label": "",
+        "button_link": "",
+        "layout": "carousel",
+        "card_size": "medium",
+        "use_product_image": false,
+        "circle_image": true,
+        "show_border": true,
+        "color_scheme": "none",
+        "full_width": true
+      }
+    },
+    "product_features_HgD63p": {
+      "type": "product-features",
+      "blocks": {
+        "feature_ttJjJV": {
+          "type": "feature",
+          "settings": {
+            "heading": "Feature name",
+            "text": "<p>Add some text describing the product feature.</p>",
+            "content_align": "text-start",
+            "hotspot_x": 28,
+            "hotspot_y": 38
+          }
+        },
+        "feature_WUnpgp": {
+          "type": "feature",
+          "settings": {
+            "heading": "Feature name",
+            "text": "<p>Add some text describing the product feature.</p>",
+            "content_align": "text-start",
+            "hotspot_x": 60,
+            "hotspot_y": 23
+          }
+        },
+        "feature_MjFKBY": {
+          "type": "feature",
+          "settings": {
+            "heading": "Feature name",
+            "text": "<p>Add some text describing the product feature.</p>",
+            "content_align": "text-start",
+            "hotspot_x": 73,
+            "hotspot_y": 54
+          }
+        },
+        "feature_7kqkdx": {
+          "type": "feature",
+          "settings": {
+            "heading": "Feature name",
+            "text": "<p>Add some text describing the product feature.</p>",
+            "content_align": "text-start",
+            "hotspot_x": 50,
+            "hotspot_y": 50
+          }
+        },
+        "feature_B34dMn": {
+          "type": "feature",
+          "settings": {
+            "heading": "Feature name",
+            "text": "<p>Add some text describing the product feature.</p>",
+            "content_align": "text-start",
+            "hotspot_x": 10,
+            "hotspot_y": 47
+          }
+        }
+      },
+      "block_order": [
+        "feature_ttJjJV",
+        "feature_WUnpgp",
+        "feature_MjFKBY",
+        "feature_7kqkdx",
+        "feature_B34dMn"
+      ],
+      "name": "Product features",
+      "settings": {
+        "product": "",
+        "show_content": true,
+        "layout": "text_first",
+        "text_align": "text-center",
+        "mob_center_text": false,
+        "heading_size": "h4",
+        "enlarge_text": false,
+        "title": "Nutritious and Delicious",
+        "description": "<p>Organic ingredients with benefits</p>",
+        "button_label": "",
+        "button_link": "",
+        "hotspot_color": "#070707",
+        "color_scheme": "none",
+        "button_style": "btn btn--primary"
+      }
+    },
+    "recommendations": {
+      "type": "product-recommendations",
+      "settings": {
+        "heading": "Products You May Also Like",
+        "heading_align": "text-center",
+        "layout": "carousel",
+        "card_size_mobile": "small",
+        "card_size": "medium",
+        "products_to_show": 5,
+        "show_in_stock": true
+      }
+    },
+    "recently_viewed_fTJLLm": {
+      "type": "recently-viewed",
+      "name": "Recently viewed products",
+      "settings": {
+        "heading": "Recently Viewed Products",
+        "heading_align": "text-center",
+        "layout": "carousel",
+        "card_size_mobile": "small",
+        "card_size": "medium",
+        "limit": 10
+      }
+    }
+  },
+  "order": [
+    "main",
+    "details",
+    "collection_list_BAQbm6",
+    "product_features_HgD63p",
+    "recommendations",
+    "recently_viewed_fTJLLm"
+  ]
+}

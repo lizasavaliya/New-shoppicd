@@ -1,0 +1,507 @@
+{%- if section.index > 2 -%}
+  <link rel="stylesheet" href="{{ 'collection-group.css' | asset_url }}" media="print" onload="this.media='all'">
+{%- else -%}
+  {{ 'collection-group.css' | asset_url | stylesheet_tag }}
+{%- endif -%}
+
+{%- liquid
+  assign color_scheme      = section.settings.color_scheme
+  assign color_scheme_dark = section.settings.color_scheme_dark
+  assign layout            = section.settings.layout
+  assign carousel          = false
+  if layout == 'carousel'
+    assign carousel = true
+  endif
+
+  assign bg_color = false
+  if color_scheme == '1'
+    assign bg_color = settings.color_scheme_1_bg
+  elsif color_scheme == '2'
+    assign bg_color = settings.color_scheme_2_bg
+  elsif color_scheme == '3'
+    assign bg_color = settings.color_scheme_3_bg
+  endif
+  if bg_color == settings.bg_color or bg_color == 'rgba(0,0,0,0)'
+    assign bg_color = false
+  endif
+
+  assign card_bg  = section.settings.card_bg_color
+  assign sub_bg   = section.settings.sub_bg_color
+  assign sub_color = section.settings.subheading_color
+-%}
+
+{%- style -%}
+  #{{ section.id }} {
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+  }
+  {%- unless card_bg == 'rgba(0,0,0,0)' or card_bg == blank -%}
+    #{{ section.id }} .cg__card-main { background-color: {{ card_bg }}; }
+  {%- endunless -%}
+  {%- unless sub_bg == 'rgba(0,0,0,0)' or sub_bg == blank -%}
+    #{{ section.id }} .cg__sub-item { background-color: {{ sub_bg }}; }
+  {%- endunless -%}
+  {%- unless sub_color == 'rgba(0,0,0,0)' or sub_color == blank -%}
+    #{{ section.id }} .cg__subheading { color: {{ sub_color }}; }
+  {%- endunless -%}
+{%- endstyle -%}
+
+{%- unless section.settings.full_width -%}
+<div class="container">
+{%- endunless -%}
+
+<div id="{{ section.id }}" class="cg section
+  {%- unless bg_color == false %} section--padded{% if section.settings.full_width %} section--full-width{% endif %}{%- endunless -%}
+  {%- unless color_scheme == 'none' %} color-scheme color-scheme--{{ color_scheme }}{%- endunless -%}
+  {%- unless color_scheme_dark == 'none' %} cc-dark:color-scheme cc-dark:color-scheme--{{ color_scheme_dark }}{%- endunless -%}
+  {%- if bg_color == false %} color-scheme--transparent{%- endif -%}
+  {%- if section.settings.show_section_divider %} section--divider{%- endif -%}"
+  {%- if settings.animations_enabled != "disabled" %} data-cc-animate{% endif %}>
+
+  {%- if section.settings.title != blank or section.settings.view_all_label != blank -%}
+    <div class="container">
+      <div class="section__header flex items-center gap-x-theme flex-wrap mb-6"
+        {%- if settings.animations_enabled != "disabled" %} data-cc-animate{% endif %}>
+        {%- if section.settings.title != blank -%}
+          <h2 class="h4 mb-0 flex-auto {{ section.settings.heading_align }}">{{ section.settings.title | escape }}</h2>
+        {%- endif -%}
+        {%- if section.settings.view_all_label != blank -%}
+          <a href="{{ section.settings.view_all_link }}" class="link">{{ section.settings.view_all_label | escape }}</a>
+        {%- endif -%}
+      </div>
+    </div>
+  {%- endif -%}
+
+  {%- if carousel -%}
+    <carousel-slider class="carousel block" inactive>
+      <div class="container">
+        <div class="slider" id="slider-{{ section.id }}">
+  {%- endif -%}
+
+  <div class="container">
+    <ul class="cg__grid{% if carousel %} slider__grid grid-flow-col auto-cols-2 sm:auto-cols-3{% else %} cg__grid--static{% endif %} grid gap-x-theme gap-y-6" role="list">
+
+      {%- for block in section.blocks -%}
+        <li{% if carousel %} class="slider__item"{% endif %}
+          {%- if settings.animations_enabled != "disabled" %} data-cc-animate="fade-in" data-cc-animate-delay="{{ forloop.index | times: 0.07 }}s"{% endif %}
+          {{ block.shopify_attributes }}>
+
+          <div class="cg__card">
+
+            {%- comment -%} ── Main card: image left + text right ── {%- endcomment -%}
+            <div class="cg__card-main">
+              <div class="cg__card-image media relative">
+                {%- if block.settings.image != blank -%}
+                  {% render 'image',
+                    image: block.settings.image,
+                    widths: '160, 240, 320',
+                    src_width: 240,
+                    class: 'img-fit'
+                  %}
+                {%- else -%}
+                  {{ 'collection-1' | placeholder_svg_tag: 'media__placeholder img-fit' }}
+                {%- endif -%}
+              </div>
+
+              <div class="cg__card-content">
+                {%- if block.settings.subheading != blank -%}
+                  <p class="cg__subheading">{{ block.settings.subheading | escape }}</p>
+                {%- endif -%}
+
+                {%- if block.settings.heading != blank -%}
+                  <p class="cg__heading h3 mb-0">{{ block.settings.heading | escape }}</p>
+                {%- endif -%}
+
+                {%- if block.settings.button_label != blank -%}
+                  <a class="cg__link link"
+                    {%- if block.settings.button_link != blank %} href="{{ block.settings.button_link }}"
+                    {%- else %} role="link" aria-disabled="true"
+                    {%- endif -%}>
+                    {{- block.settings.button_label | escape -}}
+                  </a>
+                {%- endif -%}
+              </div>
+            </div>
+
+            {%- comment -%} ── Sub-category items ── {%- endcomment -%}
+            {%- assign has_subs = false -%}
+            {%- for i in (1..4) -%}
+              {%- assign sub_col_key = 'sub_collection_' | append: i -%}
+              {%- assign sub_lbl_key = 'sub_label_'      | append: i -%}
+              {%- if block.settings[sub_col_key] != blank or block.settings[sub_lbl_key] != blank -%}
+                {%- assign has_subs = true -%}
+              {%- endif -%}
+            {%- endfor -%}
+
+            {%- if has_subs or request.design_mode -%}
+              <div class="cg__card-subs">
+                {%- for i in (1..4) -%}
+                  {%- assign sub_col_key = 'sub_collection_' | append: i -%}
+                  {%- assign sub_img_key = 'sub_image_'      | append: i -%}
+                  {%- assign sub_lbl_key = 'sub_label_'      | append: i -%}
+                  {%- assign sub_col     = collections[block.settings[sub_col_key]] -%}
+                  {%- assign sub_img     = block.settings[sub_img_key] -%}
+                  {%- assign sub_lbl     = block.settings[sub_lbl_key] -%}
+
+                  {%- if sub_col != blank or sub_lbl != blank or request.design_mode -%}
+                    <a class="cg__sub-item"
+                      {%- if sub_col != blank %} href="{{ sub_col.url }}"
+                      {%- else %} role="link" aria-disabled="true"
+                      {%- endif -%}>
+                      <span class="cg__sub-label">
+                        {%- if sub_lbl != blank -%}{{ sub_lbl | escape }}
+                        {%- elsif sub_col != blank -%}{{ sub_col.title | escape }}
+                        {%- else -%}Collection name
+                        {%- endif -%}
+                      </span>
+                      <div class="cg__sub-image media relative">
+                        {%- if sub_img != blank -%}
+                          {% render 'image', image: sub_img, widths: '80, 120', src_width: 80, class: 'img-fit' %}
+                        {%- elsif sub_col != blank and sub_col.featured_image != blank -%}
+                          {% render 'image', image: sub_col.featured_image, widths: '80, 120', src_width: 80, class: 'img-fit' %}
+                        {%- else -%}
+                          {{ 'image' | placeholder_svg_tag: 'media__placeholder img-fit' }}
+                        {%- endif -%}
+                      </div>
+                    </a>
+                  {%- endif -%}
+                {%- endfor -%}
+              </div>
+            {%- endif -%}
+
+          </div>
+        </li>
+
+      {%- else -%}
+        {%- comment -%} Onboarding placeholder cards {%- endcomment -%}
+        {%- for i in (1..4) -%}
+          <li{% if carousel %} class="slider__item"{% endif %}>
+            <div class="cg__card">
+              <div class="cg__card-main">
+                <div class="cg__card-image media relative">
+                  {{ 'collection-1' | placeholder_svg_tag: 'media__placeholder img-fit' }}
+                </div>
+                <div class="cg__card-content">
+                  <p class="cg__subheading">Same day delivery</p>
+                  <p class="cg__heading h3 mb-0">Collection title</p>
+                  <a class="cg__link link" role="link" aria-disabled="true">More info</a>
+                </div>
+              </div>
+              <div class="cg__card-subs">
+                {%- for j in (1..2) -%}
+                  <a class="cg__sub-item" role="link" aria-disabled="true">
+                    <span class="cg__sub-label">Category name</span>
+                    <div class="cg__sub-image media relative">
+                      {{ 'image' | placeholder_svg_tag: 'media__placeholder img-fit' }}
+                    </div>
+                  </a>
+                {%- endfor -%}
+              </div>
+            </div>
+          </li>
+        {%- endfor -%}
+      {%- endfor -%}
+
+    </ul>
+  </div>
+
+  {%- if carousel -%}
+        </div>
+        {%- if settings.slider_show_arrows != 'never' -%}
+          <div class="slider-nav slide-nav--inline justify-between items-center absolute top-0 h-full{% if settings.slider_show_arrows == 'hover' %} slider-nav--show-on-hover no-hover-hidden{% endif %} hidden md:flex no-js-hidden">
+            <button type="button" class="slider-nav__btn tap-target tap-target--left btn has-ltr-icon" name="prev" aria-controls="slider-{{ section.id }}">
+              <span class="visually-hidden">{{ 'general.slider.previous' | t }}</span>
+              {% render 'icon-chevron-left' %}
+            </button>
+            <button type="button" class="slider-nav__btn tap-target tap-target--right btn has-ltr-icon" name="next" aria-controls="slider-{{ section.id }}">
+              <span class="visually-hidden">{{ 'general.slider.next' | t }}</span>
+              {% render 'icon-chevron-right' %}
+            </button>
+          </div>
+        {%- endif -%}
+      </div>
+    </carousel-slider>
+  {%- endif -%}
+
+</div>
+
+{%- unless section.settings.full_width -%}
+</div>
+{%- endunless -%}
+
+{% schema %}
+{
+  "name": "Collection group",
+  "tag": "section",
+  "class": "cc-collection-group",
+  "max_blocks": 20,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section header"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "Shop by category"
+    },
+    {
+      "type": "select",
+      "id": "heading_align",
+      "label": "Heading alignment",
+      "options": [
+        { "value": "text-start",  "label": "Left"   },
+        { "value": "text-center", "label": "Center" },
+        { "value": "text-end",    "label": "Right"  }
+      ],
+      "default": "text-start"
+    },
+    {
+      "type": "text",
+      "id": "view_all_label",
+      "label": "View all label",
+      "default": "View all"
+    },
+    {
+      "type": "url",
+      "id": "view_all_link",
+      "label": "View all link"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "layout",
+      "label": "Layout",
+      "options": [
+        { "value": "grid",     "label": "Grid"     },
+        { "value": "carousel", "label": "Carousel" }
+      ],
+      "default": "grid"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "select",
+      "id": "color_scheme",
+      "label": "Section color scheme (light mode)",
+      "info": "Controls the section background and text color.",
+      "options": [
+        { "value": "none", "label": "Default"  },
+        { "value": "1",    "label": "Scheme 1" },
+        { "value": "2",    "label": "Scheme 2" },
+        { "value": "3",    "label": "Scheme 3" }
+      ],
+      "default": "1"
+    },
+    {
+      "type": "select",
+      "id": "color_scheme_dark",
+      "label": "Section color scheme (dark mode)",
+      "options": [
+        { "value": "none", "label": "Default"  },
+        { "value": "1",    "label": "Scheme 1" },
+        { "value": "2",    "label": "Scheme 2" },
+        { "value": "3",    "label": "Scheme 3" }
+      ],
+      "default": "none"
+    },
+    {
+      "type": "color",
+      "id": "card_bg_color",
+      "label": "Card background color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "sub_bg_color",
+      "label": "Sub-category background color",
+      "default": "#e8e6e0"
+    },
+    {
+      "type": "color",
+      "id": "subheading_color",
+      "label": "Subheading color",
+      "info": "Leave blank to inherit the section text color."
+    },
+    {
+      "type": "header",
+      "content": "Style"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_section_divider",
+      "label": "Show section divider",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "full_width",
+      "label": "Make section background full width",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Top",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom",
+      "default": 36
+    }
+  ],
+  "blocks": [
+    {
+      "type": "item",
+      "name": "Collection group item",
+      "settings": [
+        {
+          "type": "header",
+          "content": "Main card"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "subheading",
+          "label": "Subheading",
+          "placeholder": "e.g. Doorstep delivery",
+          "default": "Same day delivery"
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "placeholder": "e.g. 9 for $18",
+          "default": "Collection title"
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "Button label",
+          "default": "More info"
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "Button link"
+        },
+        {
+          "type": "header",
+          "content": "Sub-categories"
+        },
+        {
+          "type": "paragraph",
+          "content": "Add up to 4 sub-category items shown below the card."
+        },
+        {
+          "type": "collection",
+          "id": "sub_collection_1",
+          "label": "Sub-category 1"
+        },
+        {
+          "type": "image_picker",
+          "id": "sub_image_1",
+          "label": "Sub-category 1 image",
+          "info": "Overrides the collection image"
+        },
+        {
+          "type": "text",
+          "id": "sub_label_1",
+          "label": "Sub-category 1 label",
+          "info": "Overrides the collection title"
+        },
+        {
+          "type": "collection",
+          "id": "sub_collection_2",
+          "label": "Sub-category 2"
+        },
+        {
+          "type": "image_picker",
+          "id": "sub_image_2",
+          "label": "Sub-category 2 image",
+          "info": "Overrides the collection image"
+        },
+        {
+          "type": "text",
+          "id": "sub_label_2",
+          "label": "Sub-category 2 label",
+          "info": "Overrides the collection title"
+        },
+        {
+          "type": "collection",
+          "id": "sub_collection_3",
+          "label": "Sub-category 3"
+        },
+        {
+          "type": "image_picker",
+          "id": "sub_image_3",
+          "label": "Sub-category 3 image",
+          "info": "Overrides the collection image"
+        },
+        {
+          "type": "text",
+          "id": "sub_label_3",
+          "label": "Sub-category 3 label",
+          "info": "Overrides the collection title"
+        },
+        {
+          "type": "collection",
+          "id": "sub_collection_4",
+          "label": "Sub-category 4"
+        },
+        {
+          "type": "image_picker",
+          "id": "sub_image_4",
+          "label": "Sub-category 4 image",
+          "info": "Overrides the collection image"
+        },
+        {
+          "type": "text",
+          "id": "sub_label_4",
+          "label": "Sub-category 4 label",
+          "info": "Overrides the collection title"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Collection group",
+      "category": "Collections",
+      "blocks": [
+        { "type": "item" },
+        { "type": "item" },
+        { "type": "item" },
+        { "type": "item" }
+      ]
+    }
+  ],
+  "disabled_on": {
+    "groups": ["header", "footer", "aside"]
+  }
+}
+{% endschema %}

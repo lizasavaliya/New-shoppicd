@@ -1,0 +1,302 @@
+{% comment %} <style>
+  .error-code {
+    color: rgba(var(--text-color) / 0.4);
+    font-size: 9.6rem;
+    line-height: 1;
+  }
+</style>
+
+<div class="container text-center">
+  <p class="error-code mb-0 font-bold">404</p>
+  <h1 class="{{ section.settings.heading_size }} text-center">{{ 'templates.404.title' | t }}</h1>
+  <p>{{ 'templates.404.subtext' | t }}</p>
+  <p class="mt-12">
+    <a class="btn btn--primary" href="{{ routes.root_url }}">{{ 'templates.404.link' | t }}</a>
+  </p>
+</div>
+
+{% schema %}
+{
+  "name": "404",
+  "class": "cc-main-404 section section--template",
+  "settings": [
+    {
+      "type": "select",
+      "id": "heading_size",
+      "label": "Heading size",
+      "options": [
+        {
+          "value": "h6",
+          "label": "Extra extra small"
+        },
+        {
+          "value": "h5",
+          "label": "Extra small"
+        },
+        {
+          "value": "h4",
+          "label": "Small"
+        },
+        {
+          "value": "h3",
+          "label": "Medium"
+        },
+        {
+          "value": "h2",
+          "label": "Large"
+        },
+        {
+          "value": "h1",
+          "label": "Extra large"
+        },
+        {
+          "value": "h0",
+          "label": "Extra extra large"
+        }
+      ],
+      "default": "h3"
+    }
+  ]
+}
+{% endschema %} {% endcomment %}
+
+<style>
+.template-404{
+  max-width:520px;
+  margin:0 auto;
+  padding:80px 20px;
+  text-align:center;
+}
+
+/* Large 404 */
+.template-404__subtitle{
+    display:flex;
+    justify-content:center;
+    align-items:flex-end;
+    margin-bottom:32px;
+    gap: 5px;
+}
+
+.template-404__content_title-1st,
+.template-404__content_title-2nd,
+.template-404__content_title-3rd{
+    font-size:300px;
+    line-height:.82;
+    font-weight:700;
+    color:#767676;
+}
+
+.template-404__content_title-1st{
+    transform:rotate(-10deg);
+    margin-right:-8px;
+}
+
+.template-404__content_title-2nd{
+    margin:0 -4px;
+}
+
+.template-404__content_title-3rd{
+    transform:rotate(10deg);
+    margin-left:-8px;
+}
+
+.template-404__heading{
+    margin:0 0 18px;
+}
+
+.template-404__description{
+    margin-bottom:22px;
+}
+
+.template-404__button{
+    text-decoration:underline;
+    background:none;
+    border:0;
+    padding:0;
+}
+
+@media(max-width:749px){
+
+.template-404{
+    padding:60px 20px;
+}
+
+.template-404__content_title-1st,
+.template-404__content_title-2nd,
+.template-404__content_title-3rd{
+    font-size:120px;
+}
+
+}
+</style>
+
+<div class="container">
+  <div class="template-404">
+
+    {% if section.settings.show_progress %}
+      <div class="template-404__subtitle">
+        <div class="template-404__content_title-1st">
+          {{ section.settings.progress_1 }}
+        </div>
+
+        <div class="template-404__content_title-2nd">
+          {{ section.settings.progress_2 }}
+        </div>
+
+        <div class="template-404__content_title-3rd">
+          {{ section.settings.progress_3 }}
+        </div>
+      </div>
+    {% endif %}
+
+    <div class="template-404__content">
+
+      <h1 class="template-404__heading {{ section.settings.heading_size }}">
+        {{ section.settings.heading }}
+      </h1>
+
+      {% if section.settings.description != blank %}
+        <div class="template-404__description rte">
+          {{ section.settings.description }}
+        </div>
+      {% endif %}
+
+      <a
+        href="{{ section.settings.button_link | default: routes.root_url }}"
+        class="template-404__button">
+        {{ section.settings.button_text }}
+      </a>
+
+    </div>
+
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "404",
+  "class": "cc-main-404 section section--template",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Page not found"
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "Description",
+      "default": "<p>Sorry, we couldn't find the page you're looking for.</p>"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button Label",
+      "default": "Continue shopping"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button Link"
+    },
+
+    {
+      "type": "header",
+      "content": "Top Progress Text"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_progress",
+      "label": "Show Progress Text",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "progress_1",
+      "label": "First",
+      "default": "4"
+    },
+    {
+      "type": "text",
+      "id": "progress_2",
+      "label": "Second",
+      "default": "0"
+    },
+    {
+      "type": "text",
+      "id": "progress_3",
+      "label": "Third",
+      "default": "4"
+    },
+
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "label": "Heading Size",
+      "options": [
+        { "value": "h6", "label": "XX Small" },
+        { "value": "h5", "label": "X Small" },
+        { "value": "h4", "label": "Small" },
+        { "value": "h3", "label": "Medium" },
+        { "value": "h2", "label": "Large" },
+        { "value": "h1", "label": "XLarge" },
+        { "value": "h0", "label": "XXLarge" }
+      ],
+      "default": "h2"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "label": "Top Padding Desktop",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom Padding Desktop",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Top Padding Mobile",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom Padding Mobile",
+      "default": 40
+    }
+  ]
+}
+{% endschema %}

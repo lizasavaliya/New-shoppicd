@@ -1,0 +1,1492 @@
+{%- if section.index > 2 -%}
+  <link rel="stylesheet" href="{{ 'product.css' | asset_url }}" media="print" onload="this.media='all'">
+{%- else -%}
+  {{ 'product.css' | asset_url | stylesheet_tag }}
+{%- endif -%}
+
+{%- if settings.enable_quick_add -%}
+  <link rel="stylesheet" href="{{ 'quick-add.css' | asset_url }}" media="print" onload="this.media='all'">
+  <script src="{{ 'quick-add.js' | asset_url }}" defer="defer"></script>
+  <script src="{{ 'variant-picker.js' | asset_url }}" defer="defer"></script>
+  <script src="{{ 'product-form.js' | asset_url }}" defer="defer"></script>
+  <script src="{{ 'custom-select.js' | asset_url }}" defer="defer"></script>
+  <script src="{{ 'quick-order-list.js' | asset_url }}" defer="defer"></script>
+{%- endif -%}
+
+{%- if settings.enable_compare -%}
+  <link rel="stylesheet" href="{{ 'compare-toggle.css' | asset_url }}" media="print" onload="this.media='all'">
+{%- endif -%}
+
+{%- if section.settings.enable_countdown -%}
+  <link rel="stylesheet" href="{{ 'countdown-timer-lib.css' | asset_url }}" media="print" onload="this.media='all'">
+  <script src="{{ 'countdown-timer.js' | asset_url }}" defer="defer"></script>
+{%- endif -%}
+
+{%- liquid
+  assign collection_blocks = section.blocks | where: 'type', 'collection'
+  assign has_collection_blocks = false
+  if collection_blocks.size > 0
+    assign has_collection_blocks = true
+  endif
+
+  assign collection = section.settings.collection
+
+  assign carousel_desktop_small =  ' sm:auto-cols-3 md:auto-cols-4 lg:auto-cols-5 xl:auto-cols-6 small-cards-desktop'
+  assign carousel_desktop_medium = ' sm:auto-cols-3 md:auto-cols-4 lg:auto-cols-5 small-cards-desktop'
+  assign carousel_desktop_large =  ' md:auto-cols-3 lg:auto-cols-4'
+
+  assign grid_desktop_small =  ' sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 xxl:grid-cols-7 small-cards-desktop'
+  assign grid_desktop_medium = ' sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 small-cards-desktop'
+  assign grid_desktop_large =  ' md:grid-cols-3 lg:grid-cols-4'
+
+  assign card_size = section.settings.card_size
+  if settings.dock_cart_drawer and settings.cart_type == 'drawer'
+    if card_size == 'small'
+      assign carousel_desktop_small = ' sm:auto-cols-3 md:auto-cols-3 lg:auto-cols-4 xxl:auto-cols-5 small-cards-desktop'
+      assign grid_desktop_small =     ' sm:grid-cols-3 md:grid-cols-4 tab:grid-cols-5 dock:grid-cols-4 xl:grid-cols-5 xxl:grid-cols-6 small-cards-desktop'
+    elsif card_size == 'medium'
+      assign carousel_desktop_medium = ' sm:auto-cols-3 md:auto-cols-4 xxl:auto-cols-5 small-cards-desktop'
+      assign grid_desktop_medium =     ' sm:grid-cols-3 md:grid-cols-4 xxl:grid-cols-5 small-cards-desktop'
+    elsif card_size == 'large'
+      assign carousel_desktop_large = ' md:auto-cols-3 xxl:auto-cols-4'
+      assign grid_desktop_large =     ' md:grid-cols-3 xxl:grid-cols-4'
+    endif
+  endif
+
+  if section.settings.card_size_mobile == 'small' or section.settings.card_size_mobile == 'medium'
+    assign carousel_mobile_cols = 'grid-flow-col auto-cols-2 small-cards-mobile'
+    assign grid_mobile_cols = 'grid-cols-2 small-cards-mobile'
+    if section.settings.layout == 'carousel_on_mobile'
+      assign carousel_mobile_cols = carousel_mobile_cols | append: ' sm:grid-cols-2'
+    endif
+  else
+    assign carousel_mobile_cols = 'grid-flow-col auto-cols-1'
+    assign grid_mobile_cols = 'grid-cols-1'
+  endif
+
+  if section.settings.layout == 'carousel'
+    assign carousel = true
+    if card_size == 'small'
+      assign grid_classes = carousel_mobile_cols | append: carousel_desktop_small
+    elsif card_size == 'medium'
+      assign grid_classes = carousel_mobile_cols | append: carousel_desktop_medium
+    else
+      assign grid_classes = carousel_mobile_cols | append: carousel_desktop_large
+    endif
+  elsif section.settings.layout == 'carousel_on_mobile'
+    assign carousel = true
+    if card_size == 'small'
+      assign grid_classes = carousel_mobile_cols | append: grid_desktop_small
+    elsif card_size == 'medium'
+      assign grid_classes = carousel_mobile_cols | append: grid_desktop_medium
+    else
+      assign grid_classes = carousel_mobile_cols | append: grid_desktop_large
+    endif
+  else
+    assign carousel = false
+    if card_size == 'small'
+      assign grid_classes = grid_mobile_cols | append: grid_desktop_small
+    elsif card_size == 'medium'
+      assign grid_classes = grid_mobile_cols | append: grid_desktop_medium
+    else
+      assign grid_classes = grid_mobile_cols | append: grid_desktop_large
+    endif
+  endif
+
+  assign ref_collection = collection
+  if has_collection_blocks
+    assign ref_collection = collection_blocks.first.settings.collection
+  endif
+
+  if settings.prod_card_image_ratio == 'shortest'
+    assign image_ratio = 0
+    for product in ref_collection.products limit: section.settings.products_to_show
+      if product.featured_media.preview_image.aspect_ratio > image_ratio
+        assign image_ratio = product.featured_media.preview_image.aspect_ratio
+      endif
+    endfor
+  elsif settings.prod_card_image_ratio == 'tallest'
+    assign image_ratio = 99
+    for product in ref_collection.products limit: section.settings.products_to_show
+      if product.featured_media.preview_image.aspect_ratio < image_ratio
+        assign image_ratio = product.featured_media.preview_image.aspect_ratio
+      endif
+    endfor
+  else
+    assign image_ratio = settings.prod_card_image_ratio
+  endif
+
+  assign color_scheme = section.settings.color_scheme
+  assign bg_color = false
+  if color_scheme == '1'
+    assign bg_color = settings.color_scheme_1_bg_grad | default: settings.color_scheme_1_bg
+  elsif color_scheme == '2'
+    assign bg_color = settings.color_scheme_2_bg_grad | default: settings.color_scheme_2_bg
+  elsif color_scheme == '3'
+    assign bg_color = settings.color_scheme_3_bg_grad | default: settings.color_scheme_3_bg
+  endif
+  if bg_color == settings.bg_color or bg_color == 'rgba(0,0,0,0)'
+    assign bg_color = false
+  endif
+
+  assign heading_tag = section.settings.heading_tag | default: 'h2'
+
+  assign heading_size_class = 'h4'
+  case section.settings.heading_size
+    when 'small'
+      assign heading_size_class = 'h5'
+    when 'large'
+      assign heading_size_class = 'h3'
+    when 'xl'
+      assign heading_size_class = 'h2'
+  endcase
+
+  assign desktop_align = section.settings.heading_align_desktop | default: section.settings.heading_align | default: 'text-start'
+
+  assign desktop_cols = section.settings.desktop_columns | default: '5' | plus: 0
+  assign desktop_cols_gap = desktop_cols | minus: 1
+  assign mobile_cols = section.settings.mobile_columns | default: '2' | plus: 0
+  assign mobile_cols_gap = mobile_cols | minus: 1
+
+  assign countdown_end_date = ''
+  if section.settings.enable_countdown
+    assign cd_month_num = '01'
+    case section.settings.countdown_month
+      when 'January'
+        assign cd_month_num = '01'
+      when 'February'
+        assign cd_month_num = '02'
+      when 'March'
+        assign cd_month_num = '03'
+      when 'April'
+        assign cd_month_num = '04'
+      when 'May'
+        assign cd_month_num = '05'
+      when 'June'
+        assign cd_month_num = '06'
+      when 'July'
+        assign cd_month_num = '07'
+      when 'August'
+        assign cd_month_num = '08'
+      when 'September'
+        assign cd_month_num = '09'
+      when 'October'
+        assign cd_month_num = '10'
+      when 'November'
+        assign cd_month_num = '11'
+      when 'December'
+        assign cd_month_num = '12'
+    endcase
+    assign cd_day = section.settings.countdown_day | prepend: '0' | slice: -2, 2
+    assign countdown_end_date = section.settings.countdown_year | append: '-' | append: cd_month_num | append: '-' | append: cd_day | append: 'T' | append: section.settings.countdown_hour | append: ':' | append: section.settings.countdown_minute | append: ':00' | append: section.settings.countdown_timezone
+  endif
+-%}
+
+{%- style -%}
+  #shopify-section-{{ section.id }} .cc-fc-inner {
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+  }
+  {%- if section.settings.show_divider -%}
+    #shopify-section-{{ section.id }} .cc-fc-inner {
+      border-top: 1px solid currentColor;
+    }
+  {%- endif -%}
+
+  /* ── Product card: rounded image area + spacing ── */
+  #shopify-section-{{ section.id }} .card__media {
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  #shopify-section-{{ section.id }} .card__media .media {
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  #shopify-section-{{ section.id }} .card--product-contained {
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  #shopify-section-{{ section.id }} .gap-card {
+    gap: 20px;
+  }
+  #shopify-section-{{ section.id }} li.slider__item {
+    padding-inline: 6px;
+  }
+  @media (max-width: 768px) {
+    #shopify-section-{{ section.id }} .gap-card {
+      gap: 14px;
+    }
+    #shopify-section-{{ section.id }} li.slider__item {
+      padding-inline: 4px;
+    }
+    #shopify-section-{{ section.id }} .products-grid-container {
+      padding-left: 4px;
+      padding-right: 4px;
+    }
+  }
+
+  /* ── Mobile header: stack heading + countdown vertically, centered ── */
+  @media (max-width: 768px) {
+    #shopify-section-{{ section.id }} .section__header {
+      flex-direction: column !important;
+      align-items: center !important;
+      text-align: center;
+    }
+    #shopify-section-{{ section.id }} .section__header .flex-auto {
+      width: 100%;
+      text-align: center;
+    }
+    #shopify-section-{{ section.id }} .fc-countdown-wrapper {
+      justify-content: center;
+      width: 100%;
+    }
+    #shopify-section-{{ section.id }} .section__header .link,
+    #shopify-section-{{ section.id }} .section__header .btn {
+      order: 3;
+      width: auto;
+    }
+  }
+
+  /* ── Countdown: compact "Hot Deals" style ── */
+  #shopify-section-{{ section.id }} .fc-countdown .countdown__grid {
+    font-size: 18px;
+    gap: 6px;
+    --countdown-gap: 6px;
+    align-items: center;
+  }
+  #shopify-section-{{ section.id }} .fc-countdown .countdown__number {
+    border: none;
+    border-radius: 5px;
+    background-color: {{ section.settings.timer_bg_color | default: '#FFBF00' }};
+    color: {{ section.settings.countdown_timer_color | default: '#002B26' }};
+    font-weight: 700;
+    padding: 0.32em 0.55em;
+    margin-bottom: 0;
+    min-width: 1.6ch;
+    line-height: 1.2;
+  }
+  #shopify-section-{{ section.id }} .fc-countdown .countdown__item:not(:last-child) .countdown__number::after {
+    color: currentColor;
+    padding-top: 0.25em;
+    font-weight: 400;
+  }
+  #shopify-section-{{ section.id }} .fc-countdown .countdown__unit {
+    display: none;
+  }
+  #shopify-section-{{ section.id }} .fc-countdown-wrapper {
+    gap: 10px;
+  }
+
+  /* ── Override color settings if explicitly chosen ── */
+  {%- if section.settings.countdown_text_color != blank and section.settings.countdown_text_color != 'rgba(0,0,0,0)' -%}
+    #shopify-section-{{ section.id }} .fc-countdown-label {
+      color: {{ section.settings.countdown_text_color }};
+    }
+  {%- endif -%}
+  {%- if section.settings.line_border_color != blank and section.settings.line_border_color != 'rgba(0,0,0,0)' -%}
+    #shopify-section-{{ section.id }} .fc-tab-btn {
+      border-color: {{ section.settings.line_border_color }};
+    }
+  {%- endif -%}
+  {%- if section.settings.show_countdown_border -%}
+    #shopify-section-{{ section.id }} .fc-countdown .countdown__grid {
+      outline: 1px solid currentColor;
+      padding: 4px 8px;
+      border-radius: 4px;
+    }
+  {%- endif -%}
+
+  /* ── Card text alignment ── */
+  {%- assign card_align = section.settings.card_text_align | default: 'left' -%}
+  #shopify-section-{{ section.id }} .card__info-inner {
+    text-align: {{ card_align }};
+  }
+  #shopify-section-{{ section.id }} .card__info-inner .price {
+    justify-content: {% if card_align == 'center' %}center{% else %}flex-start{% endif %};
+  }
+  #shopify-section-{{ section.id }} .card__info-inner .cc-in-stock-badge {
+    justify-content: {% if card_align == 'center' %}center{% else %}flex-start{% endif %};
+  }
+  #shopify-section-{{ section.id }} .card__info-inner .card__title,
+  #shopify-section-{{ section.id }} .card__info-inner .card__vendor,
+  #shopify-section-{{ section.id }} .card__info-inner .product-card__price {
+    text-align: {{ card_align }};
+  }
+
+  /* ── In stock badge ── */
+  #shopify-section-{{ section.id }} .cc-in-stock-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    margin-top: 6px;
+    font-size: 0.78em;
+  }
+  #shopify-section-{{ section.id }} .cc-in-stock-badge__dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: #1a73e8;
+    flex-shrink: 0;
+    box-shadow: 0 0 0 2px rgba(26,115,232,0.2);
+  }
+  #shopify-section-{{ section.id }} .cc-in-stock-badge__text {
+    color: inherit;
+    opacity: 0.75;
+  }
+
+  /* ── Desktop columns override ── */
+  @media (min-width: 1024px) {
+    #shopify-section-{{ section.id }} .slider__grid {
+      grid-auto-columns: calc((100% - var(--column-gap) * {{ desktop_cols_gap }}) / {{ desktop_cols }}) !important;
+    }
+    #shopify-section-{{ section.id }} .grid:not(.slider__grid) {
+      grid-template-columns: repeat({{ desktop_cols }}, minmax(0, 1fr)) !important;
+    }
+  }
+
+  /* ── Mobile columns override ── */
+  @media (max-width: 768.98px) {
+    #shopify-section-{{ section.id }} .slider__grid {
+      grid-auto-columns: calc((100% - var(--column-gap) * {{ mobile_cols_gap }}) / {{ mobile_cols }}) !important;
+    }
+    #shopify-section-{{ section.id }} .grid:not(.slider__grid) {
+      grid-template-columns: repeat({{ mobile_cols }}, minmax(0, 1fr)) !important;
+    }
+  }
+{%- endstyle -%}
+
+{%- unless section.settings.full_width -%}
+  <div class="container">
+{%- endunless -%}
+
+{%- if section.settings.bg_image != blank -%}
+  <div style="position:relative;overflow:hidden;">
+    <div style="position:absolute;inset:0;z-index:0;">
+      {%- render 'image',
+        image: section.settings.bg_image,
+        widths: '750, 1100, 1500, 1800, 2000',
+        src_width: 1800,
+        class: 'img-fit'
+      -%}
+    </div>
+  </div>
+{%- endif -%}
+
+<div class="section relative cc-fc-inner{% unless bg_color == false %} section--padded{% if section.settings.full_width %} section--full-width{% endif %}{% endunless %}{% unless color_scheme == 'none' %} color-scheme color-scheme--{{ color_scheme }}{% endunless %}"
+  style="--product-card-gap: {% if section.settings.card_contain and settings.card_contain_gapless %}0px{% else %}{{ section.settings.block_spacing_desktop | default: 24 }}px{% endif %};">
+
+  {%- comment -%}——— Section header ———{%- endcomment -%}
+  {%- if section.settings.title != blank or section.settings.subheading != blank or section.settings.show_view_all or section.settings.enable_countdown -%}
+    <div class="container">
+      <div class="section__header items-center flex{% if desktop_align == 'text-center' %} flex-col text-center{% elsif desktop_align == 'text-end' %} flex-row-reverse flex-wrap{% else %} flex-row flex-wrap{% endif %} gap-x-theme"{% if settings.animations_enabled != "disabled" %} data-cc-animate{% endif %}>
+
+        <div class="flex-auto">
+          {%- if section.settings.subheading != blank -%}
+            <p class="subheading mb-0">{{ section.settings.subheading | escape }}</p>
+          {%- endif -%}
+
+          {%- if section.settings.title != blank -%}
+            <{{ heading_tag }} class="{{ heading_size_class }} mb-0 section__heading {{ desktop_align }}"
+              {%- if section.settings.text_transform != blank and section.settings.text_transform != 'none' %} style="text-transform: {{ section.settings.text_transform }};"{% endif %}>
+              {{- section.settings.title | escape -}}
+            </{{ heading_tag }}>
+          {%- endif -%}
+        </div>
+
+        {%- if section.settings.enable_countdown -%}
+          <div class="fc-countdown-wrapper flex items-center gap-4 flex-wrap">
+            {%- if section.settings.countdown_text != blank -%}
+              <span class="fc-countdown-label text-{{ section.settings.countdown_text_size | default: 'sm' }}">
+                {{- section.settings.countdown_text | escape -}}
+              </span>
+            {%- endif -%}
+            <div class="fc-countdown">
+              <countdown-timer class="countdown" role="timer" data-end-date="{{ countdown_end_date }}">
+                <div class="countdown__grid inline-grid no-js-hidden">
+                  <div class="countdown__item text-center">
+                    <strong class="countdown__number inline-block relative js-days">0</strong>
+                    <div class="countdown__unit text-sm visually-hidden">{{ 'sections.countdown.days' | t }}</div>
+                  </div>
+                  <div class="countdown__item text-center">
+                    <strong class="countdown__number inline-block relative js-hours">0</strong>
+                    <div class="countdown__unit text-sm visually-hidden">{{ 'sections.countdown.hours' | t }}</div>
+                  </div>
+                  <div class="countdown__item text-center">
+                    <strong class="countdown__number inline-block relative js-mins">0</strong>
+                    <div class="countdown__unit text-sm visually-hidden">{{ 'sections.countdown.minutes' | t }}</div>
+                  </div>
+                  <div class="countdown__item text-center">
+                    <strong class="countdown__number inline-block relative js-secs">0</strong>
+                    <div class="countdown__unit text-sm visually-hidden">{{ 'sections.countdown.seconds' | t }}</div>
+                  </div>
+                </div>
+              </countdown-timer>
+            </div>
+          </div>
+        {%- endif -%}
+
+        {%- if section.settings.show_view_all and section.settings.view_all_position == 'above' and collection_blocks.size < 2 -%}
+          {%- assign va_href = collection.url -%}
+          {%- if has_collection_blocks -%}{%- assign va_href = collection_blocks.first.settings.collection.url -%}{%- endif -%}
+          <a href="{{ va_href }}" class="{% if section.settings.view_all_style == 'btn-primary' %}btn btn--primary{% elsif section.settings.view_all_style == 'btn-secondary' %}btn btn--secondary{% else %}link{% endif %}">
+            {{- section.settings.view_all_label | default: 'View All' | escape -}}
+          </a>
+        {%- endif -%}
+      </div>
+    </div>
+  {%- endif -%}
+
+  {%- comment -%}——— Product grid / tabs ———{%- endcomment -%}
+  {%- if has_collection_blocks and collection_blocks.size > 1 -%}
+
+    <div class="container" id="fc-tabs-{{ section.id }}">
+      <div class="fc-tab-layout">
+
+        <div class="fc-tab-nav" role="tablist">
+          {%- for block in collection_blocks -%}
+            {%- assign tab_label = block.settings.heading | default: block.settings.collection.title | default: 'Collection' -%}
+            <button
+              class="fc-tab-btn{% if forloop.first %} fc-tab-btn--active{% endif %} text-{{ section.settings.tab_title_size | default: 'base' }}{% if section.settings.tab_title_style == 'bold' %} font-bold{% elsif section.settings.tab_title_style == 'italic' %} italic{% endif %}"
+              role="tab"
+              aria-selected="{{ forloop.first }}"
+              aria-controls="fc-panel-{{ section.id }}-{{ forloop.index0 }}"
+              data-fc-tab="{{ forloop.index0 }}"
+              {{ block.shopify_attributes }}
+            >
+              {{- tab_label | escape -}}
+              {%- render 'icon-chevron-right' -%}
+            </button>
+          {%- endfor -%}
+
+          {%- if section.settings.show_view_all -%}
+            <a href="{{ collection_blocks.first.settings.collection.url }}"
+              class="link fc-view-all-link"
+              data-fc-view-all="{{ section.id }}">
+              {{- section.settings.view_all_label | default: 'View All' | escape -}}
+            </a>
+          {%- endif -%}
+        </div>
+
+        <div class="fc-tab-panels">
+          {%- for block in collection_blocks -%}
+            {%- assign block_coll = block.settings.collection -%}
+            <div
+              class="fc-tab-panel{% unless forloop.first %} hidden{% endunless %}"
+              id="fc-panel-{{ section.id }}-{{ forloop.index0 }}"
+              role="tabpanel"
+              data-fc-panel="{{ forloop.index0 }}"
+              data-collection-url="{{ block_coll.url }}"
+            >
+              {%- if carousel -%}
+                <carousel-slider class="carousel block" inactive{% if section.settings.layout == 'carousel_on_mobile' %} disable-desktop="true"{% endif %}>
+                  <div class="slider" id="fc-slider-{{ section.id }}-{{ forloop.index0 }}">
+              {%- endif -%}
+
+              <div class="products-grid-container">
+                <ul class="{% if settings.card_contain_gapless and section.settings.card_contain %}gapless{% else %}gap-card{% endif %} {% if carousel %}slider__grid {% endif %}grid {{ grid_classes }}{% if section.settings.card_size_mobile == 'small' and section.settings.card_contain %} small__grid{% endif %}" role="list">
+                  {%- for product in block_coll.products limit: section.settings.products_to_show -%}
+                    <li {% if carousel %}class="slider__item"{% endif %}{% if settings.animations_enabled != "disabled" %}data-cc-animate="fade-in{% unless carousel %}-up{% endunless %}" data-cc-animate-delay="{{ forloop.index | times: 0.07 }}s"{% endif %}>
+                      {%- render 'product-card',
+                        product: product,
+                        collection: block_coll,
+                        image_ratio: image_ratio,
+                        card_size: card_size,
+                        card_contain: section.settings.card_contain,
+                        show_vendor: block.settings.show_vendor,
+                        show_quick_view: block.settings.show_quick_view,
+                        show_labels: block.settings.show_labels_badges,
+                        show_in_stock: section.settings.show_in_stock
+                      -%}
+                    </li>
+                  {%- else -%}
+                    {%- for i in (1..section.settings.products_to_show) -%}
+                      <li {% if carousel %}class="slider__item"{% endif %}{% if settings.animations_enabled != "disabled" %}data-cc-animate="fade-in{% unless carousel %}-up{% endunless %}" data-cc-animate-delay="{{ forloop.index | times: 0.07 }}s"{% endif %}>
+                        {%- render 'product-card', product: "", image_ratio: image_ratio, card_size: card_size, card_contain: section.settings.card_contain -%}
+                      </li>
+                    {%- endfor -%}
+                  {%- endfor -%}
+                </ul>
+              </div>
+
+              {%- if carousel -%}
+                  </div>
+                  {%- if settings.slider_show_arrows != 'never' -%}
+                    <div class="slider-nav slide-nav--inline justify-between items-center absolute top-0 h-full {% if settings.slider_show_arrows == 'hover' %}slider-nav--show-on-hover no-hover-hidden {% endif %}hidden md:flex no-js-hidden">
+                      <button type="button" class="slider-nav__btn tap-target tap-target--left btn has-ltr-icon" name="prev" aria-controls="fc-slider-{{ section.id }}-{{ forloop.index0 }}">
+                        <span class="visually-hidden">{{ 'general.slider.previous' | t }}</span>
+                        {%- render 'icon-chevron-left' -%}
+                      </button>
+                      <button type="button" class="slider-nav__btn tap-target tap-target--right btn has-ltr-icon" name="next" aria-controls="fc-slider-{{ section.id }}-{{ forloop.index0 }}">
+                        <span class="visually-hidden">{{ 'general.slider.next' | t }}</span>
+                        {%- render 'icon-chevron-right' -%}
+                      </button>
+                    </div>
+                  {%- endif -%}
+                </carousel-slider>
+              {%- endif -%}
+            </div>
+          {%- endfor -%}
+        </div>
+
+      </div>
+    </div>
+
+  {%- else -%}
+
+    {%- assign active_collection = collection -%}
+    {%- if has_collection_blocks -%}{%- assign active_collection = collection_blocks.first.settings.collection -%}{%- endif -%}
+
+    {%- if carousel -%}
+      <carousel-slider class="carousel block" inactive{% if section.settings.layout == 'carousel_on_mobile' %} disable-desktop="true"{% endif %}>
+        <div class="container">
+          <div class="slider" id="slider-{{ section.id }}">
+    {%- endif -%}
+
+    <div class="container products-grid-container">
+      <ul class="{% if settings.card_contain_gapless and section.settings.card_contain %}gapless{% else %}gap-card{% endif %} {% if carousel %}slider__grid {% endif %}grid {{ grid_classes }}{% if section.settings.card_size_mobile == 'small' and section.settings.card_contain %} small__grid{% endif %}" role="list">
+        {%- for product in active_collection.products limit: section.settings.products_to_show -%}
+          <li {% if carousel %}class="slider__item"{% endif %}{% if settings.animations_enabled != "disabled" %}data-cc-animate="fade-in{% unless carousel %}-up{% endunless %}" data-cc-animate-delay="{{ forloop.index | times: 0.07 }}s"{% endif %}>
+            {%- render 'product-card', product: product, collection: active_collection, image_ratio: image_ratio, card_size: card_size, card_contain: section.settings.card_contain, show_in_stock: section.settings.show_in_stock -%}
+          </li>
+        {%- else -%}
+          {%- for i in (1..section.settings.products_to_show) -%}
+            <li {% if carousel %}class="slider__item"{% endif %}{% if settings.animations_enabled != "disabled" %}data-cc-animate="fade-in{% unless carousel %}-up{% endunless %}" data-cc-animate-delay="{{ forloop.index | times: 0.07 }}s"{% endif %}>
+              {%- render 'product-card', product: "", image_ratio: image_ratio, card_size: card_size, card_contain: section.settings.card_contain -%}
+            </li>
+          {%- endfor -%}
+        {%- endfor -%}
+      </ul>
+    </div>
+
+    {%- if carousel -%}
+          </div>
+          {%- if settings.slider_show_arrows != 'never' -%}
+            <div class="slider-nav slide-nav--inline justify-between items-center absolute top-0 h-full {% if settings.slider_show_arrows == 'hover' %}slider-nav--show-on-hover no-hover-hidden {% endif %}hidden md:flex no-js-hidden">
+              <button type="button" class="slider-nav__btn tap-target tap-target--left btn has-ltr-icon" name="prev" aria-controls="slider-{{ section.id }}">
+                <span class="visually-hidden">{{ 'general.slider.previous' | t }}</span>
+                {%- render 'icon-chevron-left' -%}
+              </button>
+              <button type="button" class="slider-nav__btn tap-target tap-target--right btn has-ltr-icon" name="next" aria-controls="slider-{{ section.id }}">
+                <span class="visually-hidden">{{ 'general.slider.next' | t }}</span>
+                {%- render 'icon-chevron-right' -%}
+              </button>
+            </div>
+          {%- endif -%}
+        </div>
+      </carousel-slider>
+    {%- endif -%}
+
+  {%- endif -%}
+
+  {%- if section.settings.show_view_all and section.settings.view_all_position == 'below' -%}
+    <div class="container mt-6 text-center">
+      {%- assign va_href = collection.url -%}
+      {%- if has_collection_blocks -%}{%- assign va_href = collection_blocks.first.settings.collection.url -%}{%- endif -%}
+      <a href="{{ va_href }}" class="{% if section.settings.view_all_style == 'btn-primary' %}btn btn--primary{% elsif section.settings.view_all_style == 'btn-secondary' %}btn btn--secondary{% else %}link{% endif %}">
+        {{- section.settings.view_all_label | default: 'View All' | escape -}}
+      </a>
+    </div>
+  {%- endif -%}
+
+</div>
+
+{%- unless section.settings.full_width -%}
+</div>
+{%- endunless -%}
+
+{%- if has_collection_blocks and collection_blocks.size > 1 -%}
+<style>
+  /* ══ DESKTOP: vertical sidebar + product panel ══ */
+  .fc-tab-layout {
+    display: flex;
+    gap: 24px;
+    align-items: flex-start;
+  }
+  .fc-tab-nav {
+    display: flex;
+    flex-direction: column;
+    min-width: 200px;
+    flex-shrink: 0;
+    gap: 6px;
+    border: none;
+    overflow: visible;
+  }
+  .fc-tab-btn {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 13px 16px;
+    background: transparent;
+    cursor: pointer;
+    text-align: left;
+    color: inherit;
+    border: none;
+    border-radius: 6px;
+    position: relative;
+    overflow: hidden;
+    font-size: inherit;
+    font-weight: normal;
+    width: 100%;
+  }
+  .fc-tab-btn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(var(--text-color)/0.07);
+    transform: translateX(-101%);
+    transition: transform 0.4s ease;
+    border-radius: 6px;
+  }
+  .fc-tab-btn:hover::before,
+  .fc-tab-btn--active::before {
+    transform: translateX(0);
+  }
+  .fc-tab-btn > * {
+    position: relative;
+    z-index: 1;
+  }
+  .fc-tab-btn--active {
+    box-shadow: inset 3px 0 0 rgba(var(--text-color)/0.55);
+    font-weight: 600;
+  }
+  .fc-tab-btn svg { width: 16px; height: 16px; flex-shrink: 0; margin-left: 8px; opacity: 0.4; }
+  .fc-tab-panels { flex: 1; min-width: 0; }
+  .fc-tab-panel.hidden { display: none; }
+  .fc-view-all-link {
+    display: block;
+    padding: 8px 4px;
+    font-size: 0.9em;
+    text-decoration: underline;
+  }
+
+  /* ══ MOBILE: separate pill tabs stacked above products ══ */
+  @media (max-width: 768px) {
+    /* Stack tabs above product panel */
+    .fc-tab-layout {
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    /* Tab nav becomes a wrapping pill row */
+    .fc-tab-nav {
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+      min-width: 0;
+      width: 100%;
+      overflow: visible;
+      padding: 0;
+    }
+
+    /* Each tab: standalone rounded pill — NO joined borders */
+    .fc-tab-btn {
+      flex-shrink: 0;
+      width: auto;
+      border: 1px solid currentColor;
+      border-radius: 20px;
+      padding: 7px 16px;
+      justify-content: center;
+      white-space: nowrap;
+      font-size: 0.85em;
+      font-weight: 400;
+      opacity: 0.45;
+      /* Reset any desktop overrides */
+      margin: 0;
+      position: static;
+      z-index: auto;
+    }
+
+    /* Active pill: full opacity + slightly bolder border */
+    .fc-tab-btn--active {
+      opacity: 1;
+      font-weight: 600;
+      border-width: 2px;
+    }
+
+    /* Hide chevron icon on mobile */
+    .fc-tab-btn svg { display: none; }
+
+    /* Product panels fill full width */
+    .fc-tab-panels { width: 100%; }
+
+    /* View All drops to its own centred row via flex-wrap */
+    .fc-view-all-link {
+      flex-basis: 100%;
+      display: block;
+      text-align: center;
+      padding: 4px 0 0;
+      opacity: 0.8;
+      font-size: 0.9em;
+    }
+  }
+</style>
+<script>
+  (function() {
+    var sectionId = '{{ section.id }}';
+    var container = document.getElementById('fc-tabs-' + sectionId);
+    if (!container) return;
+    var tabs = container.querySelectorAll('[data-fc-tab]');
+    var panels = container.querySelectorAll('[data-fc-panel]');
+    var viewAllLink = container.querySelector('[data-fc-view-all]');
+    function activate(idx) {
+      tabs.forEach(function(t) {
+        var active = parseInt(t.dataset.fcTab) === idx;
+        t.classList.toggle('fc-tab-btn--active', active);
+        t.setAttribute('aria-selected', active);
+      });
+      panels.forEach(function(p) {
+        p.classList.toggle('hidden', parseInt(p.dataset.fcPanel) !== idx);
+      });
+      if (viewAllLink && panels[idx]) {
+        viewAllLink.href = panels[idx].dataset.collectionUrl || '#';
+      }
+    }
+    tabs.forEach(function(t) {
+      t.addEventListener('click', function() { activate(parseInt(this.dataset.fcTab)); });
+    });
+  })();
+</script>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Featured collections",
+  "tag": "section",
+  "class": "cc-featured-collection",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section header"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "Featured collection"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "label": "Heading size",
+      "options": [
+        { "value": "small",  "label": "Small" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "large",  "label": "Large" },
+        { "value": "xl",     "label": "Extra large" }
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "select",
+      "id": "heading_tag",
+      "label": "Heading tag",
+      "options": [
+        { "value": "h1", "label": "H1" },
+        { "value": "h2", "label": "H2" },
+        { "value": "h3", "label": "H3" },
+        { "value": "h4", "label": "H4" },
+        { "value": "h5", "label": "H5" },
+        { "value": "h6", "label": "H6" }
+      ],
+      "default": "h2"
+    },
+    {
+      "type": "select",
+      "id": "heading_align_desktop",
+      "label": "Desktop heading alignment",
+      "options": [
+        { "value": "text-start",  "label": "Left" },
+        { "value": "text-center", "label": "Center" },
+        { "value": "text-end",    "label": "Right" }
+      ],
+      "default": "text-start"
+    },
+    {
+      "type": "select",
+      "id": "heading_align_mobile",
+      "label": "Mobile heading alignment",
+      "options": [
+        { "value": "text-start",  "label": "Left" },
+        { "value": "text-center", "label": "Center" },
+        { "value": "text-end",    "label": "Right" }
+      ],
+      "default": "text-start"
+    },
+    {
+      "type": "select",
+      "id": "highlight_effect",
+      "label": "Highlight effect",
+      "options": [
+        { "value": "none",      "label": "None" },
+        { "value": "underline", "label": "Underline" },
+        { "value": "italic",    "label": "Italic" },
+        { "value": "bold",      "label": "Bold" }
+      ],
+      "default": "underline"
+    },
+    {
+      "type": "select",
+      "id": "text_transform",
+      "label": "Text transform",
+      "options": [
+        { "value": "none",       "label": "None" },
+        { "value": "uppercase",  "label": "Uppercase" },
+        { "value": "lowercase",  "label": "Lowercase" },
+        { "value": "capitalize", "label": "Capitalize" }
+      ],
+      "default": "none"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_view_all",
+      "label": "Show \"View all\" button",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "view_all_label",
+      "label": "\"View all\" button label",
+      "default": "View All"
+    },
+    {
+      "type": "select",
+      "id": "view_all_position",
+      "label": "\"View all\" button position",
+      "options": [
+        { "value": "above", "label": "Above" },
+        { "value": "below", "label": "Below" }
+      ],
+      "default": "above"
+    },
+    {
+      "type": "select",
+      "id": "view_all_style",
+      "label": "\"View all\" button style",
+      "options": [
+        { "value": "link",         "label": "Text link" },
+        { "value": "btn-primary",  "label": "Primary button" },
+        { "value": "btn-secondary","label": "Secondary button" }
+      ],
+      "default": "link"
+    },
+    {
+      "type": "header",
+      "content": "Collection tab"
+    },
+    {
+      "type": "select",
+      "id": "tab_title_size",
+      "label": "Title size",
+      "options": [
+        { "value": "sm",   "label": "Small" },
+        { "value": "base", "label": "Medium" },
+        { "value": "lg",   "label": "Large" }
+      ],
+      "default": "base"
+    },
+    {
+      "type": "select",
+      "id": "tab_title_style",
+      "label": "Title style",
+      "options": [
+        { "value": "default", "label": "Default" },
+        { "value": "bold",    "label": "Bold" },
+        { "value": "italic",  "label": "Italic" }
+      ],
+      "default": "default"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_collection_image",
+      "label": "Show collection image",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "Background image"
+    },
+    {
+      "type": "image_picker",
+      "id": "bg_image",
+      "label": "Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "bg_image_mobile",
+      "label": "Mobile image"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_gradient_bg",
+      "label": "Enable gradient background image",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "Carousel"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection"
+    },
+    {
+      "type": "select",
+      "id": "layout",
+      "label": "Layout",
+      "options": [
+        { "value": "carousel",          "label": "Carousel" },
+        { "value": "carousel_on_mobile","label": "Carousel on mobile" },
+        { "value": "grid",              "label": "Grid" }
+      ],
+      "default": "carousel"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_carousel_desktop",
+      "label": "Enable carousel on desktop",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_swipe_mobile",
+      "label": "Enable swipe on mobile",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "autoplay_interval",
+      "label": "Auto-play every",
+      "min": 0,
+      "max": 10,
+      "step": 1,
+      "unit": "s",
+      "default": 4,
+      "info": "Leave 0 to disable auto-play"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_nav_arrows",
+      "label": "Show navigation arrows",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Product cards"
+    },
+    {
+      "type": "checkbox",
+      "id": "card_contain",
+      "label": "Show background",
+      "info": "Apply a separated background for this section product card",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "card_padding_desktop",
+      "label": "Desktop side padding",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "card_padding_mobile",
+      "label": "Mobile side padding",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 8
+    },
+    {
+      "type": "color",
+      "id": "card_bg_light",
+      "label": "Background (light)",
+      "default": "#F2F8F8"
+    },
+    {
+      "type": "color",
+      "id": "card_bg_dark",
+      "label": "Background (dark)",
+      "default": "#323332"
+    },
+    {
+      "type": "header",
+      "content": "Countdown timer"
+    },
+    {
+      "type": "paragraph",
+      "content": "Add a countdown timer to instill a sense of urgency among your customers and encourage them to buy a product."
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_countdown",
+      "label": "Enable Countdown timer",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "countdown_text",
+      "label": "Text",
+      "default": "Gone in 24 Hours"
+    },
+    {
+      "type": "select",
+      "id": "countdown_text_size",
+      "label": "Text size",
+      "options": [
+        { "value": "sm",   "label": "Small" },
+        { "value": "base", "label": "Medium" },
+        { "value": "lg",   "label": "Large" }
+      ],
+      "default": "sm"
+    },
+    {
+      "type": "select",
+      "id": "countdown_timezone",
+      "label": "Time zone",
+      "options": [
+        { "value": "-12:00", "label": "GMT -12:00" },
+        { "value": "-11:00", "label": "GMT -11:00" },
+        { "value": "-10:00", "label": "GMT -10:00" },
+        { "value": "-09:00", "label": "GMT -09:00" },
+        { "value": "-08:00", "label": "GMT -08:00" },
+        { "value": "-07:00", "label": "GMT -07:00" },
+        { "value": "-06:00", "label": "GMT -06:00" },
+        { "value": "-05:00", "label": "GMT -05:00" },
+        { "value": "-04:00", "label": "GMT -04:00" },
+        { "value": "-03:30", "label": "GMT -03:30" },
+        { "value": "-03:00", "label": "GMT -03:00" },
+        { "value": "-02:00", "label": "GMT -02:00" },
+        { "value": "-01:00", "label": "GMT -01:00" },
+        { "value": "+00:00", "label": "GMT +00:00" },
+        { "value": "+01:00", "label": "GMT +01:00" },
+        { "value": "+02:00", "label": "GMT +02:00" },
+        { "value": "+03:00", "label": "GMT +03:00" },
+        { "value": "+03:30", "label": "GMT +03:30" },
+        { "value": "+04:00", "label": "GMT +04:00" },
+        { "value": "+04:30", "label": "GMT +04:30" },
+        { "value": "+05:00", "label": "GMT +05:00" },
+        { "value": "+05:30", "label": "GMT +05:30" },
+        { "value": "+05:45", "label": "GMT +05:45" },
+        { "value": "+06:00", "label": "GMT +06:00" },
+        { "value": "+06:30", "label": "GMT +06:30" },
+        { "value": "+07:00", "label": "GMT +07:00" },
+        { "value": "+08:00", "label": "GMT +08:00" },
+        { "value": "+09:00", "label": "GMT +09:00" },
+        { "value": "+09:30", "label": "GMT +09:30" },
+        { "value": "+10:00", "label": "GMT +10:00" },
+        { "value": "+11:00", "label": "GMT +11:00" },
+        { "value": "+12:00", "label": "GMT +12:00" },
+        { "value": "+13:00", "label": "GMT +13:00" },
+        { "value": "+14:00", "label": "GMT +14:00" }
+      ],
+      "default": "-04:00"
+    },
+    {
+      "type": "number",
+      "id": "countdown_year",
+      "label": "Year",
+      "default": 2027
+    },
+    {
+      "type": "select",
+      "id": "countdown_month",
+      "label": "Month",
+      "options": [
+        { "value": "January",   "label": "January" },
+        { "value": "February",  "label": "February" },
+        { "value": "March",     "label": "March" },
+        { "value": "April",     "label": "April" },
+        { "value": "May",       "label": "May" },
+        { "value": "June",      "label": "June" },
+        { "value": "July",      "label": "July" },
+        { "value": "August",    "label": "August" },
+        { "value": "September", "label": "September" },
+        { "value": "October",   "label": "October" },
+        { "value": "November",  "label": "November" },
+        { "value": "December",  "label": "December" }
+      ],
+      "default": "November"
+    },
+    {
+      "type": "range",
+      "id": "countdown_day",
+      "label": "Day",
+      "min": 1,
+      "max": 31,
+      "step": 1,
+      "default": 1
+    },
+    {
+      "type": "select",
+      "id": "countdown_hour",
+      "label": "Hour",
+      "options": [
+        { "value": "00", "label": "12 AM" },
+        { "value": "01", "label": "1 AM" },
+        { "value": "02", "label": "2 AM" },
+        { "value": "03", "label": "3 AM" },
+        { "value": "04", "label": "4 AM" },
+        { "value": "05", "label": "5 AM" },
+        { "value": "06", "label": "6 AM" },
+        { "value": "07", "label": "7 AM" },
+        { "value": "08", "label": "8 AM" },
+        { "value": "09", "label": "9 AM" },
+        { "value": "10", "label": "10 AM" },
+        { "value": "11", "label": "11 AM" },
+        { "value": "12", "label": "12 PM" },
+        { "value": "13", "label": "1 PM" },
+        { "value": "14", "label": "2 PM" },
+        { "value": "15", "label": "3 PM" },
+        { "value": "16", "label": "4 PM" },
+        { "value": "17", "label": "5 PM" },
+        { "value": "18", "label": "6 PM" },
+        { "value": "19", "label": "7 PM" },
+        { "value": "20", "label": "8 PM" },
+        { "value": "21", "label": "9 PM" },
+        { "value": "22", "label": "10 PM" },
+        { "value": "23", "label": "11 PM" }
+      ],
+      "default": "00"
+    },
+    {
+      "type": "select",
+      "id": "countdown_minute",
+      "label": "Minute",
+      "options": [
+        { "value": "00", "label": "00" },
+        { "value": "15", "label": "15" },
+        { "value": "30", "label": "30" },
+        { "value": "45", "label": "45" }
+      ],
+      "default": "00"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_countdown_border",
+      "label": "Show border around timer",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "Desktop layout"
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "label": "Number of columns",
+      "min": 1,
+      "max": 8,
+      "step": 1,
+      "default": 5
+    },
+    {
+      "type": "range",
+      "id": "rows_desktop",
+      "label": "Number of rows on desktop",
+      "min": 1,
+      "max": 5,
+      "step": 1,
+      "default": 2,
+      "info": "This applies when carousel is disabled."
+    },
+    {
+      "type": "range",
+      "id": "block_spacing_desktop",
+      "label": "Block spacing",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "select",
+      "id": "card_size",
+      "label": "Product card size on large screens",
+      "options": [
+        { "value": "small",  "label": "Small" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "large",  "label": "Large" }
+      ],
+      "default": "small"
+    },
+    {
+      "type": "select",
+      "id": "desktop_columns",
+      "label": "Products per row (desktop)",
+      "options": [
+        { "value": "3", "label": "3" },
+        { "value": "4", "label": "4" },
+        { "value": "5", "label": "5" },
+        { "value": "6", "label": "6" }
+      ],
+      "default": "5"
+    },
+    {
+      "type": "select",
+      "id": "mobile_columns",
+      "label": "Products per row (mobile)",
+      "options": [
+        { "value": "1", "label": "1" },
+        { "value": "2", "label": "2" }
+      ],
+      "default": "2"
+    },
+    {
+      "type": "range",
+      "id": "products_to_show",
+      "label": "Maximum products to show",
+      "min": 4,
+      "max": 24,
+      "step": 1,
+      "default": 8
+    },
+    {
+      "type": "header",
+      "content": "Product card"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_in_stock",
+      "label": "Show in stock indicator",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "card_text_align",
+      "label": "Card text alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "header",
+      "content": "Mobile layout"
+    },
+    {
+      "type": "select",
+      "id": "card_size_mobile",
+      "label": "Number of columns",
+      "options": [
+        { "value": "large", "label": "1" },
+        { "value": "small", "label": "2" }
+      ],
+      "default": "small"
+    },
+    {
+      "type": "range",
+      "id": "block_spacing_mobile",
+      "label": "Block spacing",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 8
+    },
+    {
+      "type": "header",
+      "content": "Section layout"
+    },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Section width",
+      "options": [
+        { "value": "container",         "label": "Container" },
+        { "value": "full-width-padded", "label": "Full width padded" },
+        { "value": "full-width",        "label": "Full width" }
+      ],
+      "default": "full-width-padded"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top padding",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 32
+    },
+    {
+      "type": "checkbox",
+      "id": "show_divider",
+      "label": "Show section divider",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "select",
+      "id": "color_scheme",
+      "label": "Color scheme (light)",
+      "options": [
+        { "value": "none", "label": "Default" },
+        { "value": "1",    "label": "Scheme 1" },
+        { "value": "2",    "label": "Scheme 2" },
+        { "value": "3",    "label": "Scheme 3" }
+      ],
+      "default": "none"
+    },
+    {
+      "type": "color_background",
+      "id": "bg_gradient_light",
+      "label": "Background gradient (light)"
+    },
+    {
+      "type": "color",
+      "id": "countdown_text_color",
+      "label": "Countdown text (light)"
+    },
+    {
+      "type": "color",
+      "id": "countdown_timer_color",
+      "label": "Timer (light)",
+      "default": "#002B26"
+    },
+    {
+      "type": "color",
+      "id": "line_border_color",
+      "label": "Line and border (light)"
+    },
+    {
+      "type": "color",
+      "id": "timer_bg_color",
+      "label": "Timer background (light)",
+      "default": "#FFBF00"
+    },
+    {
+      "type": "select",
+      "id": "color_scheme_dark",
+      "label": "Color scheme (dark)",
+      "options": [
+        { "value": "none", "label": "Default" },
+        { "value": "1",    "label": "Scheme 1" },
+        { "value": "2",    "label": "Scheme 2" },
+        { "value": "3",    "label": "Scheme 3" }
+      ],
+      "default": "none"
+    },
+    {
+      "type": "color_background",
+      "id": "bg_gradient_dark",
+      "label": "Background gradient (dark)"
+    },
+    {
+      "type": "color",
+      "id": "countdown_text_dark",
+      "label": "Countdown text (dark)"
+    },
+    {
+      "type": "color",
+      "id": "timer_color_dark",
+      "label": "Timer (dark)"
+    },
+    {
+      "type": "color",
+      "id": "line_border_dark",
+      "label": "Line and border (dark)"
+    },
+    {
+      "type": "color",
+      "id": "timer_bg_dark",
+      "label": "Timer background (dark)"
+    },
+    {
+      "type": "checkbox",
+      "id": "full_width",
+      "label": "Make section background full width",
+      "default": true
+    }
+  ],
+  "blocks": [
+    {
+      "type": "collection",
+      "name": "Collection",
+      "settings": [
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Collection"
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading"
+        },
+        {
+          "type": "header",
+          "content": "Product cards"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_vendor",
+          "label": "Show vendor",
+          "default": true
+        },
+        {
+          "type": "checkbox",
+          "id": "show_rating",
+          "label": "Show product rating",
+          "default": false,
+          "info": "To display a rating, add a product rating app. [Learn more](https://help.shopify.com/en/manual/online-store/themes/theme-structure/page-types#product-rating)"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_quick_view",
+          "label": "Show \"Quick view\" button",
+          "default": true
+        },
+        {
+          "type": "checkbox",
+          "id": "show_labels_badges",
+          "label": "Show product labels and badges",
+          "default": true
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Featured collections",
+      "category": "Collections"
+    }
+  ],
+  "disabled_on": {
+    "templates": [
+      "password"
+    ],
+    "groups": [
+      "header",
+      "footer",
+      "aside"
+    ]
+  }
+}
+{% endschema %}

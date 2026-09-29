@@ -1,0 +1,351 @@
+{%- liquid
+  assign breakpoint_md = 769
+  assign color_scheme = section.settings.color_scheme
+  assign color_scheme_dark = section.settings.color_scheme_dark
+-%}
+
+{%- style -%}
+  #{{ section.id }} {
+    --duration: {{ section.settings.time_per_scroll }}s;
+    --direction: {{ section.settings.direction }};
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+  }
+  {%- if section.settings.show_border -%}
+    #{{ section.id }} { outline: 1px solid rgba(var(--text-color), 0.2); }
+  {%- endif -%}
+  #{{ section.id }} .scrolling-banner__item { padding-inline-end: {{ section.settings.desktop_block_spacing }}px; }
+  @media (max-width: {{ breakpoint_md }}px) {
+    #{{ section.id }} .scrolling-banner__item { padding-inline-end: {{ section.settings.mobile_block_spacing }}px; }
+  }
+  {%- for block in section.blocks -%}
+    {%- if block.settings.desktop_left_spacing > 0 or block.settings.desktop_right_spacing > 0 -%}
+      .scrolling-promo-img--{{ block.id }} {
+        padding-inline-start: {{ block.settings.desktop_left_spacing }}px;
+        padding-inline-end: {{ block.settings.desktop_right_spacing }}px;
+      }
+    {%- endif -%}
+    {%- if block.settings.mobile_left_spacing > 0 or block.settings.mobile_right_spacing > 0 -%}
+      @media (max-width: {{ breakpoint_md }}px) {
+        .scrolling-promo-img--{{ block.id }} {
+          padding-inline-start: {{ block.settings.mobile_left_spacing }}px;
+          padding-inline-end: {{ block.settings.mobile_right_spacing }}px;
+        }
+      }
+    {%- endif -%}
+  {%- endfor -%}
+  {%- unless color_scheme_dark == 'none' -%}
+    {%- if color_scheme_dark == '1' or color_scheme_dark == '2' or color_scheme_dark == '3' -%}
+      html.dark-mode #{{ section.id }} {
+        --bg-color: var(--color-scheme-{{ color_scheme_dark }}-bg);
+        --bg-grad: var(--color-scheme-{{ color_scheme_dark }}-grad, none);
+        --heading-color: var(--color-scheme-{{ color_scheme_dark }}-heading);
+        --text-color: var(--color-scheme-{{ color_scheme_dark }}-text);
+        --scrollbar-color: var(--color-scheme-{{ color_scheme_dark }}-text);
+        --swatch-border-color-active: var(--color-scheme-{{ color_scheme_dark }}-text);
+        --swatch-border-color-default: var(--color-scheme-{{ color_scheme_dark }}-text);
+        --btn-bg-color: var(--color-scheme-{{ color_scheme_dark }}-btn-bg);
+        --btn-bg-hover-color: var(--color-scheme-{{ color_scheme_dark }}-btn-bg-hover);
+        --btn-text-color: var(--color-scheme-{{ color_scheme_dark }}-btn-text);
+      }
+    {%- endif -%}
+  {%- endunless -%}
+{%- endstyle -%}
+
+{%- capture scrolling_content -%}
+  {%- for block in section.blocks -%}
+    {%- liquid
+      if block.settings.image != blank
+        assign img_width = block.settings.image_height | times: block.settings.image.aspect_ratio | ceil
+      else
+        assign img_width = block.settings.image_height | times: 1.5 | ceil
+      endif
+    -%}
+    <span class="scrolling-banner__item flex items-center" {{ block.shopify_attributes }}>
+      <span class="scrolling-promo-img--{{ block.id }}">
+        <span class="media block relative" style="width:{{ img_width }}px;height:{{ block.settings.image_height }}px;">
+          {%- if block.settings.image != blank -%}
+            {% render 'image',
+              image: block.settings.image,
+              src_width: img_width,
+              srcset_2x: true,
+              lazy_load: false
+            %}
+          {%- else -%}
+            {{ 'image' | placeholder_svg_tag: 'media__placeholder img-fit' }}
+          {%- endif -%}
+        </span>
+      </span>
+    </span>
+  {%- endfor -%}
+{%- endcapture -%}
+
+<div class="scrolling-promo{% if section.settings.pause_on_hover %} scrolling-banner--pausable{% endif %} section section--full-width overflow-hidden{% unless color_scheme == 'none' %} color-scheme color-scheme--{{ color_scheme }}{% endunless %}"
+     id="{{ section.id }}"
+     role="marquee"
+     {% if settings.animations_enabled != "disabled" and section.settings.prevent_animation == false %}data-cc-animate{% endif %}>
+  <div class="scrolling-banner__items-container flex">
+    {%- for i in (1..20) -%}
+      {%- if forloop.first -%}
+        <div class="scrolling-banner__items flex items-center has-motion">
+          {{ scrolling_content }}
+        </div>
+      {%- else -%}
+        <div class="scrolling-banner__items flex items-center has-motion" aria-hidden="true">
+          {{ scrolling_content | replace: '<a ', '<a tabindex="-1" ' }}
+        </div>
+      {%- endif -%}
+    {%- endfor -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Scrolling promotion",
+  "tag": "section",
+  "class": "cc-scrolling-promo",
+  "max_blocks": 16,
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_border",
+      "label": "Show section borders",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "Scrolling"
+    },
+    {
+      "type": "range",
+      "id": "time_per_scroll",
+      "min": 5,
+      "max": 60,
+      "step": 1,
+      "unit": "s",
+      "label": "Time per scroll",
+      "default": 20
+    },
+    {
+      "type": "select",
+      "id": "direction",
+      "label": "Direction",
+      "options": [
+        {
+          "value": "normal",
+          "label": "Right to left"
+        },
+        {
+          "value": "reverse",
+          "label": "Left to right"
+        }
+      ],
+      "default": "normal"
+    },
+    {
+      "type": "checkbox",
+      "id": "pause_on_hover",
+      "label": "Pause on hover",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Section layout"
+    },
+    {
+      "type": "range",
+      "id": "desktop_block_spacing",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Desktop block spacing",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "mobile_block_spacing",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "label": "Mobile block spacing",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 0
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "select",
+      "id": "color_scheme",
+      "label": "Color scheme (light)",
+      "options": [
+        {
+          "value": "none",
+          "label": "Default"
+        },
+        {
+          "value": "1",
+          "label": "Scheme 1"
+        },
+        {
+          "value": "2",
+          "label": "Scheme 2"
+        },
+        {
+          "value": "3",
+          "label": "Scheme 3"
+        }
+      ],
+      "default": "none"
+    },
+    {
+      "type": "select",
+      "id": "color_scheme_dark",
+      "label": "Color scheme (dark)",
+      "options": [
+        {
+          "value": "none",
+          "label": "Same as light"
+        },
+        {
+          "value": "1",
+          "label": "Scheme 1"
+        },
+        {
+          "value": "2",
+          "label": "Scheme 2"
+        },
+        {
+          "value": "3",
+          "label": "Scheme 3"
+        }
+      ],
+      "default": "none"
+    },
+    {
+      "type": "header",
+      "content": "SEO"
+    },
+    {
+      "type": "checkbox",
+      "id": "prevent_animation",
+      "label": "Load the section without animation",
+      "info": "If this section is visible when the page loads, enabling this setting can reduce CLS and may improve site speed scores. [Read more](https://cleancanvas.co.uk/support/various/performance-guide)",
+      "default": false
+    }
+  ],
+  "blocks": [
+    {
+      "type": "image",
+      "name": "Image",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "range",
+          "id": "image_height",
+          "min": 20,
+          "max": 200,
+          "step": 4,
+          "unit": "px",
+          "label": "Image height",
+          "default": 76
+        },
+        {
+          "type": "header",
+          "content": "Desktop layout"
+        },
+        {
+          "type": "range",
+          "id": "desktop_left_spacing",
+          "min": 0,
+          "max": 80,
+          "step": 4,
+          "unit": "px",
+          "label": "Left spacing",
+          "default": 0
+        },
+        {
+          "type": "range",
+          "id": "desktop_right_spacing",
+          "min": 0,
+          "max": 80,
+          "step": 4,
+          "unit": "px",
+          "label": "Right spacing",
+          "default": 0
+        },
+        {
+          "type": "header",
+          "content": "Mobile layout"
+        },
+        {
+          "type": "range",
+          "id": "mobile_left_spacing",
+          "min": 0,
+          "max": 80,
+          "step": 4,
+          "unit": "px",
+          "label": "Left spacing",
+          "default": 0
+        },
+        {
+          "type": "range",
+          "id": "mobile_right_spacing",
+          "min": 0,
+          "max": 80,
+          "step": 4,
+          "unit": "px",
+          "label": "Right spacing",
+          "default": 0
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Scrolling promotion",
+      "category": "Feature",
+      "blocks": [
+        { "type": "image" },
+        { "type": "image" },
+        { "type": "image" },
+        { "type": "image" },
+        { "type": "image" },
+        { "type": "image" },
+        { "type": "image" }
+      ]
+    }
+  ],
+  "disabled_on": {
+    "groups": [
+      "aside"
+    ]
+  }
+}
+{% endschema %}

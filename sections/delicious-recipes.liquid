@@ -1,0 +1,1029 @@
+{%- liquid
+  assign desktop_type  = section.settings.display_type_desktop
+  assign mobile_type   = section.settings.display_type_mobile
+  assign items_desktop = section.settings.items_per_row_desktop
+  assign items_tablet  = section.settings.items_per_row_tablet
+  assign items_mobile  = section.settings.items_per_row_mobile
+  assign gap           = section.settings.gap
+  assign autoplay_ms   = section.settings.autoplay_speed | times: 1000
+  assign show_arrows   = section.settings.show_arrows
+-%}
+
+{%- style -%}
+  #shopify-section-{{ section.id }} .recipe-cards {
+    --rc-items-desktop: {{ items_desktop }};
+    --rc-items-tablet:  {{ items_tablet }};
+    --rc-items-mobile:  {{ items_mobile }};
+    --rc-gap: {{ gap }}px;
+    box-sizing: border-box;
+    width: 100%;
+    padding-top:    {{ section.settings.padding_top_mobile }}px;
+    padding-bottom: {{ section.settings.padding_bottom_mobile }}px;
+    padding-left:   {{ section.settings.padding_left_mobile }}px;
+    padding-right:  {{ section.settings.padding_right_mobile }}px;
+  }
+  @media (min-width: 990px) {
+    #shopify-section-{{ section.id }} .recipe-cards {
+      padding-top:    {{ section.settings.padding_top_desktop }}px;
+      padding-bottom: {{ section.settings.padding_bottom_desktop }}px;
+      padding-left:   {{ section.settings.padding_left_desktop }}px;
+      padding-right:  {{ section.settings.padding_right_desktop }}px;
+    }
+  }
+{%- endstyle -%}
+
+<div class="container">
+  <div class="recipe-cards"
+       data-desktop-type="{{ desktop_type }}"
+       data-mobile-type="{{ mobile_type }}"
+       id="recipe-section-{{ section.id }}">
+
+    {%- if section.settings.heading != blank or section.settings.more_info_text != blank -%}
+      <div class="recipe-cards__header">
+        {%- if section.settings.heading != blank -%}
+          <h2 class="recipe-cards__heading">{{ section.settings.heading | escape }}</h2>
+        {%- endif -%}
+        {%- if section.settings.more_info_text != blank -%}
+          <a href="{{ section.settings.more_info_url | default: '#' }}" class="recipe-cards__more-info">
+            {{- section.settings.more_info_text | escape -}}
+          </a>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    <div class="recipe-cards__outer">
+
+      {%- if show_arrows and section.blocks.size > 0 -%}
+
+      {%- endif -%}
+
+      <ul class="recipe-cards__track" id="recipe-track-{{ section.id }}" role="list">
+        {%- for block in section.blocks -%}
+          <li class="recipe-card" {{ block.shopify_attributes }}>
+
+          <div class="recipe-card__image-wrap">
+            {%- if block.settings.main_image != blank -%}
+              {%- render 'image',
+                image: block.settings.main_image,
+                widths: '300, 400, 600',
+                src_width: 400,
+                class: 'recipe-card__img'
+              -%}
+            {%- else -%}
+              {{- 'image' | placeholder_svg_tag: 'recipe-card__img recipe-card__img--ph' -}}
+            {%- endif -%}
+          </div>
+
+          {%- if block.settings.title != blank -%}
+            <h3 class="recipe-card__title">{{ block.settings.title | escape }}</h3>
+          {%- endif -%}
+
+          {%- liquid
+            assign has_time = false
+            if block.settings.prep_time != blank or block.settings.total_time != blank
+              assign has_time = true
+            elsif block.settings.hide_cook_time == false and block.settings.cook_time != blank
+              assign has_time = true
+            endif
+          -%}
+          {%- if has_time -%}
+            <div class="recipe-card__time">
+              {%- if block.settings.prep_time != blank -%}
+                <div class="recipe-card__time-col">
+                  <span class="recipe-card__time-label">{{ block.settings.prep_label | default: 'Prep:' | escape }}</span>
+                  <span class="recipe-card__time-value">{{ block.settings.prep_time | escape }}</span>
+                </div>
+              {%- endif -%}
+              {%- unless block.settings.hide_cook_time -%}
+                {%- if block.settings.cook_time != blank -%}
+                  <div class="recipe-card__time-col">
+                    <span class="recipe-card__time-label">{{ block.settings.cook_label | default: 'Cook:' | escape }}</span>
+                    <span class="recipe-card__time-value">{{ block.settings.cook_time | escape }}</span>
+                  </div>
+                {%- endif -%}
+              {%- endunless -%}
+              {%- if block.settings.total_time != blank -%}
+                <div class="recipe-card__time-col">
+                  <span class="recipe-card__time-label">{{ block.settings.total_label | default: 'Total:' | escape }}</span>
+                  <span class="recipe-card__time-value">{{ block.settings.total_time | escape }}</span>
+                </div>
+              {%- endif -%}
+            </div>
+          {%- endif -%}
+
+          <div class="recipe-card__ingredients">
+            {%- for i in (1..4) -%}
+              {%- liquid
+                assign key     = 'ingredient_image_' | append: i
+                assign ing_img = block.settings[key]
+              -%}
+              <div class="recipe-card__ingredient">
+                {%- if ing_img != blank -%}
+                  {%- render 'image', image: ing_img, widths: '80, 100', src_width: 80, class: 'recipe-card__ingredient-img' -%}
+                {%- else -%}
+                  {{- 'image' | placeholder_svg_tag: 'recipe-card__ingredient-img recipe-card__ingredient-img--ph' -}}
+                {%- endif -%}
+              </div>
+            {%- endfor -%}
+          </div>
+
+          <div class="recipe-card__nutrition">
+            {%- if block.settings.nutrition_heading != blank -%}
+              <p class="recipe-card__nutrition-head">{{ block.settings.nutrition_heading | escape }}</p>
+            {%- endif -%}
+            {%- if block.settings.calories != blank -%}
+              <p class="recipe-card__nutrition-item">- {{ block.settings.calories | escape }}</p>
+            {%- endif -%}
+            {%- if block.settings.fat != blank -%}
+              <p class="recipe-card__nutrition-item">- {{ block.settings.fat | escape }}</p>
+            {%- endif -%}
+            {%- if block.settings.carbs != blank -%}
+              <p class="recipe-card__nutrition-item">- {{ block.settings.carbs | escape }}</p>
+            {%- endif -%}
+            {%- if block.settings.protein != blank -%}
+              <p class="recipe-card__nutrition-item">- {{ block.settings.protein | escape }}</p>
+            {%- endif -%}
+          </div>
+
+          {%- if block.settings.button_text != blank -%}
+            <div class="recipe-card__btn-wrap">
+              <a href="{{ block.settings.button_url | default: '#' }}"
+                 class="recipe-card__btn"
+                 {%- if block.settings.button_url == blank %} aria-disabled="true"{%- endif -%}>
+                {{- block.settings.button_text | escape -}}
+              </a>
+            </div>
+          {%- endif -%}
+
+          </li>
+        {%- endfor -%}
+      </ul>
+
+      {%- if show_arrows and section.blocks.size > 0 -%}
+
+      {%- endif -%}
+
+    </div>
+
+    {%- if section.blocks.size > 0 -%}
+      <div class="recipe-slider-pagination">
+
+        <button
+            class="recipe-cards__arrow recipe-cards__arrow--prev"
+            type="button"
+            aria-label="Previous"
+            data-recipe-prev="{{ section.id }}">
+            {% render 'icon-chevron-left' %}
+        </button>
+
+
+        <div class="recipe-progress">
+            <div class="recipe-progress-bar"></div>
+        </div>
+
+        <button
+            class="recipe-cards__arrow recipe-cards__arrow--next"
+            type="button"
+            aria-label="Next"
+            data-recipe-next="{{ section.id }}">
+            {% render 'icon-chevron-right' %}
+        </button>
+
+      </div>
+    {%- endif -%}
+  </div>
+
+</div>
+
+<style>
+/* ════════════════════════════════════════════════
+   Delicious Recipes — static visual styles
+   (layout values come from schema via CSS vars)
+   ════════════════════════════════════════════════ */
+
+/* ── Section header ── */
+.recipe-cards__header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+.recipe-cards__heading {
+  font-size: clamp(1.4rem, 2.5vw, 2rem);
+  font-weight: 700;
+  margin: 0;
+  line-height: 1.2;
+}
+.recipe-cards__more-info {
+  font-size: 1.5rem;
+  color: #999;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: color 0.2s;
+}
+.recipe-cards__more-info:hover { color: #555; }
+
+/* ── Outer wrapper (anchors the nav arrows) ── */
+{% comment %} .recipe-cards__outer {
+  position: relative;
+} {% endcomment %}
+
+/* ── Track: default = mobile grid ── */
+.recipe-cards__track {
+  display: grid;
+  grid-template-columns: repeat(var(--rc-items-mobile, 1), 1fr);
+  gap: var(--rc-gap, 16px);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* Tablet grid columns */
+@media (min-width: 769px) and (max-width: 989px) {
+  .recipe-cards[data-mobile-type="grid"] .recipe-cards__track {
+    grid-template-columns: repeat(var(--rc-items-tablet, 3), 1fr);
+  }
+}
+
+/* Desktop grid columns */
+@media (min-width: 990px) {
+  .recipe-cards[data-desktop-type="grid"] .recipe-cards__track {
+    grid-template-columns: repeat(var(--rc-items-desktop, 5), 1fr);
+  }
+}
+
+/* ── Mobile carousel ── */
+@media (max-width: 989px) {
+  .recipe-cards[data-mobile-type="carousel"] .recipe-cards__track {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    scroll-behavior: smooth;
+  }
+  .recipe-cards[data-mobile-type="carousel"] .recipe-cards__track::-webkit-scrollbar {
+    display: none;
+  }
+  .recipe-cards[data-mobile-type="carousel"] .recipe-card {
+    flex: 0 0 calc(
+      (100% - (var(--rc-items-mobile, 1) - 1) * var(--rc-gap, 16px)) /
+      var(--rc-items-mobile, 1)
+    );
+    scroll-snap-align: start;
+  }
+}
+
+/* ── Desktop carousel ── */
+@media (min-width: 990px) {
+  .recipe-cards[data-desktop-type="carousel"] .recipe-cards__track {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    scroll-behavior: smooth;
+  }
+  .recipe-cards[data-desktop-type="carousel"] .recipe-cards__track::-webkit-scrollbar {
+    display: none;
+  }
+  .recipe-cards[data-desktop-type="carousel"] .recipe-card {
+    flex: 0 0 calc(
+      (100% - (var(--rc-items-desktop, 5) - 1) * var(--rc-gap, 16px)) /
+      var(--rc-items-desktop, 5)
+    );
+    scroll-snap-align: start;
+  }
+}
+
+/* ── Recipe card ── */
+.recipe-card {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+/* ── Main image ── */
+.recipe-card__image-wrap {
+  width: 100%;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #e5e5e0;
+  aspect-ratio: 4 / 3;
+  margin-bottom: 10px;
+  flex-shrink: 0;
+}
+.recipe-card__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.recipe-card__img--ph {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+.recipe-card__image-wrap svg,
+.recipe-card__img--ph svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* ── Title ── */
+.recipe-card__title {
+  font-size: 16px;
+  font-weight: 700;
+  margin: 0 0 8px;
+  line-height: 1.3;
+  color: inherit;
+}
+
+/* ── Time box ── */
+.recipe-card__time {
+  display: inline-flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  background: #f0ead8;
+  border-radius: 4px;
+  padding: 6px 10px;
+  margin-bottom: 10px;
+  width: fit-content;
+}
+.recipe-card__time-col {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  min-width: 0;
+}
+.recipe-card__time-label {
+  font-size: 13px;
+  color: #555;
+  line-height: 1.2;
+}
+.recipe-card__time-value {
+  font-size: 11px;
+  font-weight: 700;
+  color: #1a1a1a;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+/* ── Ingredient thumbnails ── */
+.recipe-card__ingredients {
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
+.recipe-card__ingredient {
+  width: 60px;
+  height: 60px;
+  border-radius: 6px;
+  overflow: hidden;
+  background: #d4d4ce;
+  flex-shrink: 0;
+}
+.recipe-card__ingredient-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.recipe-card__ingredient svg,
+.recipe-card__ingredient-img--ph svg,
+svg.recipe-card__ingredient-img--ph {
+  width: 100% !important;
+  height: 100% !important;
+  display: block;
+}
+
+/* ── Nutrition facts ── */
+.recipe-card__nutrition {
+  flex: 1;
+  margin-bottom: 8px;
+}
+.recipe-card__nutrition-head {
+  font-size: 14px;
+  font-weight: 600;
+  color: black;
+  margin: 0 0 3px;
+  line-height: 1.4;
+}
+.recipe-card__nutrition-item {
+  font-size: 14px;
+  color: #6b6b3a;
+  margin: 0;
+  line-height: 1.55;
+}
+
+/* ── View Recipe link ── */
+.recipe-card__btn-wrap {
+  margin-top: auto;
+  padding-top: 8px;
+}
+.recipe-card__btn {
+  font-size: 14px;
+  color: #888;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: color 0.2s;
+}
+.recipe-card__btn:hover {
+  color: #333;
+}
+
+.recipe-slider-pagination{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:20px;
+    margin-top:30px;
+}
+
+.recipe-cards__arrow{
+    width:40px;
+    height:40px;
+    border:none;
+    background:transparent;
+    cursor:pointer;
+    color:#999;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.recipe-cards__arrow:hover{
+    color:#222;
+}
+
+.recipe-progress{
+    width:150px;
+    height:4px;
+    background:#ddd;
+    border-radius:50px;
+    overflow:hidden;
+    position:relative;
+}
+
+.recipe-progress-bar{
+    position:absolute;
+    left:0;
+    top:0;
+    width:100%;
+    height:100%;
+    background:#444;
+    border-radius:50px;
+    transform-origin:left center;
+    transform:scaleX(0);
+    transition:transform .3s ease;
+}
+
+.recipe-cards__dots{
+    display:flex;
+    gap:8px;
+    align-items:center;
+}
+
+.recipe-cards__dot{
+    width:10px;
+    height:10px;
+    border-radius:50%;
+    background:#ddd;
+    border:none;
+    cursor:pointer;
+    transition:background .2s ease, transform .2s ease;
+    padding:0;
+}
+
+.recipe-cards__dot.is-active{
+    background:#444;
+    transform:scale(1.1);
+}
+
+.recipe-cards__arrow svg{
+    width:18px;
+    height:18px;
+}
+</style>
+
+<script>
+(function () {
+  var SID            = '{{ section.id }}';
+  var AUTOPLAY_MS    = {{ autoplay_ms }};
+  var ITEMS_DESKTOP  = {{ items_desktop }};
+  var ITEMS_MOBILE   = {{ items_mobile }};
+  var GAP_PX         = {{ gap }};
+  var DESKTOP_TYPE   = '{{ desktop_type }}';
+  var MOBILE_TYPE    = '{{ mobile_type }}';
+
+  var section    = document.getElementById('recipe-section-' + SID);
+  var track      = document.getElementById('recipe-track-' + SID);
+  var pagination = section && section.querySelector('.recipe-slider-pagination');
+  var dotsWrap   = document.getElementById('recipe-dots-' + SID);
+  var prevBtn    = section && section.querySelector('[data-recipe-prev="' + SID + '"]');
+  var nextBtn    = section && section.querySelector('[data-recipe-next="' + SID + '"]');
+
+  if (!section || !track) return;
+
+  var cards = Array.from(track.querySelectorAll('.recipe-card'));
+  if (!cards.length) return;
+
+  var autoplayTimer = null;
+
+  function isDesktop()       { return window.innerWidth >= 990; }
+  function isCarouselActive(){ return isDesktop() ? DESKTOP_TYPE === 'carousel' : MOBILE_TYPE === 'carousel'; }
+  function visibleCount()    { return Math.max(1, isDesktop() ? ITEMS_DESKTOP : ITEMS_MOBILE); }
+  function totalPages()      { return Math.max(1, Math.ceil(cards.length / visibleCount())); }
+
+  function pageOffsets() {
+    var pages = totalPages();
+    var offsets = [];
+    for (var i = 0; i < pages; i++) {
+      var index = Math.min(i * visibleCount(), cards.length - 1);
+      offsets.push(cards[index].offsetLeft);
+    }
+    return offsets;
+  }
+
+  function currentPageIndex() {
+    if (!cards[0] || !isCarouselActive()) return 0;
+    var offsets = pageOffsets();
+    var scrollLeft = track.scrollLeft;
+    var closest = 0;
+    var smallestDistance = Infinity;
+    offsets.forEach(function (offset, index) {
+      var distance = Math.abs(scrollLeft - offset);
+      if (distance < smallestDistance) {
+        smallestDistance = distance;
+        closest = index;
+      }
+    });
+    return closest;
+  }
+
+  function scrollToPage(page) {
+    var targetPage = Math.max(0, Math.min(page, totalPages() - 1));
+    var index = Math.min(targetPage * visibleCount(), cards.length - 1);
+    var card = cards[index];
+    if (!card) return;
+    track.scrollTo({ left: card.offsetLeft, behavior: 'smooth' });
+    updatePagination();
+  }
+
+  function updatePagination() {
+    var page = currentPageIndex();
+    var pages = totalPages();
+    if (pagination) {
+      pagination.style.display = isCarouselActive() && pages > 1 ? 'flex' : 'none';
+    }
+    if (dotsWrap) {
+      var dots = dotsWrap.querySelectorAll('.recipe-cards__dot');
+      dots.forEach(function (d, i) { d.classList.toggle('is-active', i === page); });
+    }
+    var progressBar = section.querySelector('.recipe-progress-bar');
+    if (progressBar) {
+      var progress = pages > 1 ? ((page + 1) / pages) : 0;
+      progressBar.style.transform = 'scaleX(' + progress + ')';
+    }
+  }
+
+  /* ── Dots ── */
+  function buildDots() {
+    if (!dotsWrap) return;
+    dotsWrap.innerHTML = '';
+    if (!isCarouselActive()) return;
+
+    var pages = totalPages();
+    if (pages <= 1) return;
+
+    for (var i = 0; i < pages; i++) {
+      var dot = document.createElement('button');
+      dot.type = 'button';
+      dot.className = 'recipe-cards__dot' + (i === 0 ? ' is-active' : '');
+      dot.setAttribute('aria-label', 'Go to slide group ' + (i + 1));
+      dot.dataset.page = i;
+      dot.addEventListener('click', onDotClick);
+      dotsWrap.appendChild(dot);
+    }
+  }
+
+  function onDotClick() {
+    scrollToPage(parseInt(this.dataset.page, 10));
+    resetAutoplay();
+  }
+
+  /* ── Prev / Next ── */
+  if (prevBtn) {
+    prevBtn.addEventListener('click', function () {
+      var page = currentPageIndex();
+      scrollToPage(page <= 0 ? totalPages() - 1 : page - 1);
+      resetAutoplay();
+    });
+  }
+
+  if (nextBtn) {
+    nextBtn.addEventListener('click', function () {
+      var page = currentPageIndex();
+      scrollToPage(page + 1 >= totalPages() ? 0 : page + 1);
+      resetAutoplay();
+    });
+  }
+
+  /* ── Autoplay ── */
+  function startAutoplay() {
+    if (!AUTOPLAY_MS) return;
+    clearInterval(autoplayTimer);
+    autoplayTimer = setInterval(function () {
+      if (!isCarouselActive()) return;
+      var page = currentPageIndex();
+      scrollToPage(page + 1 >= totalPages() ? 0 : page + 1);
+    }, AUTOPLAY_MS);
+  }
+
+  function resetAutoplay() { clearInterval(autoplayTimer); startAutoplay(); }
+
+  track.addEventListener('scroll', updatePagination, { passive: true });
+
+  var resizeTimer;
+  window.addEventListener('resize', function () {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(function () {
+      buildDots();
+      updatePagination();
+      resetAutoplay();
+    }, 200);
+  });
+
+  buildDots();
+  updatePagination();
+  startAutoplay();
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Delicious Recipes",
+  "class": "cc-recipe-cards",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section header"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Recipes, Events & More"
+    },
+    {
+      "type": "text",
+      "id": "more_info_text",
+      "label": "More info label",
+      "default": "More Info"
+    },
+    {
+      "type": "url",
+      "id": "more_info_url",
+      "label": "More info link"
+    },
+    {
+      "type": "header",
+      "content": "Display"
+    },
+    {
+      "type": "select",
+      "id": "display_type_desktop",
+      "label": "Display type (Desktop)",
+      "options": [
+        { "value": "grid",     "label": "Grid" },
+        { "value": "carousel", "label": "Carousel" }
+      ],
+      "default": "grid"
+    },
+    {
+      "type": "select",
+      "id": "display_type_mobile",
+      "label": "Display type (Mobile)",
+      "options": [
+        { "value": "grid",     "label": "Grid" },
+        { "value": "carousel", "label": "Carousel" }
+      ],
+      "default": "carousel"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "items_per_row_desktop",
+      "min": 1,
+      "max": 6,
+      "step": 1,
+      "label": "Items per row (Desktop)",
+      "default": 5
+    },
+    {
+      "type": "range",
+      "id": "items_per_row_tablet",
+      "min": 1,
+      "max": 4,
+      "step": 1,
+      "label": "Items per row (Tablet)",
+      "default": 3
+    },
+    {
+      "type": "range",
+      "id": "items_per_row_mobile",
+      "min": 1,
+      "max": 3,
+      "step": 1,
+      "label": "Items per row (Mobile)",
+      "default": 2
+    },
+    {
+      "type": "header",
+      "content": "Carousel behavior"
+    },
+    {
+      "type": "range",
+      "id": "autoplay_speed",
+      "min": 0,
+      "max": 10,
+      "step": 1,
+      "unit": "s",
+      "label": "Auto-play every",
+      "default": 5,
+      "info": "Leave 0 to disable auto-play"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_arrows",
+      "label": "Show navigation arrows",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "gap",
+      "min": 0,
+      "max": 48,
+      "step": 2,
+      "unit": "px",
+      "label": "Gap",
+      "default": 16
+    },
+    {
+      "type": "header",
+      "content": "Padding — Desktop"
+    },
+    {
+      "type": "range",
+      "id": "padding_top_desktop",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Top",
+      "default": 8
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_desktop",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_left_desktop",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Left",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_right_desktop",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Right",
+      "default": 0
+    },
+    {
+      "type": "header",
+      "content": "Padding — Mobile"
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Top",
+      "default": 8
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_left_mobile",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Left",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_right_mobile",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Right",
+      "default": 0
+    }
+  ],
+  "blocks": [
+    {
+      "type": "recipe",
+      "name": "Recipe",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "main_image",
+          "label": "Main image"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Recipe title",
+          "default": "Garlic Noodles"
+        },
+        {
+          "type": "header",
+          "content": "Time"
+        },
+        {
+          "type": "text",
+          "id": "prep_label",
+          "label": "Prep label",
+          "default": "Prep:"
+        },
+        {
+          "type": "text",
+          "id": "prep_time",
+          "label": "Prep time",
+          "default": "15 mins"
+        },
+        {
+          "type": "checkbox",
+          "id": "hide_cook_time",
+          "label": "Hide cook time",
+          "default": false
+        },
+        {
+          "type": "text",
+          "id": "cook_label",
+          "label": "Cook label",
+          "default": "Cook:",
+          "visible_if": "{{ block.settings.hide_cook_time == false }}"
+        },
+        {
+          "type": "text",
+          "id": "cook_time",
+          "label": "Cook time",
+          "default": "20 mins",
+          "visible_if": "{{ block.settings.hide_cook_time == false }}"
+        },
+        {
+          "type": "text",
+          "id": "total_label",
+          "label": "Total label",
+          "default": "Total:"
+        },
+        {
+          "type": "text",
+          "id": "total_time",
+          "label": "Total time",
+          "default": "35 mins"
+        },
+        {
+          "type": "header",
+          "content": "Ingredient thumbnails"
+        },
+        {
+          "type": "image_picker",
+          "id": "ingredient_image_1",
+          "label": "Ingredient image 1"
+        },
+        {
+          "type": "image_picker",
+          "id": "ingredient_image_2",
+          "label": "Ingredient image 2"
+        },
+        {
+          "type": "image_picker",
+          "id": "ingredient_image_3",
+          "label": "Ingredient image 3"
+        },
+        {
+          "type": "image_picker",
+          "id": "ingredient_image_4",
+          "label": "Ingredient image 4"
+        },
+        {
+          "type": "header",
+          "content": "Nutrition facts"
+        },
+        {
+          "type": "text",
+          "id": "nutrition_heading",
+          "label": "Nutrition heading",
+          "default": "Nutrition Facts (per serving):"
+        },
+        {
+          "type": "text",
+          "id": "calories",
+          "label": "Calories",
+          "default": "600 Calories"
+        },
+        {
+          "type": "text",
+          "id": "fat",
+          "label": "Fat",
+          "default": "28g Fat"
+        },
+        {
+          "type": "text",
+          "id": "carbs",
+          "label": "Carbs",
+          "default": "70g Carbs"
+        },
+        {
+          "type": "text",
+          "id": "protein",
+          "label": "Protein",
+          "default": "17g Protein"
+        },
+        {
+          "type": "header",
+          "content": "Button"
+        },
+        {
+          "type": "text",
+          "id": "button_text",
+          "label": "Button text",
+          "default": "View Recipe"
+        },
+        {
+          "type": "url",
+          "id": "button_url",
+          "label": "Button link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Delicious Recipes",
+      "category": "Recipes",
+      "blocks": [
+        { "type": "recipe" },
+        { "type": "recipe" },
+        { "type": "recipe" },
+        { "type": "recipe" },
+        { "type": "recipe" }
+      ]
+    }
+  ],
+  "disabled_on": {
+    "groups": ["header", "footer", "aside"]
+  }
+}
+{% endschema %}

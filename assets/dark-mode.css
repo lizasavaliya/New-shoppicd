@@ -1,0 +1,126 @@
+/* ============================================
+   DARK MODE — PILL TOGGLE SWITCH
+   Track: 56×30px  |  Thumb: 26×26px
+   Icons are fixed on the track; thumb slides over them.
+
+   Dark mode  → thumb LEFT  (covers moon, sun visible right)
+   Light mode → thumb RIGHT (covers sun,  moon visible left)
+   ============================================ */
+
+/* Widen the button to fit the pill without clipping */
+.dark-mode-toggle.header__icon {
+  width: auto;
+  min-width: 44px;
+  padding: 0 8px;
+}
+
+/* ── Pill track ── */
+.dark-mode-toggle__track {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  width: 56px;
+  height: 30px;
+  background-color: #ebebeb;
+  border-radius: 15px;
+  border: 1.5px solid #d4d4d4;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.08);
+  transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+html.dark-mode .dark-mode-toggle__track {
+  background-color: #242424;
+  border-color: #484848;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+/* ── Fixed icons on the track ──
+   Moon sits in the LEFT zone (center ≈ x15).
+   Sun  sits in the RIGHT zone (center ≈ x41).
+   The thumb slides over whichever icon represents the current mode,
+   revealing the other icon — the one you'll switch TO on next click. */
+.dark-mode-toggle__icon {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  line-height: 0;
+  z-index: 1;
+}
+
+.dark-mode-toggle__icon .icon--moon,
+.dark-mode-toggle__icon .icon--sun {
+  width: 13px;
+  height: 13px;
+  color: #777777;
+  transition: color 0.3s ease;
+}
+
+html.dark-mode .dark-mode-toggle__icon .icon--moon,
+html.dark-mode .dark-mode-toggle__icon .icon--sun {
+  color: #aaaaaa;
+}
+
+/* Moon on the left zone, centred at x=15 (icon 13px → left:8px) */
+.dark-mode-toggle__icon--moon { left: 8px; }
+
+/* Sun on the right zone, centred at x=41 (icon 13px → right:8px) */
+.dark-mode-toggle__icon--sun  { right: 8px; }
+
+/* ── Sliding thumb ──
+   Size: 26×26px, 2px padding from edge.
+   RIGHT (light mode):  left:2px + translateX(26px) = left:28px → covers sun zone
+   LEFT  (dark mode):   left:2px + translateX(0)    = left:2px  → covers moon zone */
+.dark-mode-toggle__thumb {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  z-index: 2;
+  width: 26px;
+  height: 26px;
+  background-color: #ffffff;
+  border-radius: 50%;
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.22), 0 0.5px 1.5px rgba(0, 0, 0, 0.12);
+  /* Default = dark mode: thumb sits LEFT, covering the moon */
+  transform: translateX(0);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+              background-color 0.3s ease,
+              box-shadow 0.3s ease;
+}
+
+/* Light mode: thumb slides RIGHT, covering the sun */
+html:not(.dark-mode) .dark-mode-toggle__thumb {
+  transform: translateX(26px);
+}
+
+/* Dark mode: thumb rests LEFT, covering the moon */
+html.dark-mode .dark-mode-toggle__thumb {
+  transform: translateX(0);
+  background-color: #f0f0f0;
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.4), 0 0.5px 1.5px rgba(0, 0, 0, 0.2);
+}
+
+/* ============================================
+   DARK MODE — COLOR VARIABLES
+   All colour variables are now output by the
+   {%- style -%} block in layout/theme.liquid,
+   reading from the "Dark Mode" theme settings.
+   Edit colours in Shopify → Customize → Theme settings → Dark Mode.
+   ============================================ */
+
+/* Subtle image dimming + restore on hover */
+html.dark-mode img:not([src*="data:"]) {
+  opacity: 0.88;
+  transition: opacity 0.2s ease;
+}
+
+html.dark-mode img:not([src*="data:"]):hover {
+  opacity: 1;
+}
+
+/* Text selection colour */
+html.dark-mode ::selection {
+  background: rgba(13, 137, 62, 0.4);
+  color: #ffffff;
+}

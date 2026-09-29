@@ -1,0 +1,1796 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "slideshow_rHwdfJ": {
+      "type": "slideshow",
+      "blocks": {
+        "slide_qREqbk": {
+          "type": "slide",
+          "settings": {
+            "overlay_opacity": 0,
+            "url": "",
+            "subheading": "BBQ's made easy",
+            "heading": "A licence to grill!",
+            "heading_size": "h0",
+            "heading_tag": "h2",
+            "text": "<p>Welcome to flavor town</p>",
+            "enlarge_text": true,
+            "highlight_effect": "underline",
+            "text_transform": "none",
+            "button_1_label": "Shop Meat & Fish",
+            "button_1_link": "",
+            "button_1_new_tab": false,
+            "button_1_style": "btn btn--primary",
+            "button_2_label": "Fresh Vegetables",
+            "button_2_link": "",
+            "button_2_style": "btn btn--primary",
+            "overlay_position": "justify-start items-center",
+            "overlay_text_align": "text-start",
+            "mob_center_text": true,
+            "promo_1_product": "",
+            "promo_2_product": "",
+            "color_scheme_slide": "none",
+            "color_scheme_slide_dark": "none",
+            "transparent_content_color": "#ffffff",
+            "countdown_show": false,
+            "countdown_end_date": "",
+            "countdown_end_time": "",
+            "countdown_end_text": "",
+            "enlarge_end_text": false,
+            "countdown_hide_on_end": false,
+            "countdown_border_radius": 6,
+            "use_custom_colors": true,
+            "count_color": "#333333",
+            "count_border_color": "",
+            "bg_color": "#fcca2c",
+            "bg_grad": ""
+          }
+        },
+        "slide_rfrEJW": {
+          "type": "slide",
+          "settings": {
+            "overlay_opacity": 0,
+            "url": "",
+            "subheading": "Shrimply the best",
+            "heading": "Catch of the day!",
+            "heading_size": "h0",
+            "heading_tag": "h2",
+            "text": "<p>Fresh & sustainably caught</p>",
+            "enlarge_text": true,
+            "highlight_effect": "underline",
+            "text_transform": "none",
+            "button_1_label": "Shop Seafood",
+            "button_1_link": "",
+            "button_1_new_tab": false,
+            "button_1_style": "btn btn--primary",
+            "button_2_label": "Fresh Ingredients",
+            "button_2_link": "",
+            "button_2_style": "btn btn--primary",
+            "overlay_position": "justify-start items-center",
+            "overlay_text_align": "text-start",
+            "mob_center_text": true,
+            "promo_1_product": "",
+            "promo_2_product": "",
+            "color_scheme_slide": "none",
+            "color_scheme_slide_dark": "none",
+            "transparent_content_color": "#ffffff",
+            "countdown_show": false,
+            "countdown_end_date": "",
+            "countdown_end_time": "",
+            "countdown_end_text": "",
+            "enlarge_end_text": false,
+            "countdown_hide_on_end": false,
+            "countdown_border_radius": 6,
+            "use_custom_colors": false,
+            "count_color": "#ffffff",
+            "count_border_color": "",
+            "bg_color": "#070707",
+            "bg_grad": ""
+          }
+        },
+        "slide_FHY8Ct": {
+          "type": "slide",
+          "settings": {
+            "overlay_opacity": 0,
+            "url": "",
+            "subheading": "Tasty & authentic",
+            "heading": "A pizza the action!",
+            "heading_size": "h0",
+            "heading_tag": "h2",
+            "text": "<p>Made the traditional way</p>",
+            "enlarge_text": true,
+            "highlight_effect": "underline",
+            "text_transform": "none",
+            "button_1_label": "Shop Cheese & Dairy",
+            "button_1_link": "",
+            "button_1_new_tab": false,
+            "button_1_style": "btn btn--primary",
+            "button_2_label": "Store Cupboard",
+            "button_2_link": "",
+            "button_2_style": "btn btn--primary",
+            "overlay_position": "justify-start items-center",
+            "overlay_text_align": "text-start",
+            "mob_center_text": true,
+            "promo_1_product": "",
+            "promo_2_product": "",
+            "color_scheme_slide": "none",
+            "color_scheme_slide_dark": "none",
+            "transparent_content_color": "#ffffff",
+            "countdown_show": false,
+            "countdown_end_date": "",
+            "countdown_end_time": "",
+            "countdown_end_text": "",
+            "enlarge_end_text": false,
+            "countdown_hide_on_end": false,
+            "countdown_border_radius": 6,
+            "use_custom_colors": false,
+            "count_color": "#ffffff",
+            "count_border_color": "",
+            "bg_color": "#070707",
+            "bg_grad": ""
+          }
+        }
+      },
+      "block_order": [
+        "slide_qREqbk",
+        "slide_rfrEJW",
+        "slide_FHY8Ct"
+      ],
+      "settings": {
+        "autoplay_speed": 6,
+        "pause_on_hover": true,
+        "show_arrows": true,
+        "nav_style": "number_bar",
+        "pagination_color": "#ffffff",
+        "transition": "slide-fade",
+        "fixed_height_desktop": 480,
+        "section_width": "full",
+        "fixed_height_mobile": 420,
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "color_scheme": "white",
+        "color_scheme_dark": "white",
+        "tint_color": "#6dae1e",
+        "tint_opacity": 0,
+        "accessibility_info": "",
+        "slider_pause": false,
+        "prevent_animation": true
+      }
+    },
+    "scrolling_promotion_RfFpEc": {
+      "type": "scrolling-promotion",
+      "blocks": {
+        "image_MiUrkT": {
+          "type": "image",
+          "settings": {
+            "image_height": 76,
+            "desktop_left_spacing": 0,
+            "desktop_right_spacing": 0,
+            "mobile_left_spacing": 0,
+            "mobile_right_spacing": 0
+          }
+        },
+        "image_mMwgAf": {
+          "type": "image",
+          "settings": {
+            "image_height": 76,
+            "desktop_left_spacing": 0,
+            "desktop_right_spacing": 0,
+            "mobile_left_spacing": 0,
+            "mobile_right_spacing": 0
+          }
+        },
+        "image_JjdkpE": {
+          "type": "image",
+          "settings": {
+            "image_height": 76,
+            "desktop_left_spacing": 0,
+            "desktop_right_spacing": 0,
+            "mobile_left_spacing": 0,
+            "mobile_right_spacing": 0
+          }
+        },
+        "image_WMKCt3": {
+          "type": "image",
+          "settings": {
+            "image_height": 76,
+            "desktop_left_spacing": 0,
+            "desktop_right_spacing": 0,
+            "mobile_left_spacing": 0,
+            "mobile_right_spacing": 0
+          }
+        },
+        "image_xyTVqC": {
+          "type": "image",
+          "settings": {
+            "image_height": 76,
+            "desktop_left_spacing": 0,
+            "desktop_right_spacing": 0,
+            "mobile_left_spacing": 0,
+            "mobile_right_spacing": 0
+          }
+        },
+        "image_xVzAqi": {
+          "type": "image",
+          "settings": {
+            "image_height": 76,
+            "desktop_left_spacing": 0,
+            "desktop_right_spacing": 0,
+            "mobile_left_spacing": 0,
+            "mobile_right_spacing": 0
+          }
+        },
+        "image_9Nrphj": {
+          "type": "image",
+          "settings": {
+            "image_height": 76,
+            "desktop_left_spacing": 0,
+            "desktop_right_spacing": 0,
+            "mobile_left_spacing": 0,
+            "mobile_right_spacing": 0
+          }
+        }
+      },
+      "block_order": [
+        "image_MiUrkT",
+        "image_mMwgAf",
+        "image_JjdkpE",
+        "image_WMKCt3",
+        "image_xyTVqC",
+        "image_xVzAqi",
+        "image_9Nrphj"
+      ],
+      "name": "Scrolling promotion",
+      "settings": {
+        "show_border": false,
+        "time_per_scroll": 20,
+        "direction": "normal",
+        "pause_on_hover": true,
+        "desktop_block_spacing": 60,
+        "mobile_block_spacing": 40,
+        "padding_top": 40,
+        "padding_bottom": 40,
+        "color_scheme": "none",
+        "color_scheme_dark": "none",
+        "prevent_animation": false
+      }
+    },
+    "collection-list": {
+      "type": "collection-list",
+      "blocks": {
+        "collection-0": {
+          "type": "collection",
+          "settings": {
+            "collection": ""
+          }
+        },
+        "collection-1": {
+          "type": "collection",
+          "settings": {
+            "collection": ""
+          }
+        },
+        "collection-2": {
+          "type": "collection",
+          "settings": {
+            "collection": ""
+          }
+        },
+        "collection_BDhAaX": {
+          "type": "collection",
+          "settings": {
+            "collection": ""
+          }
+        },
+        "collection-3": {
+          "type": "collection",
+          "settings": {
+            "collection": ""
+          }
+        },
+        "ab597d7f-3238-46e5-866a-aeb8739d42dc": {
+          "type": "collection",
+          "settings": {
+            "collection": ""
+          }
+        },
+        "collection-6": {
+          "type": "collection",
+          "settings": {
+            "collection": ""
+          }
+        },
+        "1e19a769-1fef-4a39-b92b-a21743df7807": {
+          "type": "collection",
+          "settings": {
+            "collection": ""
+          }
+        },
+        "6293ae32-73a5-444b-9594-15fb43c8eefe": {
+          "type": "collection",
+          "settings": {
+            "collection": ""
+          }
+        },
+        "collection_zata6w": {
+          "type": "collection",
+          "settings": {
+            "collection": ""
+          }
+        },
+        "collection_Lg8PXm": {
+          "type": "collection",
+          "settings": {
+            "collection": ""
+          }
+        },
+        "collection_rFVhAR": {
+          "type": "collection",
+          "settings": {
+            "collection": ""
+          }
+        }
+      },
+      "block_order": [
+        "collection-0",
+        "collection-1",
+        "collection-2",
+        "collection_BDhAaX",
+        "collection-3",
+        "ab597d7f-3238-46e5-866a-aeb8739d42dc",
+        "collection-6",
+        "1e19a769-1fef-4a39-b92b-a21743df7807",
+        "6293ae32-73a5-444b-9594-15fb43c8eefe",
+        "collection_zata6w",
+        "collection_Lg8PXm",
+        "collection_rFVhAR"
+      ],
+      "settings": {
+        "title": "Shop Categories",
+        "heading_align": "text-start",
+        "button_label": "All Collections",
+        "button_link": "",
+        "layout": "carousel",
+        "card_size": "small",
+        "use_product_image": true,
+        "circle_image": true,
+        "show_border": false,
+        "color_scheme": "none",
+        "full_width": true
+      }
+    },
+    "featured-collection": {
+      "type": "featured-collection",
+      "blocks": {
+        "collection_E6prKD": {
+          "type": "collection",
+          "settings": {
+            "collection": "baby-wipes",
+            "heading": "",
+            "show_vendor": true,
+            "show_rating": false,
+            "show_quick_view": true,
+            "show_labels_badges": true
+          }
+        },
+        "collection_VV89wV": {
+          "type": "collection",
+          "settings": {
+            "collection": "margarine",
+            "heading": "",
+            "show_vendor": true,
+            "show_rating": false,
+            "show_quick_view": true,
+            "show_labels_badges": true
+          }
+        },
+        "collection_qbtXEr": {
+          "type": "collection",
+          "settings": {
+            "collection": "pates-riz-nouilles",
+            "heading": "",
+            "show_vendor": true,
+            "show_rating": false,
+            "show_quick_view": true,
+            "show_labels_badges": true
+          }
+        }
+      },
+      "block_order": [
+        "collection_E6prKD",
+        "collection_VV89wV",
+        "collection_qbtXEr"
+      ],
+      "settings": {
+        "subheading": "",
+        "title": "Fresh in Today",
+        "heading_size": "medium",
+        "heading_tag": "h2",
+        "heading_align_desktop": "text-start",
+        "heading_align_mobile": "text-center",
+        "highlight_effect": "underline",
+        "text_transform": "uppercase",
+        "show_view_all": true,
+        "view_all_label": "View All",
+        "view_all_position": "above",
+        "view_all_style": "link",
+        "tab_title_size": "base",
+        "tab_title_style": "default",
+        "show_collection_image": false,
+        "bg_image": "shopify://shop_images/684X316px_APP_BANNER_50__HOW_TO_DO_NEW_APP.jpg",
+        "enable_gradient_bg": false,
+        "collection": "",
+        "layout": "carousel",
+        "enable_carousel_desktop": true,
+        "enable_swipe_mobile": true,
+        "autoplay_interval": 4,
+        "show_nav_arrows": true,
+        "card_contain": true,
+        "card_padding_desktop": 12,
+        "card_padding_mobile": 8,
+        "card_bg_light": "#f2f8f8",
+        "card_bg_dark": "#323332",
+        "enable_countdown": true,
+        "countdown_text": "Gone in 24 Hours",
+        "countdown_text_size": "sm",
+        "countdown_timezone": "-04:00",
+        "countdown_year": 2027,
+        "countdown_month": "November",
+        "countdown_day": 1,
+        "countdown_hour": "00",
+        "countdown_minute": "00",
+        "show_countdown_border": false,
+        "columns_desktop": 5,
+        "rows_desktop": 2,
+        "block_spacing_desktop": 12,
+        "card_size": "small",
+        "desktop_columns": "5",
+        "mobile_columns": "2",
+        "products_to_show": 16,
+        "show_in_stock": true,
+        "card_text_align": "left",
+        "card_size_mobile": "small",
+        "block_spacing_mobile": 8,
+        "section_width": "full-width-padded",
+        "padding_top": 32,
+        "padding_bottom": 32,
+        "show_divider": false,
+        "color_scheme": "1",
+        "bg_gradient_light": "",
+        "countdown_text_color": "",
+        "countdown_timer_color": "#002b26",
+        "line_border_color": "",
+        "timer_bg_color": "#ffbf00",
+        "color_scheme_dark": "none",
+        "bg_gradient_dark": "",
+        "countdown_text_dark": "",
+        "timer_color_dark": "",
+        "line_border_dark": "",
+        "timer_bg_dark": "",
+        "full_width": true
+      }
+    },
+    "featured_collection_wwMP3e": {
+      "type": "featured-collection",
+      "settings": {
+        "subheading": "",
+        "title": "Ingredients to inspire",
+        "heading_size": "medium",
+        "heading_tag": "h2",
+        "heading_align_desktop": "text-start",
+        "heading_align_mobile": "text-start",
+        "highlight_effect": "underline",
+        "text_transform": "none",
+        "show_view_all": true,
+        "view_all_label": "View All",
+        "view_all_position": "above",
+        "view_all_style": "link",
+        "tab_title_size": "base",
+        "tab_title_style": "default",
+        "show_collection_image": false,
+        "enable_gradient_bg": false,
+        "collection": "",
+        "layout": "carousel",
+        "enable_carousel_desktop": true,
+        "enable_swipe_mobile": true,
+        "autoplay_interval": 4,
+        "show_nav_arrows": true,
+        "card_contain": true,
+        "card_padding_desktop": 12,
+        "card_padding_mobile": 8,
+        "card_bg_light": "#f2f8f8",
+        "card_bg_dark": "#323332",
+        "enable_countdown": false,
+        "countdown_text": "Gone in 24 Hours",
+        "countdown_text_size": "sm",
+        "countdown_timezone": "-04:00",
+        "countdown_year": 2027,
+        "countdown_month": "November",
+        "countdown_day": 1,
+        "countdown_hour": "00",
+        "countdown_minute": "00",
+        "show_countdown_border": false,
+        "columns_desktop": 5,
+        "rows_desktop": 2,
+        "block_spacing_desktop": 12,
+        "card_size": "small",
+        "desktop_columns": "5",
+        "mobile_columns": "2",
+        "products_to_show": 8,
+        "show_in_stock": true,
+        "card_text_align": "left",
+        "card_size_mobile": "small",
+        "block_spacing_mobile": 8,
+        "section_width": "full-width-padded",
+        "padding_top": 32,
+        "padding_bottom": 32,
+        "show_divider": false,
+        "color_scheme": "none",
+        "bg_gradient_light": "",
+        "countdown_text_color": "",
+        "countdown_timer_color": "#002b26",
+        "line_border_color": "",
+        "timer_bg_color": "#ffbf00",
+        "color_scheme_dark": "none",
+        "bg_gradient_dark": "",
+        "countdown_text_dark": "",
+        "timer_color_dark": "",
+        "line_border_dark": "",
+        "timer_bg_dark": "",
+        "full_width": true
+      }
+    },
+    "image_with_text_CtVhjP": {
+      "type": "image-with-text",
+      "blocks": {
+        "subheading_XHjfkt": {
+          "type": "subheading",
+          "settings": {
+            "subheading": "Fresh Market Specials",
+            "font_size": "medium"
+          }
+        },
+        "heading_dbeEjy": {
+          "type": "heading",
+          "settings": {
+            "heading": "Save More on Kitchen Essentials",
+            "heading_tag": "h2",
+            "heading_size": "h3"
+          }
+        },
+        "text_ercfkP": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Stock up on farm-fresh produce and premium meats.</p>",
+            "enlarge_text": false
+          }
+        },
+        "button_EQnMqB": {
+          "type": "button",
+          "settings": {
+            "button_label": "Shop Deals",
+            "button_link": "",
+            "button_new_tab": false,
+            "button_style": "btn btn--primary"
+          }
+        }
+      },
+      "block_order": [
+        "subheading_XHjfkt",
+        "heading_dbeEjy",
+        "text_ercfkP",
+        "button_EQnMqB"
+      ],
+      "name": "Image with text",
+      "settings": {
+        "section_width": "full_width_padded",
+        "layout": "overlay",
+        "image_width": 50,
+        "text_align": "text-center",
+        "content_position": "left",
+        "min_height": 400,
+        "overlay_opacity": 20,
+        "padding_top": 32,
+        "padding_bottom": 32,
+        "show_section_divider": false,
+        "color_scheme_light": "none",
+        "color_scheme_dark": "none"
+      }
+    },
+    "collection_group_eNhQrq": {
+      "type": "collection-group",
+      "blocks": {
+        "item_AWeFkc": {
+          "type": "item",
+          "settings": {
+            "subheading": "Same day delivery",
+            "heading": "Collection title",
+            "button_label": "More info",
+            "button_link": "",
+            "sub_collection_1": "",
+            "sub_label_1": "",
+            "sub_collection_2": "",
+            "sub_label_2": "",
+            "sub_collection_3": "",
+            "sub_label_3": "",
+            "sub_collection_4": "",
+            "sub_label_4": ""
+          }
+        },
+        "item_CQPA8n": {
+          "type": "item",
+          "settings": {
+            "subheading": "Same day delivery",
+            "heading": "Collection title",
+            "button_label": "More info",
+            "button_link": "",
+            "sub_collection_1": "",
+            "sub_label_1": "",
+            "sub_collection_2": "",
+            "sub_label_2": "",
+            "sub_collection_3": "",
+            "sub_label_3": "",
+            "sub_collection_4": "",
+            "sub_label_4": ""
+          }
+        },
+        "item_yzPBfY": {
+          "type": "item",
+          "settings": {
+            "subheading": "Same day delivery",
+            "heading": "Collection title",
+            "button_label": "More info",
+            "button_link": "",
+            "sub_collection_1": "",
+            "sub_label_1": "",
+            "sub_collection_2": "",
+            "sub_label_2": "",
+            "sub_collection_3": "",
+            "sub_label_3": "",
+            "sub_collection_4": "",
+            "sub_label_4": ""
+          }
+        }
+      },
+      "block_order": [
+        "item_AWeFkc",
+        "item_CQPA8n",
+        "item_yzPBfY"
+      ],
+      "name": "Collection group",
+      "settings": {
+        "title": "Shop by category",
+        "heading_align": "text-start",
+        "view_all_label": "",
+        "view_all_link": "",
+        "layout": "grid",
+        "color_scheme": "none",
+        "color_scheme_dark": "none",
+        "card_bg_color": "#e8e6e0",
+        "sub_bg_color": "#e8e6e0",
+        "subheading_color": "",
+        "show_section_divider": false,
+        "full_width": true,
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "featured_product_CYMJjF": {
+      "type": "featured-product",
+      "blocks": {
+        "vendor_sku_showcase": {
+          "type": "vendor-sku",
+          "settings": {
+            "show_vendor": true,
+            "show_sku": false,
+            "show_barcode": false
+          }
+        },
+        "title_TGmQLf": {
+          "type": "title",
+          "settings": {
+            "show_weight": false
+          }
+        },
+        "rating_MUweMy": {
+          "type": "rating",
+          "settings": {}
+        },
+        "countdown_timer_showcase": {
+          "type": "countdown-timer",
+          "settings": {
+            "label": "Sale ends in",
+            "label_color": "#d4691c",
+            "end_date": "2026-12-31",
+            "end_time": "23:59",
+            "bg_color": "#ffffff",
+            "text_color": "",
+            "number_bg": "#f0b429",
+            "number_color": "#1a1a1a",
+            "color_scheme": "none"
+          }
+        },
+        "richtext_showcase": {
+          "type": "richtext",
+          "settings": {
+            "richtext": "<ul><li>Premium dairy combo: butter + yogurt in one set</li><li>Butter made from <strong>100% fresh cream</strong></li><li>Yogurt labeled <strong>0.3% milk fat</strong></li></ul>"
+          }
+        },
+        "variant_picker_showcase": {
+          "type": "variant-picker",
+          "settings": {
+            "selector_style": "buttons",
+            "enable_dynamic_availability": true,
+            "show_backorder_text": false,
+            "enable_size_chart": false,
+            "size_chart_variant": "Size",
+            "size_chart_page": ""
+          }
+        },
+        "heading_dietary_showcase": {
+          "type": "heading",
+          "settings": {
+            "heading": "Dietary Fiber",
+            "heading_tag": "h3",
+            "heading_size": "h4",
+            "color_scheme": "none"
+          }
+        },
+        "icon_text_gmo_showcase": {
+          "type": "icon-text",
+          "settings": {
+            "icon_label": "GMO",
+            "label": "Non-GMO",
+            "color_scheme": "none"
+          }
+        },
+        "icon_text_alg_showcase": {
+          "type": "icon-text",
+          "settings": {
+            "icon_label": "ALG",
+            "label": "Allergen free",
+            "color_scheme": "none"
+          }
+        },
+        "icon_text_QaHTBN": {
+          "type": "icon-text",
+          "settings": {
+            "icon_label": "ICON",
+            "label": "Feature",
+            "color_scheme": "none"
+          }
+        },
+        "icon_text_bn3JFw": {
+          "type": "icon-text",
+          "settings": {
+            "icon_label": "ICON",
+            "label": "Feature",
+            "color_scheme": "none"
+          }
+        },
+        "price_aDK4zN": {
+          "type": "price",
+          "settings": {
+            "show_tax_and_shipping": false
+          }
+        },
+        "buy_buttons_UrHye6": {
+          "type": "buy-buttons",
+          "settings": {
+            "show_qty_selector": true,
+            "enable_dynamic_checkout": false,
+            "show_gift_card_recipient": false
+          }
+        }
+      },
+      "block_order": [
+        "vendor_sku_showcase",
+        "title_TGmQLf",
+        "rating_MUweMy",
+        "countdown_timer_showcase",
+        "richtext_showcase",
+        "variant_picker_showcase",
+        "heading_dietary_showcase",
+        "icon_text_gmo_showcase",
+        "icon_text_alg_showcase",
+        "icon_text_QaHTBN",
+        "icon_text_bn3JFw",
+        "price_aDK4zN",
+        "buy_buttons_UrHye6"
+      ],
+      "settings": {
+        "product": "lait-france-1-0-6m-bouat-400gm-1",
+        "media_ratio": "natural",
+        "media_crop": "center",
+        "enable_video_looping": false,
+        "enable_zoom": true,
+        "zoom_mode": "hover",
+        "hover_zoom": "off",
+        "media_width": 50,
+        "color_scheme": "none",
+        "border_color": "rgba(0,0,0,0)",
+        "bg_color": "rgba(0,0,0,0)"
+      }
+    },
+    "promotion_grid_yBA9qY": {
+      "type": "promotion-grid",
+      "blocks": {
+        "collection_NAVXWC": {
+          "type": "collection",
+          "settings": {
+            "collection": "",
+            "show_item_count": true,
+            "columns": 1,
+            "rows": 1
+          }
+        },
+        "product_7TnjXb": {
+          "type": "product",
+          "settings": {
+            "product": "",
+            "show_quickview": true,
+            "content_alignment": "left",
+            "card_size": "medium",
+            "show_vendor": false,
+            "show_product_rating": false,
+            "show_estimated_delivery": false,
+            "show_inventory_status": false,
+            "columns": 1,
+            "rows": 1
+          }
+        },
+        "promotion_Y3t94B": {
+          "type": "promotion",
+          "settings": {
+            "high_priority_image": false,
+            "link_url": "",
+            "link_new_tab": false,
+            "video_url": "",
+            "video_alt_text": "",
+            "show_sound_control": false,
+            "video_autoplay": true,
+            "enable_overlay": true,
+            "overlay_position": "center",
+            "overlay_opacity": 20,
+            "columns": 2,
+            "rows": 2,
+            "icon": "none",
+            "icon_custom_name": "",
+            "icon_size": 45,
+            "subtitle": "Biggest Monthly Savings",
+            "title": "",
+            "title_size": "h3",
+            "text": "<p><strong>Earn Cashback Every Time [You Order Online]</strong></p>",
+            "text_size": "",
+            "highlight_effect": "underline",
+            "text_transform": "none",
+            "button_label": "Order Now Today!",
+            "button_link": "",
+            "button_new_tab": false,
+            "button_style": "btn btn--secondary",
+            "content_alignment": "center",
+            "sale_label_line1": "",
+            "sale_label_line1_size": "",
+            "sale_label_line2": "",
+            "sale_label_line2_size": "",
+            "sale_label_line3": "",
+            "sale_label_line3_size": "",
+            "sale_label_position": "top-left",
+            "sale_label_style": "circle",
+            "sale_label_bg_color": "#e32b2b",
+            "sale_label_text_color": "#ffffff",
+            "block_color_scheme": "none"
+          }
+        }
+      },
+      "block_order": [
+        "collection_NAVXWC",
+        "product_7TnjXb",
+        "promotion_Y3t94B"
+      ],
+      "name": "Promotion grid",
+      "settings": {
+        "title": "Promotion grid",
+        "heading_align": "text-start",
+        "button_label": "",
+        "button_link": "",
+        "gallery_cols_max": 4,
+        "mobile_carousel": false,
+        "gallery_cols_min": "1",
+        "fixed_height_desktop": 200,
+        "fixed_height_mobile": 280,
+        "color_scheme": "default"
+      }
+    },
+    "promotional_collections_KLWf8V": {
+      "type": "promotional-collections",
+      "blocks": {
+        "promotional_collection_z36hAT": {
+          "type": "promotional_collection",
+          "settings": {
+            "collection": "",
+            "show_vendor": true,
+            "show_product_rating": true,
+            "show_quick_view_button": true,
+            "show_labels_badges": true,
+            "enable_promotion": true,
+            "desktop_promotion_position": "left",
+            "enable_sticky_promotion_desktop": false,
+            "product": "",
+            "link": "",
+            "open_new_tab": false,
+            "video_url": "",
+            "video_alt_text": "",
+            "show_sound_control": false,
+            "enable_video_autoplay": true,
+            "overlay_opacity": 0,
+            "overlay_content_alignment": "center",
+            "overlay_content_position": "bottom",
+            "desktop_promotion_ratio": "responsive",
+            "desktop_promotion_width": 280,
+            "mobile_promotion_height": 200,
+            "heading": "Premium Meat & Poultry for Everyday Cooking",
+            "promo_heading_size": "h4",
+            "text": "",
+            "text_size": "",
+            "highlight_effect": "underline",
+            "text_transform": "none",
+            "button_label": "Shop All",
+            "button_link": "",
+            "button_new_tab": false,
+            "button_style": "link",
+            "color_scheme": "none",
+            "color_scheme_dark": "none"
+          }
+        },
+        "promotional_collection_rPWep7": {
+          "type": "promotional_collection",
+          "settings": {
+            "collection": "",
+            "show_vendor": true,
+            "show_product_rating": true,
+            "show_quick_view_button": true,
+            "show_labels_badges": true,
+            "enable_promotion": true,
+            "desktop_promotion_position": "left",
+            "enable_sticky_promotion_desktop": false,
+            "product": "",
+            "link": "",
+            "open_new_tab": false,
+            "video_url": "",
+            "video_alt_text": "",
+            "show_sound_control": false,
+            "enable_video_autoplay": true,
+            "overlay_opacity": 0,
+            "overlay_content_alignment": "center",
+            "overlay_content_position": "bottom",
+            "desktop_promotion_ratio": "responsive",
+            "desktop_promotion_width": 280,
+            "mobile_promotion_height": 200,
+            "heading": "Premium Meat & Poultry for Everyday Cooking",
+            "promo_heading_size": "h4",
+            "text": "",
+            "text_size": "",
+            "highlight_effect": "underline",
+            "text_transform": "none",
+            "button_label": "Shop All",
+            "button_link": "",
+            "button_new_tab": false,
+            "button_style": "link",
+            "color_scheme": "none",
+            "color_scheme_dark": "none"
+          }
+        },
+        "promotional_collection_9VWMnh": {
+          "type": "promotional_collection",
+          "settings": {
+            "collection": "",
+            "show_vendor": true,
+            "show_product_rating": true,
+            "show_quick_view_button": true,
+            "show_labels_badges": true,
+            "enable_promotion": true,
+            "desktop_promotion_position": "left",
+            "enable_sticky_promotion_desktop": false,
+            "product": "",
+            "link": "",
+            "open_new_tab": false,
+            "video_url": "",
+            "video_alt_text": "",
+            "show_sound_control": false,
+            "enable_video_autoplay": true,
+            "overlay_opacity": 0,
+            "overlay_content_alignment": "center",
+            "overlay_content_position": "bottom",
+            "desktop_promotion_ratio": "responsive",
+            "desktop_promotion_width": 280,
+            "mobile_promotion_height": 200,
+            "heading": "Premium Meat For  Cooking",
+            "promo_heading_size": "h4",
+            "text": "",
+            "text_size": "",
+            "highlight_effect": "underline",
+            "text_transform": "none",
+            "button_label": "Shop All",
+            "button_link": "",
+            "button_new_tab": false,
+            "button_style": "link",
+            "color_scheme": "none",
+            "color_scheme_dark": "none"
+          }
+        },
+        "promotional_collection_Lw8CYF": {
+          "type": "promotional_collection",
+          "settings": {
+            "collection": "",
+            "show_vendor": true,
+            "show_product_rating": true,
+            "show_quick_view_button": true,
+            "show_labels_badges": true,
+            "enable_promotion": true,
+            "desktop_promotion_position": "left",
+            "enable_sticky_promotion_desktop": false,
+            "product": "",
+            "link": "",
+            "open_new_tab": false,
+            "video_url": "",
+            "video_alt_text": "",
+            "show_sound_control": false,
+            "enable_video_autoplay": true,
+            "overlay_opacity": 0,
+            "overlay_content_alignment": "center",
+            "overlay_content_position": "bottom",
+            "desktop_promotion_ratio": "responsive",
+            "desktop_promotion_width": 280,
+            "mobile_promotion_height": 200,
+            "heading": "Premium Poultry for Everyday Cooking",
+            "promo_heading_size": "h4",
+            "text": "",
+            "text_size": "",
+            "highlight_effect": "underline",
+            "text_transform": "none",
+            "button_label": "Shop All",
+            "button_link": "",
+            "button_new_tab": false,
+            "button_style": "link",
+            "color_scheme": "none",
+            "color_scheme_dark": "none"
+          }
+        }
+      },
+      "block_order": [
+        "promotional_collection_z36hAT",
+        "promotional_collection_rPWep7",
+        "promotional_collection_9VWMnh",
+        "promotional_collection_Lw8CYF"
+      ],
+      "name": "Promotional collections",
+      "settings": {
+        "subheading": "",
+        "heading": "Fresh Picks You'll Love",
+        "heading_size": "medium",
+        "heading_tag": "h2",
+        "highlight_effect": "underline",
+        "text_transform": "none",
+        "heading_align_desktop": "text-start",
+        "heading_align_mobile": "text-center",
+        "view_all_label": "View All",
+        "view_all_position": "above",
+        "view_all_style": "link",
+        "tab_title_size": "medium",
+        "tab_title_style": "default",
+        "show_collection_image": true,
+        "enable_carousel_desktop": false,
+        "enable_swipe_mobile": false,
+        "autoplay_every": 0,
+        "show_navigation_arrows": true,
+        "show_product_card_background": false,
+        "desktop_columns": 5,
+        "desktop_rows": 1,
+        "desktop_gap": 12,
+        "mobile_columns": "2",
+        "mobile_gap": 8,
+        "section_width": "full",
+        "padding_top": 48,
+        "padding_bottom": 0,
+        "show_section_divider": false,
+        "color_scheme": "none",
+        "color_scheme_dark": "none"
+      }
+    },
+    "text_columns_with_icons_APc8rA": {
+      "type": "text-columns-with-icons",
+      "blocks": {
+        "column_89Rjgq": {
+          "type": "column",
+          "settings": {
+            "icon": "credit_card",
+            "use_another_icon": "",
+            "heading": "Payment only online",
+            "heading_link": "",
+            "open_new_tab": false,
+            "heading_size": "medium",
+            "text": "<p>Add details on availability, style, or even provide a review.</p>",
+            "highlight_effect": "underline",
+            "text_transform": "none"
+          }
+        },
+        "column_Fxtcz9": {
+          "type": "column",
+          "settings": {
+            "icon": "chat_bubble",
+            "use_another_icon": "",
+            "heading": "New stocks and sales",
+            "heading_link": "",
+            "open_new_tab": false,
+            "heading_size": "medium",
+            "text": "<p>Add details on availability, style, or even provide a review.</p>",
+            "highlight_effect": "underline",
+            "text_transform": "none"
+          }
+        },
+        "column_mFtc8g": {
+          "type": "column",
+          "settings": {
+            "icon": "dollar_sign",
+            "use_another_icon": "",
+            "heading": "Quality assurance",
+            "heading_link": "",
+            "open_new_tab": false,
+            "heading_size": "medium",
+            "text": "<p>Add details on availability, style, or even provide a review.</p>",
+            "highlight_effect": "underline",
+            "text_transform": "none"
+          }
+        },
+        "column_NfkHDg": {
+          "type": "column",
+          "settings": {
+            "icon": "truck",
+            "use_another_icon": "",
+            "heading": "Delivery from 1 hour",
+            "heading_link": "",
+            "open_new_tab": false,
+            "heading_size": "medium",
+            "text": "<p>Add details on availability, style, or even provide a review.</p>",
+            "highlight_effect": "underline",
+            "text_transform": "none"
+          }
+        }
+      },
+      "block_order": [
+        "column_89Rjgq",
+        "column_Fxtcz9",
+        "column_mFtc8g",
+        "column_NfkHDg"
+      ],
+      "name": "Text columns with icons",
+      "settings": {
+        "heading": "",
+        "heading_size": "medium",
+        "heading_tag": "h2",
+        "highlight_effect": "underline",
+        "text_transform": "none",
+        "line_and_border": "vertical",
+        "content_alignment": "text-center",
+        "icon_position": "above",
+        "icon_size": 36,
+        "enable_carousel_desktop": true,
+        "enable_swipe_mobile": false,
+        "autoplay": 0,
+        "show_arrows": false,
+        "desktop_columns": 4,
+        "section_height": "medium",
+        "block_spacing": 40,
+        "mobile_columns": "2",
+        "mobile_section_height": "small",
+        "mobile_block_spacing": 24,
+        "section_width": "full",
+        "padding_top": 52,
+        "padding_bottom": 52,
+        "show_section_divider": false,
+        "color_scheme": "none",
+        "column_bg_light": "",
+        "icon_color_light": "",
+        "color_scheme_dark": "2",
+        "column_bg_dark": "",
+        "icon_color_dark": "",
+        "prevent_animation": false
+      }
+    },
+    "collection_list_group_MzeHfF": {
+      "type": "collection-list-group",
+      "blocks": {
+        "collection_item_DpiCjy": {
+          "type": "collection_item",
+          "settings": {
+            "collection": "",
+            "image": "shopify://shop_images/ITM006586_front.png",
+            "heading": "Fruit & Vegetables",
+            "text_1": "Fruit",
+            "text_2": "Vegetables",
+            "text_3": "Salad",
+            "text_4": "Processed",
+            "button_label": "Shop all",
+            "button_link": ""
+          }
+        },
+        "collection_item_jtKEED": {
+          "type": "collection_item",
+          "settings": {
+            "collection": "",
+            "heading": "Fruit & Vegetables",
+            "text_1": "Fruit",
+            "text_2": "Vegetables",
+            "text_3": "Salad",
+            "text_4": "Processed",
+            "button_label": "Shop all",
+            "button_link": ""
+          }
+        },
+        "collection_item_acKzck": {
+          "type": "collection_item",
+          "settings": {
+            "collection": "",
+            "heading": "Fruit & Vegetables",
+            "text_1": "Fruit",
+            "text_2": "Vegetables",
+            "text_3": "Salad",
+            "text_4": "Processed",
+            "button_label": "Shop all",
+            "button_link": ""
+          }
+        },
+        "collection_item_3qNRx7": {
+          "type": "collection_item",
+          "settings": {
+            "collection": "",
+            "heading": "Fruit & Vegetables",
+            "text_1": "Fruit",
+            "text_2": "Vegetables",
+            "text_3": "Salad",
+            "text_4": "Processed",
+            "button_label": "Shop all",
+            "button_link": ""
+          }
+        },
+        "collection_item_y8xXWL": {
+          "type": "collection_item",
+          "settings": {
+            "collection": "",
+            "heading": "Fruit & Vegetables",
+            "text_1": "Fruit",
+            "text_2": "Vegetables",
+            "text_3": "Salad",
+            "text_4": "Processed",
+            "button_label": "Shop all",
+            "button_link": ""
+          }
+        },
+        "collection_item_YPjVAn": {
+          "type": "collection_item",
+          "settings": {
+            "collection": "",
+            "heading": "Fruit & Vegetables",
+            "text_1": "Fruit",
+            "text_2": "Vegetables",
+            "text_3": "Salad",
+            "text_4": "Processed",
+            "button_label": "Shop all",
+            "button_link": ""
+          }
+        }
+      },
+      "block_order": [
+        "collection_item_DpiCjy",
+        "collection_item_jtKEED",
+        "collection_item_acKzck",
+        "collection_item_3qNRx7",
+        "collection_item_y8xXWL",
+        "collection_item_YPjVAn"
+      ],
+      "name": "Collection list-group",
+      "settings": {
+        "title": "Shop conveniently in Various supermarket",
+        "heading_align": "text-center",
+        "display_type": "carousel",
+        "items_per_row_desktop": 5,
+        "items_per_row_tablet": 3,
+        "items_per_row_mobile": 2,
+        "image_ratio": "4-3",
+        "gap": 16,
+        "autoplay_every": 6,
+        "show_navigation_arrows": true,
+        "section_bg_color": "#ffffff",
+        "section_text_color": "#111111",
+        "card_bg_color": "#f8faf6",
+        "card_border_color": "#dbe0d0",
+        "card_title_color": "#111111",
+        "card_text_color": "#4c4c43",
+        "button_text_color": "#1f4229",
+        "button_bg_color": "#e5eedc",
+        "button_border_color": "#d2dfc6",
+        "button_hover_bg_color": "#d7e7c7",
+        "full_width": true
+      }
+    },
+    "highlighted_product_set_8tLNCE": {
+      "type": "highlighted-product-set",
+      "blocks": {
+        "highlight_Pprb6b": {
+          "type": "highlight",
+          "settings": {
+            "desktop_col_width": 1,
+            "desktop_row_height": 1,
+            "mobile_col_width": "1",
+            "mobile_row_height": "2",
+            "product_1": "",
+            "hotspot_desktop_x_1": 45,
+            "hotspot_desktop_y_1": 50,
+            "hotspot_mobile_x_1": 49,
+            "hotspot_mobile_y_1": 47,
+            "product_2": "",
+            "hotspot_desktop_x_2": 53,
+            "hotspot_desktop_y_2": 27,
+            "hotspot_mobile_x_2": 54,
+            "hotspot_mobile_y_2": 25,
+            "product_3": "",
+            "hotspot_desktop_x_3": 64,
+            "hotspot_desktop_y_3": 50,
+            "hotspot_mobile_x_3": 64,
+            "hotspot_mobile_y_3": 50
+          }
+        },
+        "highlight_qdCxkz": {
+          "type": "highlight",
+          "settings": {
+            "desktop_col_width": 2,
+            "desktop_row_height": 1,
+            "mobile_col_width": "1",
+            "mobile_row_height": "2",
+            "product_1": "",
+            "hotspot_desktop_x_1": 45,
+            "hotspot_desktop_y_1": 50,
+            "hotspot_mobile_x_1": 49,
+            "hotspot_mobile_y_1": 47,
+            "product_2": "",
+            "hotspot_desktop_x_2": 53,
+            "hotspot_desktop_y_2": 27,
+            "hotspot_mobile_x_2": 54,
+            "hotspot_mobile_y_2": 25,
+            "product_3": "",
+            "hotspot_desktop_x_3": 64,
+            "hotspot_desktop_y_3": 50,
+            "hotspot_mobile_x_3": 64,
+            "hotspot_mobile_y_3": 50
+          }
+        },
+        "highlight_HfRMyh": {
+          "type": "highlight",
+          "settings": {
+            "desktop_col_width": 1,
+            "desktop_row_height": 1,
+            "mobile_col_width": "1",
+            "mobile_row_height": "2",
+            "product_1": "",
+            "hotspot_desktop_x_1": 45,
+            "hotspot_desktop_y_1": 50,
+            "hotspot_mobile_x_1": 49,
+            "hotspot_mobile_y_1": 47,
+            "product_2": "",
+            "hotspot_desktop_x_2": 53,
+            "hotspot_desktop_y_2": 27,
+            "hotspot_mobile_x_2": 54,
+            "hotspot_mobile_y_2": 25,
+            "product_3": "",
+            "hotspot_desktop_x_3": 64,
+            "hotspot_desktop_y_3": 50,
+            "hotspot_mobile_x_3": 64,
+            "hotspot_mobile_y_3": 50
+          }
+        },
+        "highlight_3RVBc9": {
+          "type": "highlight",
+          "settings": {
+            "desktop_col_width": 4,
+            "desktop_row_height": 1,
+            "mobile_col_width": "1",
+            "mobile_row_height": "2",
+            "product_1": "",
+            "hotspot_desktop_x_1": 45,
+            "hotspot_desktop_y_1": 50,
+            "hotspot_mobile_x_1": 49,
+            "hotspot_mobile_y_1": 47,
+            "product_2": "",
+            "hotspot_desktop_x_2": 53,
+            "hotspot_desktop_y_2": 27,
+            "hotspot_mobile_x_2": 54,
+            "hotspot_mobile_y_2": 25,
+            "product_3": "",
+            "hotspot_desktop_x_3": 64,
+            "hotspot_desktop_y_3": 50,
+            "hotspot_mobile_x_3": 64,
+            "hotspot_mobile_y_3": 50
+          }
+        }
+      },
+      "block_order": [
+        "highlight_Pprb6b",
+        "highlight_qdCxkz",
+        "highlight_HfRMyh",
+        "highlight_3RVBc9"
+      ],
+      "name": "Highlighted product set",
+      "settings": {
+        "subheading": "Fresh Ingredients, Better Prices",
+        "heading": "Fresh. Flavorful. Everyday.",
+        "heading_size": "medium",
+        "heading_tag": "h2",
+        "heading_align": "text-center",
+        "highlight_effect": "underline",
+        "text_transform": "none",
+        "show_vendor": true,
+        "show_rating": false,
+        "desktop_cols": 4,
+        "block_spacing_desktop": 4,
+        "row_height_desktop": 350,
+        "enable_swipe_mobile": true,
+        "block_spacing_mobile": 8,
+        "row_height_mobile": 80,
+        "section_width": "full-width",
+        "padding_top": 28,
+        "padding_bottom": 0,
+        "show_divider": false,
+        "color_scheme": "none",
+        "hotspot_color_light": "#ffffff",
+        "card_bg_light": "",
+        "color_scheme_dark": "none",
+        "hotspot_color_dark": "#002b26",
+        "card_bg_dark": ""
+      }
+    },
+    "popular_companies_hyrqUB": {
+      "type": "popular-companies",
+      "blocks": {
+        "item_RREhzi": {
+          "type": "item",
+          "settings": {
+            "heading": "Handcrafted cookie, sweet.",
+            "button_label": "Shop now",
+            "button_link": ""
+          }
+        },
+        "item_zPwVND": {
+          "type": "item",
+          "settings": {
+            "heading": "Good grains, great meals.",
+            "button_label": "Shop now",
+            "button_link": ""
+          }
+        },
+        "item_wPd77p": {
+          "type": "item",
+          "settings": {
+            "heading": "Enjoyed everywhere.",
+            "button_label": "Shop now",
+            "button_link": ""
+          }
+        },
+        "item_BdWLYQ": {
+          "type": "item",
+          "settings": {
+            "heading": "Real produce, responsibly grown.",
+            "button_label": "Shop now",
+            "button_link": ""
+          }
+        },
+        "item_tkbpcr": {
+          "type": "item",
+          "settings": {
+            "heading": "Fresh dairy, simply better.",
+            "button_label": "Shop now",
+            "button_link": ""
+          }
+        },
+        "item_jQBD43": {
+          "type": "item",
+          "settings": {
+            "heading": "From our farm to your table.",
+            "button_label": "Shop now",
+            "button_link": ""
+          }
+        }
+      },
+      "block_order": [
+        "item_RREhzi",
+        "item_zPwVND",
+        "item_wPd77p",
+        "item_BdWLYQ",
+        "item_tkbpcr",
+        "item_jQBD43"
+      ],
+      "name": "Popular Companies",
+      "settings": {
+        "heading": "Popular Companies",
+        "subheading": "Some of the new products arriving this weeks",
+        "display_type_desktop": "carousel",
+        "display_type_mobile": "grid",
+        "items_per_row_desktop": 6,
+        "items_per_row_tablet": 3,
+        "items_per_row_mobile": 2,
+        "autoplay_every": 5,
+        "show_navigation_arrows": true,
+        "gap": 16,
+        "section_bg_color": "#ffffff",
+        "section_text_color": "#111111",
+        "card_bg_color": "#f0ede6",
+        "card_border_color": "#e8e3d9",
+        "card_title_color": "#111111",
+        "image_bg_color": "#d4cec4",
+        "link_color": "#666666"
+      }
+    },
+    "stats_counter_bnrzxn": {
+      "type": "stats-counter",
+      "blocks": {
+        "stat_item_pFKA99": {
+          "type": "stat_item",
+          "settings": {
+            "icon": "badge-check",
+            "icon_color": "#ffffff",
+            "heading": "Quality at fair prices",
+            "heading_color": "#ffffff",
+            "text": "From farmers to supermarket hits",
+            "text_color": "#ffffff"
+          }
+        },
+        "stat_item_QAJhwe": {
+          "type": "stat_item",
+          "settings": {
+            "icon": "leaf",
+            "icon_color": "#ffffff",
+            "heading": "100% satisfaction",
+            "heading_color": "#ffffff",
+            "text": "Not happy? Refund granted!",
+            "text_color": "#ffffff"
+          }
+        },
+        "stat_item_wATtxp": {
+          "type": "stat_item",
+          "settings": {
+            "icon": "shield-check",
+            "icon_color": "#ffffff",
+            "heading": "Best online food shop",
+            "heading_color": "#ffffff",
+            "text": "Award-winning in 2024",
+            "text_color": "#ffffff"
+          }
+        }
+      },
+      "block_order": [
+        "stat_item_pFKA99",
+        "stat_item_QAJhwe",
+        "stat_item_wATtxp"
+      ],
+      "name": "Stats counter",
+      "settings": {
+        "heading_line_1": "More than groceries,",
+        "heading_line_2": "at your door from 1 hour!",
+        "subheading": "Free delivery on your first order over $500.",
+        "background_color": "#0d3520",
+        "heading_color": "#ffffff",
+        "highlight_color": "#f5a300",
+        "subheading_color": "#ffffff",
+        "stat_heading_color": "#ffffff",
+        "stat_text_color": "#ffffff",
+        "icon_color": "#ffffff",
+        "placeholder_bg_color": "#e0e0e0",
+        "placeholder_icon_color": "#999999",
+        "placeholder_min_height": 160,
+        "placeholder_icon_size": 48,
+        "heading_font_size": 36,
+        "heading_font_size_mobile": 24,
+        "subheading_font_size": 14,
+        "subheading_font_size_mobile": 13,
+        "stat_heading_font_size": 16,
+        "stat_text_font_size": 13,
+        "padding_top": 32,
+        "padding_bottom": 32,
+        "padding_horizontal": 16,
+        "border_radius": 8,
+        "icon_size": 48,
+        "icon_size_mobile": 36,
+        "item_gap": 24,
+        "item_gap_mobile": 16,
+        "stats_gap_top": 24,
+        "image_width": 28,
+        "content_image_gap": 32,
+        "image_border_radius": 8,
+        "mobile_image_order": "1",
+        "prevent_animation": false
+      }
+    },
+    "delicious_recipes_UFkL3M": {
+      "type": "delicious-recipes",
+      "blocks": {
+        "recipe_7PHJxy": {
+          "type": "recipe",
+          "settings": {
+            "title": "Garlic Noodles",
+            "prep_label": "Prep:",
+            "prep_time": "15 mins",
+            "hide_cook_time": false,
+            "cook_label": "Cook:",
+            "cook_time": "20 mins",
+            "total_label": "Total:",
+            "total_time": "35 mins",
+            "nutrition_heading": "Nutrition Facts (per serving):",
+            "calories": "600 Calories",
+            "fat": "28g Fat",
+            "carbs": "70g Carbs",
+            "protein": "17g Protein",
+            "button_text": "View Recipe",
+            "button_url": ""
+          }
+        },
+        "recipe_iH33yq": {
+          "type": "recipe",
+          "settings": {
+            "title": "Garlic Noodles",
+            "prep_label": "Prep:",
+            "prep_time": "15 mins",
+            "hide_cook_time": false,
+            "cook_label": "Cook:",
+            "cook_time": "20 mins",
+            "total_label": "Total:",
+            "total_time": "35 mins",
+            "nutrition_heading": "Nutrition Facts (per serving):",
+            "calories": "600 Calories",
+            "fat": "28g Fat",
+            "carbs": "70g Carbs",
+            "protein": "17g Protein",
+            "button_text": "View Recipe",
+            "button_url": ""
+          }
+        },
+        "recipe_MtkFDK": {
+          "type": "recipe",
+          "settings": {
+            "title": "Garlic Noodles",
+            "prep_label": "Prep:",
+            "prep_time": "15 mins",
+            "hide_cook_time": false,
+            "cook_label": "Cook:",
+            "cook_time": "20 mins",
+            "total_label": "Total:",
+            "total_time": "35 mins",
+            "nutrition_heading": "Nutrition Facts (per serving):",
+            "calories": "600 Calories",
+            "fat": "28g Fat",
+            "carbs": "70g Carbs",
+            "protein": "17g Protein",
+            "button_text": "View Recipe",
+            "button_url": ""
+          }
+        },
+        "recipe_q8PpD8": {
+          "type": "recipe",
+          "settings": {
+            "title": "Garlic Noodles",
+            "prep_label": "Prep:",
+            "prep_time": "15 mins",
+            "hide_cook_time": false,
+            "cook_label": "Cook:",
+            "cook_time": "20 mins",
+            "total_label": "Total:",
+            "total_time": "35 mins",
+            "nutrition_heading": "Nutrition Facts (per serving):",
+            "calories": "600 Calories",
+            "fat": "28g Fat",
+            "carbs": "70g Carbs",
+            "protein": "17g Protein",
+            "button_text": "View Recipe",
+            "button_url": ""
+          }
+        },
+        "recipe_7wL9WJ": {
+          "type": "recipe",
+          "settings": {
+            "title": "Garlic Noodles",
+            "prep_label": "Prep:",
+            "prep_time": "15 mins",
+            "hide_cook_time": false,
+            "cook_label": "Cook:",
+            "cook_time": "20 mins",
+            "total_label": "Total:",
+            "total_time": "35 mins",
+            "nutrition_heading": "Nutrition Facts (per serving):",
+            "calories": "600 Calories",
+            "fat": "28g Fat",
+            "carbs": "70g Carbs",
+            "protein": "17g Protein",
+            "button_text": "View Recipe",
+            "button_url": ""
+          }
+        },
+        "recipe_KgP6nY": {
+          "type": "recipe",
+          "disabled": true,
+          "settings": {
+            "title": "Garlic Noodles",
+            "prep_label": "Prep:",
+            "prep_time": "15 mins",
+            "hide_cook_time": false,
+            "cook_label": "Cook:",
+            "cook_time": "20 mins",
+            "total_label": "Total:",
+            "total_time": "35 mins",
+            "nutrition_heading": "Nutrition Facts (per serving):",
+            "calories": "600 Calories",
+            "fat": "28g Fat",
+            "carbs": "70g Carbs",
+            "protein": "17g Protein",
+            "button_text": "View Recipe",
+            "button_url": ""
+          }
+        }
+      },
+      "block_order": [
+        "recipe_7PHJxy",
+        "recipe_iH33yq",
+        "recipe_MtkFDK",
+        "recipe_q8PpD8",
+        "recipe_7wL9WJ",
+        "recipe_KgP6nY"
+      ],
+      "name": "Delicious Recipes",
+      "settings": {
+        "heading": "Recipes, Events & More",
+        "more_info_text": "More Info",
+        "more_info_url": "",
+        "display_type_desktop": "grid",
+        "display_type_mobile": "carousel",
+        "items_per_row_desktop": 5,
+        "items_per_row_tablet": 3,
+        "items_per_row_mobile": 2,
+        "autoplay_speed": 5,
+        "show_arrows": true,
+        "gap": 16,
+        "padding_top_desktop": 28,
+        "padding_bottom_desktop": 28,
+        "padding_left_desktop": 0,
+        "padding_right_desktop": 0,
+        "padding_top_mobile": 16,
+        "padding_bottom_mobile": 0,
+        "padding_left_mobile": 0,
+        "padding_right_mobile": 0
+      }
+    }
+  },
+  "order": [
+    "slideshow_rHwdfJ",
+    "scrolling_promotion_RfFpEc",
+    "collection-list",
+    "featured-collection",
+    "featured_collection_wwMP3e",
+    "image_with_text_CtVhjP",
+    "collection_group_eNhQrq",
+    "featured_product_CYMJjF",
+    "promotion_grid_yBA9qY",
+    "promotional_collections_KLWf8V",
+    "text_columns_with_icons_APc8rA",
+    "collection_list_group_MzeHfF",
+    "highlighted_product_set_8tLNCE",
+    "popular_companies_hyrqUB",
+    "stats_counter_bnrzxn",
+    "delicious_recipes_UFkL3M"
+  ]
+}

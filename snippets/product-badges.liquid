@@ -1,0 +1,59 @@
+{%- comment -%}
+  Renders merchant-controlled highlight badges driven by product tags.
+
+  Tags recognized (case-insensitive, exact tag match):
+  - badge-highly-rated -> "Highly rated"
+  - badge-best-buy     -> "Best Buy"
+  - badge-deal         -> "Deal"
+
+  Parameters:
+  - product {Object} - Product object.
+  - wrapper {Boolean} - Whether to render the surrounding .product-label-container. Defaults to true.
+
+  Usage:
+  {%- render 'product-badges', product: product, wrapper: false -%}
+{%- endcomment -%}
+
+{%- liquid
+  if wrapper == nil
+    assign wrapper = true
+  endif
+
+  assign product_tags_lowercase = product.tags | join: ',' | downcase | split: ','
+-%}
+
+{%- capture badges_content -%}
+  {%- if settings.show_highly_rated_badge and product_tags_lowercase contains 'badge-highly-rated' -%}
+    <div class="product-label-wrapper flex{% if settings.product_label_card_position contains "end" %} justify-end{% endif %}">
+      <span class="product-label product-label--highly-rated">
+        {{- 'products.product.badge_highly_rated' | t -}}
+      </span>
+    </div>
+  {%- endif -%}
+
+  {%- if settings.show_best_buy_badge and product_tags_lowercase contains 'badge-best-buy' -%}
+    <div class="product-label-wrapper flex{% if settings.product_label_card_position contains "end" %} justify-end{% endif %}">
+      <span class="product-label product-label--best-buy">
+        {{- 'products.product.badge_best_buy' | t -}}
+      </span>
+    </div>
+  {%- endif -%}
+
+  {%- if settings.show_deal_badge and product_tags_lowercase contains 'badge-deal' -%}
+    <div class="product-label-wrapper flex{% if settings.product_label_card_position contains "end" %} justify-end{% endif %}">
+      <span class="product-label product-label--deal">
+        {{- 'products.product.badge_deal' | t -}}
+      </span>
+    </div>
+  {%- endif -%}
+{%- endcapture -%}
+
+{%- if badges_content != blank -%}
+  {%- if wrapper -%}
+    <div class="product-label-container{% if position %} absolute {{ position }}{% endif %}">
+      {{- badges_content -}}
+    </div>
+  {%- else -%}
+    {{- badges_content -}}
+  {%- endif -%}
+{%- endif -%}

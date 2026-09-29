@@ -1,0 +1,262 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "image_with_text_WTeW44": {
+      "type": "image-with-text",
+      "blocks": {
+        "heading_wdmYnE": {
+          "type": "heading",
+          "settings": {
+            "heading": "How can we help?",
+            "heading_tag": "h2",
+            "heading_size": "h3"
+          }
+        },
+        "text_mTULra": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Let us know how we can help you! Email us, check out our FAQ's, contact us or browse our store locator.</p>",
+            "enlarge_text": false
+          }
+        }
+      },
+      "block_order": [
+        "heading_wdmYnE",
+        "text_mTULra"
+      ],
+      "name": "Image with text",
+      "settings": {
+        "section_width": "full_width",
+        "layout": "overlay",
+        "image_width": 50,
+        "text_align": "text-start",
+        "content_position": "left",
+        "min_height": 400,
+        "overlay_opacity": 0,
+        "padding_top": 32,
+        "padding_bottom": 32,
+        "show_section_divider": false,
+        "color_scheme_light": "none",
+        "color_scheme_dark": "none"
+      }
+    },
+    "main": {
+      "type": "main-contact",
+      "disabled": true,
+      "settings": {
+        "show_contact_title": true,
+        "heading_size": "h2",
+        "heading_align": "text-center"
+      }
+    },
+    "rich_text_JteMHf": {
+      "type": "rich-text",
+      "blocks": {
+        "text_kkL4jc": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Questions? Comments? Let your customers get in touch with you by filling out the email form below.<br/>Reassure them that someone will get back to them within a certain timeframe.</p>",
+            "enlarge_text": false
+          }
+        }
+      },
+      "block_order": [
+        "text_kkL4jc"
+      ],
+      "name": "Rich text",
+      "settings": {
+        "text_position": "justify-center",
+        "text_align": "text-center",
+        "mob_center_text": true,
+        "color_scheme": "none",
+        "full_width": true,
+        "prevent_animation": false
+      }
+    },
+    "icons_with_text_TaRxaE": {
+      "type": "icons-with-text",
+      "blocks": {
+        "item_wXemRi": {
+          "type": "item",
+          "settings": {
+            "icon": "truck",
+            "use_custom_icon_color": false,
+            "icon_color": "#000000",
+            "heading": "Track My Order",
+            "text": "<p>See the progress of your delivery</p>",
+            "link": ""
+          }
+        },
+        "item_xdcKak": {
+          "type": "item",
+          "settings": {
+            "icon": "question_mark",
+            "use_custom_icon_color": false,
+            "icon_color": "#000000",
+            "heading": "FAQs",
+            "text": "<p>Most questions can beanswered here</p>",
+            "link": ""
+          }
+        },
+        "item_43cz9h": {
+          "type": "item",
+          "settings": {
+            "icon": "map_pin",
+            "use_custom_icon_color": false,
+            "icon_color": "#000000",
+            "heading": "Store Locator",
+            "text": "<p>Find where to buy Various</p>",
+            "link": ""
+          }
+        },
+        "item_KVxVaQ": {
+          "type": "item",
+          "settings": {
+            "icon": "chat_bubble",
+            "use_custom_icon_color": false,
+            "icon_color": "#000000",
+            "heading": "Customer Service",
+            "text": "<p>Ask us a question</p>",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "item_wXemRi",
+        "item_xdcKak",
+        "item_43cz9h",
+        "item_KVxVaQ"
+      ],
+      "name": "Icons with text",
+      "settings": {
+        "heading": "",
+        "heading_align": "text-center",
+        "icon_size": 48,
+        "title_type_scale": "medium",
+        "text_type_scale": "medium",
+        "icon_position": "above",
+        "mobile_stack": true,
+        "section_height": "medium",
+        "color_scheme": "1",
+        "full_width": true,
+        "dividers": "none",
+        "prevent_animation": false
+      }
+    },
+    "form": {
+      "type": "contact-form",
+      "blocks": {
+        "contact-name-2": {
+          "type": "name",
+          "settings": {
+            "required": true,
+            "half_width": true
+          }
+        },
+        "contact-email-3": {
+          "type": "email",
+          "settings": {
+            "required": true,
+            "half_width": true
+          }
+        },
+        "b902db29-798a-4504-ae53-56c346fd956c": {
+          "type": "phone",
+          "settings": {
+            "required": false,
+            "half_width": true
+          }
+        },
+        "custom_mmQhhC": {
+          "type": "custom",
+          "settings": {
+            "title": "Custom input",
+            "type": "text",
+            "required": false,
+            "half_width": true
+          }
+        },
+        "dropdown_mwewYK": {
+          "type": "dropdown",
+          "settings": {
+            "title": "Dropdown",
+            "options": "Option 1\nOption 2\nOption 3",
+            "half_width": false
+          }
+        },
+        "contact-body-5": {
+          "type": "body",
+          "settings": {
+            "required": true,
+            "half_width": false
+          }
+        }
+      },
+      "block_order": [
+        "contact-name-2",
+        "contact-email-3",
+        "b902db29-798a-4504-ae53-56c346fd956c",
+        "custom_mmQhhC",
+        "dropdown_mwewYK",
+        "contact-body-5"
+      ],
+      "settings": {
+        "heading": "Get in touch",
+        "heading_align": "text-center",
+        "image_position": "bottom",
+        "color_scheme": "none",
+        "full_width": false,
+        "button_style": "btn btn--primary"
+      }
+    },
+    "rich_text_ddCDH9": {
+      "type": "rich-text",
+      "blocks": {
+        "heading_3re3fX": {
+          "type": "heading",
+          "settings": {
+            "heading": "Contact infomation",
+            "heading_size": "h2",
+            "heading_h1": false
+          }
+        },
+        "text_VHayFV": {
+          "type": "text",
+          "settings": {
+            "text": "<ul><li>75 9th Ave, New York, NY 10011-7006</li><li>+1234567890</li><li><a href=\"mailto:info@yourstore.com\">info@yourstore.com</a></li></ul><p></p><p>Opening hours</p><p>Mon - Fri, 8:30am - 10:30pm,<br/>Saturday, 8:30am - 10:30pm,<br/>Sunday, 8:30am - 10:30pm</p>",
+            "enlarge_text": false
+          }
+        }
+      },
+      "block_order": [
+        "heading_3re3fX",
+        "text_VHayFV"
+      ],
+      "name": "Rich text",
+      "settings": {
+        "text_position": "justify-center",
+        "text_align": "text-start",
+        "mob_center_text": true,
+        "color_scheme": "none",
+        "full_width": true,
+        "prevent_animation": false
+      }
+    }
+  },
+  "order": [
+    "image_with_text_WTeW44",
+    "main",
+    "rich_text_JteMHf",
+    "icons_with_text_TaRxaE",
+    "form",
+    "rich_text_ddCDH9"
+  ]
+}

@@ -1,0 +1,144 @@
+{%- liquid
+  assign heading_el = block.settings.heading_tag
+  assign transform_class = ''
+  if block.settings.text_transform != 'none' and block.settings.text_transform != blank
+    assign transform_class = ' text-transform--' | append: block.settings.text_transform
+  endif
+-%}
+
+{%- if block.settings.heading != blank -%}
+  {%- style -%}
+    #block-{{ block.id }} {
+      padding-top: {{ block.settings.padding_top }}px;
+      padding-bottom: {{ block.settings.padding_bottom }}px;
+      padding-left: {{ block.settings.padding_left }}px;
+      padding-right: {{ block.settings.padding_right }}px;
+    }
+  {%- endstyle -%}
+  <{{ heading_el }} id="block-{{ block.id }}" class="{{ block.settings.heading_size }}{{ transform_class }}" {{ block.shopify_attributes }}>
+    {%- render 'multiline-text' with block.settings.heading -%}
+  </{{ heading_el }}>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Heading",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "info": "Enter <br> for a line-break.",
+      "default": "Heading"
+    },
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+    {
+      "type": "select",
+      "id": "heading_tag",
+      "label": "Heading tag",
+      "options": [
+        { "value": "h1", "label": "H1" },
+        { "value": "h2", "label": "H2" },
+        { "value": "h3", "label": "H3" },
+        { "value": "h4", "label": "H4" },
+        { "value": "h5", "label": "H5" },
+        { "value": "h6", "label": "H6" }
+      ],
+      "default": "h2"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "label": "Font size",
+      "options": [
+        { "value": "h6", "label": "Extra extra small" },
+        { "value": "h5", "label": "Extra small" },
+        { "value": "h4", "label": "Small" },
+        { "value": "h3", "label": "Medium" },
+        { "value": "h2", "label": "Large" },
+        { "value": "h1", "label": "Extra large" },
+        { "value": "h0", "label": "Extra extra large" }
+      ],
+      "default": "h3"
+    },
+    {
+      "type": "header",
+      "content": "Highlight",
+      "info": "Wrap your text between [ ] to add text highlights. E.g: Adding [marker] will underline [highlight] text."
+    },
+    {
+      "type": "select",
+      "id": "highlight_effect",
+      "label": "Highlight effect",
+      "options": [
+        { "value": "underline",         "label": "Underline" },
+        { "value": "text-color-change", "label": "Text color change" },
+        { "value": "background",        "label": "Background" }
+      ],
+      "default": "text-color-change"
+    },
+    {
+      "type": "select",
+      "id": "text_transform",
+      "label": "Text transform",
+      "options": [
+        { "value": "none",       "label": "None" },
+        { "value": "uppercase",  "label": "Uppercase" },
+        { "value": "capitalize", "label": "Capitalize" }
+      ],
+      "default": "none"
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 60,
+      "step": 4,
+      "unit": "px",
+      "label": "Top",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 60,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_left",
+      "min": 0,
+      "max": 60,
+      "step": 4,
+      "unit": "px",
+      "label": "Left",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_right",
+      "min": 0,
+      "max": 60,
+      "step": 4,
+      "unit": "px",
+      "label": "Right",
+      "default": 0
+    }
+  ]
+}
+{% endschema %}

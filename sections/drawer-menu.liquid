@@ -1,0 +1,707 @@
+{%- liquid
+  assign menu = linklists[section.settings.menu]
+  assign enable_mobile = section.settings.enable_mobile
+  assign color_scheme = section.settings.color_scheme
+-%}
+
+{%- style -%}
+  #drawer-menu-{{ section.id }} {
+    --drawer-block-spacing: {{ section.settings.block_spacing }}px;
+  }
+  .drawer-menu__toggle {
+    background-color: {{ section.settings.toggle_bg_color }};
+    color: {{ section.settings.toggle_text_color }};
+  }
+  .drawer-menu__toggle:hover {
+    background-color: {{ section.settings.toggle_bg_color | color_darken: 8 }};
+  }
+{%- endstyle -%}
+
+{{ 'drawer-menu.css' | asset_url | stylesheet_tag }}
+
+<nav-drawer-menu
+  id="drawer-menu-{{ section.id }}"
+  class="drawer-menu{% unless enable_mobile %} drawer-menu--desktop-only{% endunless %}"
+  data-section-id="{{ section.id }}"
+  data-trigger="{{ section.settings.desktop_trigger }}">
+
+  <template id="drawer-menu-toggle-{{ section.id }}">
+    <button
+      type="button"
+      class="drawer-menu__toggle"
+      aria-expanded="false"
+      aria-controls="drawer-menu-panel-{{ section.id }}">
+      <span class="drawer-menu__toggle-icon" aria-hidden="true">
+        <span class="drawer-menu__toggle-line"></span>
+        <span class="drawer-menu__toggle-line"></span>
+        <span class="drawer-menu__toggle-line"></span>
+      </span>
+      <span class="md:hidden">{{ section.settings.mobile_title | escape }}</span>
+      <span class="hidden md:inline">{{ section.settings.desktop_title | escape }}</span>
+    </button>
+  </template>
+
+  <div class="drawer-menu__panel{% unless color_scheme == 'none' %} color-scheme color-scheme--{{ color_scheme }}{% endunless %} has-motion"
+       id="drawer-menu-panel-{{ section.id }}"
+       role="dialog"
+       aria-modal="true"
+       aria-label="{{ section.settings.mobile_title | escape }}"
+       aria-hidden="true">
+
+    <div class="drawer-menu__welcome">
+      <span class="drawer-menu__welcome-text">Welcome to {{ shop.name }}</span>
+      <div class="drawer-menu__welcome-actions">
+        {%- if shop.customer_accounts_enabled -%}
+          <a href="{{ routes.account_url }}" class="drawer-menu__welcome-icon" aria-label="{{ 'sections.header.account' | t }}">
+            {%- render 'icon-customer' -%}
+          </a>
+        {%- endif -%}
+        <button type="button"
+                class="dark-mode-toggle drawer-menu__welcome-icon"
+                aria-label="Toggle dark mode"
+                aria-pressed="false">
+          <span class="dark-mode-toggle__track" aria-hidden="true">
+            <span class="dark-mode-toggle__icon dark-mode-toggle__icon--moon">{%- render 'icon-moon' -%}</span>
+            <span class="dark-mode-toggle__icon dark-mode-toggle__icon--sun">{%- render 'icon-sun' -%}</span>
+            <span class="dark-mode-toggle__thumb"></span>
+          </span>
+          <span class="visually-hidden">Toggle dark mode</span>
+        </button>
+        <button type="button"
+                class="drawer-menu__panel-close drawer-menu__welcome-icon"
+                aria-label="{{ 'accessibility.close' | t }}">
+          {%- render 'icon-close' -%}
+        </button>
+      </div>
+    </div>
+
+    <div class="drawer-menu__panel-body">
+      {%- if menu != blank -%}
+        <nav aria-label="{{ section.settings.mobile_title | escape }}">
+          <ul class="drawer-menu__nav" role="list">
+            {%- for link in menu.links -%}
+
+              {%- liquid
+                assign matched_block = false
+                assign link_lower = link.title | downcase | strip
+                for b in section.blocks
+                  assign block_item_lower = b.settings.menu_item | downcase | strip
+                  if block_item_lower == link_lower
+                    assign matched_block = b
+                    break
+                  endif
+                endfor
+              -%}
+
+              <li class="drawer-menu__item{% if link.links != blank %} drawer-menu__item--has-children{% endif %}">
+                <div class="drawer-menu__item-row">
+                  <a class="drawer-menu__link{% if link.current %} is-active{% endif %}"
+                     href="{{ link.url }}"
+                     {% if link.current %}aria-current="page"{% endif %}>
+                    {{- link.title | escape -}}
+                  </a>
+                  {%- if link.links != blank -%}
+                    <button type="button"
+                            class="drawer-menu__expand-btn"
+                            aria-expanded="false"
+                            aria-controls="drawer-sub-{{ section.id }}-{{ forloop.index }}"
+                            aria-label="{{ 'accessibility.toggle_submenu' | t: title: link.title | escape }}">
+                      {%- render 'icon-chevron-down' -%}
+                    </button>
+                  {%- endif -%}
+                </div>
+
+                {%- if link.links != blank -%}
+                  <div class="drawer-menu__submenu has-motion" id="drawer-sub-{{ section.id }}-{{ forloop.index }}">
+                    <div class="drawer-menu__submenu-inner">
+                      {%- if matched_block != false and matched_block.settings.view_all_link != blank -%}
+                        <a class="drawer-menu__view-all"
+                           href="{{ matched_block.settings.view_all_link }}"
+                           {% if matched_block.settings.view_all_new_tab %}target="_blank" rel="noopener noreferrer"{% endif %}>
+                          {{ matched_block.settings.view_all_title | default: 'View all' | escape }}
+                          {%- render 'icon-chevron-right' -%}
+                        </a>
+                      {%- endif -%}
+
+                      <ul role="list">
+                        {%- for child_link in link.links -%}
+                          <li>
+                            {%- if child_link.links != blank -%}
+                              <div class="drawer-menu__item-row drawer-menu__item-row--child">
+                                <a class="drawer-menu__child-link{% if child_link.current %} is-active{% endif %}"
+                                   href="{{ child_link.url }}"
+                                   {% if child_link.current %}aria-current="page"{% endif %}>
+                                  {{- child_link.title | escape -}}
+                                </a>
+                                <button type="button"
+                                        class="drawer-menu__expand-btn drawer-menu__expand-btn--sm"
+                                        aria-expanded="false"
+                                        aria-controls="drawer-grand-{{ section.id }}-{{ forloop.parentloop.index }}-{{ forloop.index }}"
+                                        aria-label="{{ 'accessibility.toggle_submenu' | t: title: child_link.title | escape }}">
+                                  {%- render 'icon-chevron-down' -%}
+                                </button>
+                              </div>
+                              <div class="drawer-menu__submenu drawer-menu__submenu--grandchild has-motion"
+                                   id="drawer-grand-{{ section.id }}-{{ forloop.parentloop.index }}-{{ forloop.index }}">
+                                <div class="drawer-menu__submenu-inner">
+                                  <ul role="list">
+                                    {%- for grandchild_link in child_link.links -%}
+                                      <li>
+                                        <a class="drawer-menu__grandchild-link{% if grandchild_link.current %} is-active{% endif %}"
+                                           href="{{ grandchild_link.url }}"
+                                           {% if grandchild_link.current %}aria-current="page"{% endif %}>
+                                          {{- grandchild_link.title | escape -}}
+                                        </a>
+                                      </li>
+                                    {%- endfor -%}
+                                  </ul>
+                                </div>
+                              </div>
+                            {%- else -%}
+                              <a class="drawer-menu__child-link{% if child_link.current %} is-active{% endif %}"
+                                 href="{{ child_link.url }}"
+                                 {% if child_link.current %}aria-current="page"{% endif %}>
+                                {{- child_link.title | escape -}}
+                              </a>
+                            {%- endif -%}
+                          </li>
+                        {%- endfor -%}
+                      </ul>
+
+                      {%- if matched_block != false -%}
+                        {%- if matched_block.settings.promo1_image != blank or matched_block.settings.promo2_image != blank -%}
+                          <div class="drawer-menu__promos drawer-menu__promos--pos-{{ matched_block.settings.promo_position }} drawer-menu__promos--layout-{{ matched_block.settings.promo_layout }}"
+                               style="--promo-desktop-height: {{ matched_block.settings.desktop_image_height }}px; --promo-mobile-height: {{ matched_block.settings.mobile_image_height }}px;"
+                               {{ matched_block.shopify_attributes }}>
+                            {%- if matched_block.settings.promo1_image != blank -%}
+                              <div class="drawer-menu__promo">
+                                <picture>
+                                  {%- if matched_block.settings.promo1_mobile_image != blank -%}
+                                    <source media="(max-width: 767px)"
+                                            srcset="{{ matched_block.settings.promo1_mobile_image | image_url: width: 400 }}">
+                                  {%- endif -%}
+                                  {{- matched_block.settings.promo1_image | image_url: width: 600 | image_tag:
+                                    loading: 'lazy',
+                                    class: 'drawer-menu__promo-img',
+                                    alt: matched_block.settings.promo1_image.alt | default: link.title | escape
+                                  -}}
+                                </picture>
+                              </div>
+                            {%- endif -%}
+                            {%- if matched_block.settings.promo2_image != blank -%}
+                              <div class="drawer-menu__promo">
+                                <picture>
+                                  {%- if matched_block.settings.promo2_mobile_image != blank -%}
+                                    <source media="(max-width: 767px)"
+                                            srcset="{{ matched_block.settings.promo2_mobile_image | image_url: width: 400 }}">
+                                  {%- endif -%}
+                                  {{- matched_block.settings.promo2_image | image_url: width: 600 | image_tag:
+                                    loading: 'lazy',
+                                    class: 'drawer-menu__promo-img',
+                                    alt: matched_block.settings.promo2_image.alt | default: link.title | escape
+                                  -}}
+                                </picture>
+                              </div>
+                            {%- endif -%}
+                          </div>
+                        {%- endif -%}
+                      {%- endif -%}
+                    </div>
+                  </div>
+                {%- endif -%}
+              </li>
+            {%- endfor -%}
+          </ul>
+        </nav>
+      {%- endif -%}
+    </div>
+
+    {%- comment -%} Store locator footer — only shown on mobile when store locator section is active {%- endcomment -%}
+    <div class="drawer-menu__panel-footer js-drawer-store-footer" style="display:none">
+      <button type="button" class="drawer-menu__store-btn js-drawer-store-btn" aria-label="{{ 'sections.store_locator.trigger_label' | t | default: 'Select store' }}">
+        <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+          <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+        </svg>
+        <span class="drawer-menu__store-btn-label js-drawer-store-label">Select store</span>
+        <svg class="drawer-menu__store-btn-chevron" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="9 18 15 12 9 6"></polyline>
+        </svg>
+      </button>
+    </div>
+  </div>
+</nav-drawer-menu>
+
+<script>
+(function() {
+  class NavDrawerMenu extends HTMLElement {
+    constructor() {
+      super();
+      this.panel = null;
+      this.toggleBtn = null;
+      this.isOpen = false;
+      this.overlay = null;
+      this._hoverCloseTimeout = null;
+    }
+
+    connectedCallback() {
+      this.panel = this.querySelector('.drawer-menu__panel');
+      this.overlay = document.querySelector('.js-overlay');
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', () => this._init());
+      } else {
+        this._init();
+      }
+    }
+
+    _init() {
+      this._injectToggleButton();
+      this._bindPanelEvents();
+    }
+
+    _injectToggleButton() {
+      const sectionId = this.dataset.sectionId;
+      const tmpl = document.getElementById('drawer-menu-toggle-' + sectionId);
+      if (!tmpl) return;
+
+      const clone = tmpl.content.cloneNode(true);
+
+      const headerGrid = document.querySelector('.header__grid');
+      if (headerGrid) {
+        const logo = headerGrid.querySelector('.header__logo');
+        headerGrid.insertBefore(clone, logo || headerGrid.firstChild);
+      } else {
+        this.insertBefore(clone, this.panel);
+      }
+
+      const panelId = 'drawer-menu-panel-' + sectionId;
+      this.toggleBtn = document.querySelector('[aria-controls="' + panelId + '"]');
+      if (!this.toggleBtn) return;
+
+      const trigger = this.dataset.trigger || 'click';
+
+      if (trigger === 'hover') {
+        this.toggleBtn.addEventListener('mouseenter', () => this.open());
+        this.toggleBtn.addEventListener('mouseleave', (e) => {
+          if (!this.panel.contains(e.relatedTarget)) {
+            this._hoverCloseTimeout = setTimeout(() => this.close(), 120);
+          }
+        });
+        this.panel.addEventListener('mouseenter', () => {
+          clearTimeout(this._hoverCloseTimeout);
+        });
+        this.panel.addEventListener('mouseleave', (e) => {
+          if (e.relatedTarget !== this.toggleBtn && !this.toggleBtn.contains(e.relatedTarget)) {
+            this._hoverCloseTimeout = setTimeout(() => this.close(), 120);
+          }
+        });
+        this.toggleBtn.addEventListener('click', () => this.toggle());
+      } else {
+        this.toggleBtn.addEventListener('click', () => this.toggle());
+      }
+    }
+
+    _bindPanelEvents() {
+      if (!this.panel) return;
+
+      this.panel.querySelector('.drawer-menu__panel-close')
+        ?.addEventListener('click', () => this.close());
+
+      this.panel.querySelectorAll('.drawer-menu__expand-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const id = btn.getAttribute('aria-controls');
+          const submenu = document.getElementById(id);
+          if (!submenu) return;
+          const expanded = btn.getAttribute('aria-expanded') === 'true';
+          btn.setAttribute('aria-expanded', String(!expanded));
+          submenu.classList.toggle('is-open', !expanded);
+        });
+      });
+
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && this.isOpen) this.close();
+      });
+    }
+
+    toggle() {
+      this.isOpen ? this.close() : this.open();
+    }
+
+    open() {
+      if (this.isOpen) return;
+      this.isOpen = true;
+
+      this.panel.setAttribute('open', '');
+      this.panel.setAttribute('aria-hidden', 'false');
+      document.body.classList.add('overflow-hidden');
+
+      if (this.toggleBtn) {
+        this.toggleBtn.setAttribute('aria-expanded', 'true');
+      }
+
+      if (this.overlay) {
+        this.overlay.classList.add('is-visible');
+        this._overlayClickHandler = () => this.close();
+        this.overlay.addEventListener('click', this._overlayClickHandler, { once: true });
+      }
+
+      const firstFocusable = this.panel.querySelector('button, a[href]');
+      if (firstFocusable) firstFocusable.focus();
+
+      this.dispatchEvent(new CustomEvent('drawer-menu:open', { bubbles: true }));
+    }
+
+    close() {
+      if (!this.isOpen) return;
+      this.isOpen = false;
+
+      this.panel.removeAttribute('open');
+      this.panel.setAttribute('aria-hidden', 'true');
+      document.body.classList.remove('overflow-hidden');
+
+      if (this.toggleBtn) {
+        this.toggleBtn.setAttribute('aria-expanded', 'false');
+        this.toggleBtn.focus();
+      }
+
+      if (this.overlay) {
+        this.overlay.classList.remove('is-visible');
+        if (this._overlayClickHandler) {
+          this.overlay.removeEventListener('click', this._overlayClickHandler);
+        }
+      }
+
+      this.dispatchEvent(new CustomEvent('drawer-menu:close', { bubbles: true }));
+    }
+  }
+
+  if (!customElements.get('nav-drawer-menu')) {
+    customElements.define('nav-drawer-menu', NavDrawerMenu);
+  }
+})();
+</script>
+
+<script>
+(function () {
+  var _inited = false;
+
+  function initDrawerStoreTrigger() {
+    if (_inited) return;
+    var headerTrigger = document.querySelector('.store-locator__trigger');
+    if (!headerTrigger) return;
+    _inited = true;
+
+    var footer = document.querySelector('.js-drawer-store-footer');
+    var btn    = document.querySelector('.js-drawer-store-btn');
+    var label  = document.querySelector('.js-drawer-store-label');
+    if (!footer || !btn) return;
+
+    footer.style.display = '';
+
+    function syncLabel() {
+      var srcLabel = headerTrigger.querySelector('.store-locator__trigger-label');
+      if (srcLabel && label && srcLabel.textContent.trim()) {
+        label.textContent = srcLabel.textContent.trim();
+      }
+    }
+    syncLabel();
+
+    var srcLabel = headerTrigger.querySelector('.store-locator__trigger-label');
+    if (srcLabel) {
+      new MutationObserver(syncLabel).observe(srcLabel, { childList: true, characterData: true, subtree: true });
+    }
+
+    btn.addEventListener('click', function () {
+      var closeBtn = document.querySelector('.drawer-menu__panel[open] .drawer-menu__panel-close');
+      if (closeBtn) closeBtn.click();
+      setTimeout(function () { headerTrigger.click(); }, 60);
+    });
+  }
+
+  function tryInit() {
+    initDrawerStoreTrigger();
+    if (!_inited) setTimeout(initDrawerStoreTrigger, 500);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', tryInit);
+  } else {
+    tryInit();
+  }
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Drawer menu",
+  "class": "cc-drawer-menu",
+  "settings": [
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Drawer menu",
+      "default": "main-menu"
+    },
+    {
+      "type": "paragraph",
+      "content": "Add blocks named \"Drawer menu\" under this section to add promotion, images for each menu item."
+    },
+    {
+      "type": "select",
+      "id": "desktop_trigger",
+      "label": "Desktop menu selection",
+      "options": [
+        { "value": "hover", "label": "On hover" },
+        { "value": "click", "label": "On click" }
+      ],
+      "default": "hover"
+    },
+    {
+      "type": "text",
+      "id": "desktop_title",
+      "label": "Desktop drawer menu title",
+      "default": "Menu"
+    },
+    {
+      "type": "text",
+      "id": "mobile_title",
+      "label": "Mobile drawer menu title",
+      "default": "Drawer menu"
+    },
+    {
+      "type": "select",
+      "id": "menu_style",
+      "label": "Drawer menu style",
+      "options": [
+        { "value": "primary", "label": "Primary" },
+        { "value": "secondary", "label": "Secondary" }
+      ],
+      "default": "primary"
+    },
+    {
+      "type": "range",
+      "id": "block_spacing",
+      "min": 0,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "label": "Desktop block spacing",
+      "default": 20
+    },
+    {
+      "type": "header",
+      "content": "Collection images"
+    },
+    {
+      "type": "select",
+      "id": "show_1st_level_images",
+      "label": "Show 1st-level menu images",
+      "options": [
+        { "value": "none", "label": "None" },
+        { "value": "first_product", "label": "First product image" },
+        { "value": "featured", "label": "Featured image" }
+      ],
+      "default": "first_product"
+    },
+    {
+      "type": "select",
+      "id": "show_2nd_level_collection_image",
+      "label": "Show second-level collection image",
+      "options": [
+        { "value": "above", "label": "Above menu" },
+        { "value": "none", "label": "None" }
+      ],
+      "default": "above"
+    },
+    {
+      "type": "select",
+      "id": "show_2nd_level_images",
+      "label": "Show 2nd-level menu images",
+      "options": [
+        { "value": "none", "label": "None" },
+        { "value": "featured", "label": "Featured image" },
+        { "value": "first_product", "label": "First product image" }
+      ],
+      "default": "featured"
+    },
+    {
+      "type": "text",
+      "id": "collection_image_metafield",
+      "label": "Collection image metafield",
+      "info": "Use metafield for image to have better ratio and quality. Applies to both menu level."
+    },
+    {
+      "type": "select",
+      "id": "image_ratio_2nd",
+      "label": "2nd-level image ratio",
+      "options": [
+        { "value": "1.777", "label": "Wide (16:9)" },
+        { "value": "1.333", "label": "Landscape (4:3)" },
+        { "value": "1", "label": "Square" },
+        { "value": "0.75", "label": "Portrait (3:4)" }
+      ],
+      "default": "1.777"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_mobile",
+      "label": "Enable drawer menu on mobile",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Toggle button colors"
+    },
+    {
+      "type": "color",
+      "id": "toggle_bg_color",
+      "label": "Button background",
+      "default": "#1b3a1b"
+    },
+    {
+      "type": "color",
+      "id": "toggle_text_color",
+      "label": "Button text & icon",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Drawer panel colors"
+    },
+    {
+      "type": "select",
+      "id": "color_scheme",
+      "label": "Color scheme (light)",
+      "options": [
+        { "value": "1", "label": "Scheme 1" },
+        { "value": "2", "label": "Scheme 2" },
+        { "value": "3", "label": "Scheme 3" },
+        { "value": "none", "label": "None (inherit)" }
+      ],
+      "default": "1"
+    },
+    {
+      "type": "select",
+      "id": "color_scheme_dark",
+      "label": "Color scheme (dark)",
+      "options": [
+        { "value": "1", "label": "Scheme 1" },
+        { "value": "2", "label": "Scheme 2" },
+        { "value": "3", "label": "Scheme 3" },
+        { "value": "none", "label": "None (inherit)" }
+      ],
+      "default": "2"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "drawer_menu",
+      "name": "Drawer menu",
+      "settings": [
+        {
+          "type": "text",
+          "id": "menu_item",
+          "label": "Menu item",
+          "info": "Fill in the name of the 1st-level item you want to turn into mega menu (e.g. Shop All)"
+        },
+        {
+          "type": "url",
+          "id": "view_all_link",
+          "label": "\"View all\" link"
+        },
+        {
+          "type": "checkbox",
+          "id": "view_all_new_tab",
+          "label": "Open this link in a new tab",
+          "default": false
+        },
+        {
+          "type": "text",
+          "id": "view_all_title",
+          "label": "\"View all\" link title",
+          "default": "View all"
+        },
+        {
+          "type": "header",
+          "content": "Promotions"
+        },
+        {
+          "type": "select",
+          "id": "promo_position",
+          "label": "Position on large screen",
+          "options": [
+            { "value": "left", "label": "Left" },
+            { "value": "right", "label": "Right" },
+            { "value": "bottom", "label": "Bottom" }
+          ],
+          "default": "right"
+        },
+        {
+          "type": "select",
+          "id": "promo_layout",
+          "label": "Layout on large screens",
+          "options": [
+            { "value": "vertical", "label": "Vertical" },
+            { "value": "horizontal", "label": "Horizontal" }
+          ],
+          "default": "vertical"
+        },
+        {
+          "type": "range",
+          "id": "desktop_image_height",
+          "min": 100,
+          "max": 600,
+          "step": 10,
+          "unit": "px",
+          "label": "Desktop image height",
+          "default": 250
+        },
+        {
+          "type": "range",
+          "id": "mobile_image_height",
+          "min": 100,
+          "max": 400,
+          "step": 10,
+          "unit": "px",
+          "label": "Mobile image height",
+          "default": 200
+        },
+        {
+          "type": "header",
+          "content": "Promotion 1"
+        },
+        {
+          "type": "image_picker",
+          "id": "promo1_image",
+          "label": "Image",
+          "info": "Recommended size is 160x400 px."
+        },
+        {
+          "type": "image_picker",
+          "id": "promo1_mobile_image",
+          "label": "Mobile image"
+        },
+        {
+          "type": "header",
+          "content": "Promotion 2"
+        },
+        {
+          "type": "image_picker",
+          "id": "promo2_image",
+          "label": "Image"
+        },
+        {
+          "type": "image_picker",
+          "id": "promo2_mobile_image",
+          "label": "Mobile image"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Drawer menu"
+    }
+  ]
+}
+{% endschema %}

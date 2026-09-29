@@ -1,0 +1,535 @@
+{%- liquid
+  assign heading = section.settings.heading
+  assign subheading = section.settings.subheading
+  assign desktop_cols = section.settings.items_per_row_desktop
+  assign tablet_cols = section.settings.items_per_row_tablet
+  assign mobile_cols = section.settings.items_per_row_mobile
+  assign gap = section.settings.gap
+  assign section_bg_color = section.settings.section_bg_color
+  assign section_text_color = section.settings.section_text_color
+  assign card_bg_color = section.settings.card_bg_color
+  assign card_border_color = section.settings.card_border_color
+  assign card_title_color = section.settings.card_title_color
+  assign image_bg_color = section.settings.image_bg_color
+  assign link_color = section.settings.link_color
+
+  assign display_type_desktop = section.settings.display_type_desktop
+  assign display_type_mobile = section.settings.display_type_mobile
+  assign desktop_carousel = false
+  assign mobile_carousel = false
+  if display_type_desktop == 'carousel'
+    assign desktop_carousel = true
+  endif
+  if display_type_mobile == 'carousel'
+    assign mobile_carousel = true
+  endif
+  assign is_carousel = false
+  if desktop_carousel or mobile_carousel
+    assign is_carousel = true
+  endif
+  assign disable_mobile_carousel = false
+  if desktop_carousel and mobile_carousel == false
+    assign disable_mobile_carousel = true
+  endif
+
+  assign autoplay_every = section.settings.autoplay_every
+  assign show_nav = section.settings.show_navigation_arrows
+  assign autoplay_enabled = false
+  if autoplay_every > 0 and is_carousel
+    assign autoplay_enabled = true
+  endif
+
+  if is_carousel
+    assign grid_classes = 'grid-flow-col auto-cols-' | append: mobile_cols | append: ' sm:auto-cols-' | append: tablet_cols | append: ' lg:auto-cols-' | append: desktop_cols
+  endif
+-%}
+
+{%- style -%}
+  #{{ section.id }} {
+    background-color: {{ section_bg_color }};
+    color: {{ section_text_color }};
+  }
+  #{{ section.id }} .pc__header {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.5rem;
+    margin-bottom: 2rem;
+  }
+  #{{ section.id }} .pc__heading {
+    font-size: 2.8rem;
+    font-weight: 700;
+    margin: 0;
+    line-height: 1.1;
+    color: {{ section_text_color }};
+  }
+  #{{ section.id }} .pc__subheading {
+    font-size: 1.4rem;
+    color: {{ section_text_color }};
+    opacity: 0.6;
+    margin: 0;
+  }
+  #{{ section.id }} .pc__list {
+    display: grid;
+    grid-template-columns: repeat({{ mobile_cols }}, 1fr);
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    gap: {{ gap }}px;
+  }
+  @media screen and (min-width: 640px) {
+    #{{ section.id }} .pc__list {
+      grid-template-columns: repeat({{ tablet_cols }}, 1fr);
+    }
+  }
+  @media screen and (min-width: 1024px) {
+    #{{ section.id }} .pc__list {
+      grid-template-columns: repeat({{ desktop_cols }}, 1fr);
+    }
+  }
+  #{{ section.id }} .pc__card {
+    background-color: {{ card_bg_color }};
+    border: 1px solid {{ card_border_color }};
+    border-radius: 16px;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    box-sizing: border-box;
+  }
+  #{{ section.id }} .pc__image-wrap {
+    width: 80px;
+    height: 80px;
+    border-radius: 12px;
+    overflow: hidden;
+    background-color: {{ image_bg_color }};
+    margin-bottom: 1.25rem;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  #{{ section.id }} .pc__image-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  #{{ section.id }} .pc__placeholder-svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+  #{{ section.id }} .pc__card-heading {
+    color: {{ card_title_color }};
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin: 0 0 0.75rem;
+    line-height: 1.35;
+    flex: 1;
+  }
+  #{{ section.id }} .pc__card-link {
+    color: {{ link_color }};
+    font-size: 1.4rem;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    display: inline-block;
+    margin-top: auto;
+    transition: opacity 0.2s ease;
+  }
+  #{{ section.id }} .pc__card-link:hover {
+    opacity: 0.7;
+  }
+{%- endstyle -%}
+
+<div id="{{ section.id }}" class="section">
+  <div class="container">
+
+    {%- if heading != blank or subheading != blank -%}
+      <div class="pc__header">
+        {%- if heading != blank -%}
+          <h2 class="pc__heading">{{ heading | escape }}</h2>
+        {%- endif -%}
+        {%- if subheading != blank -%}
+          <p class="pc__subheading">{{ subheading | escape }}</p>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    {%- if is_carousel -%}
+      <carousel-slider class="carousel block relative" inactive{% if disable_mobile_carousel %} disable-mobile="true"{% endif %}>
+        {%- if show_nav -%}
+          <div class="slider-nav slide-nav--inline flex justify-between absolute top-0 h-full no-js-hidden">
+            <button type="button" class="slider-nav__btn tap-target tap-target--left btn text-current has-ltr-icon" name="prev" aria-controls="slider-{{ section.id }}">
+              <span class="visually-hidden">{{ 'general.slider.previous' | t }}</span>
+              {% render 'icon-chevron-left' %}
+            </button>
+            <button type="button" class="slider-nav__btn tap-target tap-target--right btn text-current has-ltr-icon" name="next" aria-controls="slider-{{ section.id }}">
+              <span class="visually-hidden">{{ 'general.slider.next' | t }}</span>
+              {% render 'icon-chevron-right' %}
+            </button>
+          </div>
+        {%- endif -%}
+        <div class="slider slider--contained" id="slider-{{ section.id }}">
+          <ul class="pc__list slider__grid grid {{ grid_classes }}" role="list">
+            {%- for block in section.blocks -%}
+              <li class="slider__item" {{ block.shopify_attributes }}{% if settings.animations_enabled != "disabled" %} data-cc-animate="fade-in" data-cc-animate-delay="{{ forloop.index | times: 0.07 }}s"{% endif %}>
+                <div class="pc__card">
+                  <div class="pc__image-wrap">
+                    {%- if block.settings.image != blank -%}
+                      {% render 'image', image: block.settings.image, widths: '80, 160', src_width: 80, class: 'pc__image' %}
+                    {%- else -%}
+                      {{ 'image' | placeholder_svg_tag: 'pc__placeholder-svg' }}
+                    {%- endif -%}
+                  </div>
+                  {%- if block.settings.heading != blank -%}
+                    <p class="pc__card-heading">{{ block.settings.heading | escape }}</p>
+                  {%- endif -%}
+                  {%- if block.settings.button_label != blank -%}
+                    <a class="pc__card-link" {% if block.settings.button_link != blank %}href="{{ block.settings.button_link }}"{% else %}role="link" aria-disabled="true"{% endif %}>
+                      {{ block.settings.button_label | escape }}
+                    </a>
+                  {%- endif -%}
+                </div>
+              </li>
+            {%- else -%}
+              {%- for i in (1..6) -%}
+                <li class="slider__item">
+                  <div class="pc__card">
+                    <div class="pc__image-wrap">
+                      {{ 'image' | placeholder_svg_tag: 'pc__placeholder-svg' }}
+                    </div>
+                    <p class="pc__card-heading">Company name</p>
+                    <a class="pc__card-link" role="link" aria-disabled="true">Shop now</a>
+                  </div>
+                </li>
+              {%- endfor -%}
+            {%- endfor -%}
+          </ul>
+        </div>
+      </carousel-slider>
+    {%- else -%}
+      <ul class="pc__list" role="list">
+        {%- for block in section.blocks -%}
+          <li {{ block.shopify_attributes }}{% if settings.animations_enabled != "disabled" %} data-cc-animate="fade-in-up" data-cc-animate-delay="{{ forloop.index | times: 0.07 }}s"{% endif %}>
+            <div class="pc__card">
+              <div class="pc__image-wrap">
+                {%- if block.settings.image != blank -%}
+                  {% render 'image', image: block.settings.image, widths: '80, 160', src_width: 80, class: 'pc__image' %}
+                {%- else -%}
+                  {{ 'image' | placeholder_svg_tag: 'pc__placeholder-svg' }}
+                {%- endif -%}
+              </div>
+              {%- if block.settings.heading != blank -%}
+                <p class="pc__card-heading">{{ block.settings.heading | escape }}</p>
+              {%- endif -%}
+              {%- if block.settings.button_label != blank -%}
+                <a class="pc__card-link" {% if block.settings.button_link != blank %}href="{{ block.settings.button_link }}"{% else %}role="link" aria-disabled="true"{% endif %}>
+                  {{ block.settings.button_label | escape }}
+                </a>
+              {%- endif -%}
+            </div>
+          </li>
+        {%- else -%}
+          {%- for i in (1..6) -%}
+            <li>
+              <div class="pc__card">
+                <div class="pc__image-wrap">
+                  {{ 'image' | placeholder_svg_tag: 'pc__placeholder-svg' }}
+                </div>
+                <p class="pc__card-heading">Company name</p>
+                <a class="pc__card-link" role="link" aria-disabled="true">Shop now</a>
+              </div>
+            </li>
+          {%- endfor -%}
+        {%- endfor -%}
+      </ul>
+    {%- endif -%}
+
+  </div>
+</div>
+
+{%- if autoplay_enabled -%}
+  <script type="text/javascript">
+    (function() {
+      var sectionId = '{{ section.id }}';
+      var intervalMs = {{ autoplay_every | times: 1000 }};
+      function initAutoPlay() {
+        var sectionEl = document.getElementById(sectionId);
+        if (!sectionEl) return;
+        var carousel = sectionEl.querySelector('carousel-slider');
+        if (!carousel) return;
+        var slider = carousel.querySelector('.slider');
+        var items = carousel.querySelectorAll('.slider__item');
+        if (!slider || items.length < 2) return;
+        var paused = false;
+        var gap = {{ gap }};
+        var itemWidth = items[0].getBoundingClientRect().width;
+        var distance = itemWidth + gap;
+
+        sectionEl.addEventListener('mouseenter', function() { paused = true; });
+        sectionEl.addEventListener('mouseleave', function() { paused = false; });
+
+        setInterval(function() {
+          if (paused) return;
+          if (slider.scrollLeft + slider.clientWidth >= slider.scrollWidth - 2) {
+            slider.scrollTo({ left: 0, behavior: 'smooth' });
+          } else {
+            slider.scrollBy({ left: distance, behavior: 'smooth' });
+          }
+        }, intervalMs);
+      }
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initAutoPlay);
+      } else {
+        initAutoPlay();
+      }
+    })();
+  </script>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Popular Companies",
+  "tag": "section",
+  "class": "cc-popular-companies",
+  "max_blocks": 20,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section header"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Popular Companies"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Some of the new products arriving this weeks"
+    },
+    {
+      "type": "header",
+      "content": "Display"
+    },
+    {
+      "type": "select",
+      "id": "display_type_desktop",
+      "label": "Display type (Desktop)",
+      "options": [
+        { "value": "grid", "label": "Grid" },
+        { "value": "carousel", "label": "Carousel" }
+      ],
+      "default": "grid"
+    },
+    {
+      "type": "select",
+      "id": "display_type_mobile",
+      "label": "Display type (Mobile)",
+      "options": [
+        { "value": "grid", "label": "Grid" },
+        { "value": "carousel", "label": "Carousel" }
+      ],
+      "default": "grid"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "items_per_row_desktop",
+      "label": "Items per row (Desktop)",
+      "min": 2,
+      "max": 8,
+      "step": 1,
+      "default": 6
+    },
+    {
+      "type": "range",
+      "id": "items_per_row_tablet",
+      "label": "Items per row (Tablet)",
+      "min": 2,
+      "max": 4,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "range",
+      "id": "items_per_row_mobile",
+      "label": "Items per row (Mobile)",
+      "min": 1,
+      "max": 3,
+      "step": 1,
+      "default": 2
+    },
+    {
+      "type": "header",
+      "content": "Carousel behavior"
+    },
+    {
+      "type": "range",
+      "id": "autoplay_every",
+      "label": "Auto-play every",
+      "min": 0,
+      "max": 20,
+      "step": 1,
+      "unit": "s",
+      "default": 5,
+      "info": "Leave 0 to disable auto-play"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_navigation_arrows",
+      "label": "Show navigation arrows",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "gap",
+      "label": "Gap",
+      "min": 0,
+      "max": 48,
+      "step": 2,
+      "unit": "px",
+      "default": 8
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "section_bg_color",
+      "label": "Section background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "section_text_color",
+      "label": "Section text color",
+      "default": "#111111"
+    },
+    {
+      "type": "color",
+      "id": "card_bg_color",
+      "label": "Card background",
+      "default": "#f0ede6"
+    },
+    {
+      "type": "color",
+      "id": "card_border_color",
+      "label": "Card border color",
+      "default": "#e8e3d9"
+    },
+    {
+      "type": "color",
+      "id": "card_title_color",
+      "label": "Card heading color",
+      "default": "#111111"
+    },
+    {
+      "type": "color",
+      "id": "image_bg_color",
+      "label": "Image background",
+      "default": "#d4cec4"
+    },
+    {
+      "type": "color",
+      "id": "link_color",
+      "label": "Link color",
+      "default": "#666666"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "item",
+      "name": "Item",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "Company name"
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "Button label",
+          "default": "Shop now"
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "Button link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Popular Companies",
+      "category": "Collections",
+      "blocks": [
+        {
+          "type": "item",
+          "settings": {
+            "heading": "Handcrafted cookie, sweet.",
+            "button_label": "Shop now"
+          }
+        },
+        {
+          "type": "item",
+          "settings": {
+            "heading": "Good grains, great meals.",
+            "button_label": "Shop now"
+          }
+        },
+        {
+          "type": "item",
+          "settings": {
+            "heading": "Enjoyed everywhere.",
+            "button_label": "Shop now"
+          }
+        },
+        {
+          "type": "item",
+          "settings": {
+            "heading": "Real produce, responsibly grown.",
+            "button_label": "Shop now"
+          }
+        },
+        {
+          "type": "item",
+          "settings": {
+            "heading": "Fresh dairy, simply better.",
+            "button_label": "Shop now"
+          }
+        },
+        {
+          "type": "item",
+          "settings": {
+            "heading": "From our farm to your table.",
+            "button_label": "Shop now"
+          }
+        }
+      ]
+    }
+  ],
+  "disabled_on": {
+    "groups": ["aside"]
+  }
+}
+{% endschema %}

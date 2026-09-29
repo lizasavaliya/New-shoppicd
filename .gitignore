@@ -1,0 +1,10 @@
+# Editor temp files
+*.tmp.*
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Shopify CLI
+.shopify/
+node_modules/

@@ -1,0 +1,127 @@
+{%- liquid
+  assign font_size_class = ''
+  if block.settings.font_size == 'small'
+    assign font_size_class = ' subheading--small'
+  elsif block.settings.font_size == 'large'
+    assign font_size_class = ' subheading--large'
+  endif
+
+  assign transform_class = ''
+  if block.settings.text_transform != 'none' and block.settings.text_transform != blank
+    assign transform_class = ' text-transform--' | append: block.settings.text_transform
+  endif
+-%}
+
+{%- if block.settings.subheading != blank -%}
+  {%- style -%}
+    #block-{{ block.id }} {
+      padding-top: {{ block.settings.padding_top }}px;
+      padding-bottom: {{ block.settings.padding_bottom }}px;
+      padding-left: {{ block.settings.padding_left }}px;
+      padding-right: {{ block.settings.padding_right }}px;
+    }
+  {%- endstyle -%}
+  <p id="block-{{ block.id }}" class="subheading{{ font_size_class }}{{ transform_class }}" {{ block.shopify_attributes }}>
+    {{- block.settings.subheading | escape -}}
+  </p>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Subheading",
+  "settings": [
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Subheading"
+    },
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+    {
+      "type": "select",
+      "id": "font_size",
+      "label": "Font size",
+      "options": [
+        { "value": "small",  "label": "Small" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "large",  "label": "Large" }
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "header",
+      "content": "Highlight",
+      "info": "Wrap your text between [ ] to add text highlights. E.g: Adding [marker] will underline [highlight] text."
+    },
+    {
+      "type": "select",
+      "id": "highlight_effect",
+      "label": "Highlight effect",
+      "options": [
+        { "value": "underline",          "label": "Underline" },
+        { "value": "text-color-change",  "label": "Text color change" },
+        { "value": "background",         "label": "Background" }
+      ],
+      "default": "underline"
+    },
+    {
+      "type": "select",
+      "id": "text_transform",
+      "label": "Text transform",
+      "options": [
+        { "value": "none",       "label": "None" },
+        { "value": "uppercase",  "label": "Uppercase" },
+        { "value": "capitalize", "label": "Capitalize" }
+      ],
+      "default": "none"
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 60,
+      "step": 4,
+      "unit": "px",
+      "label": "Top",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 60,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_left",
+      "min": 0,
+      "max": 60,
+      "step": 4,
+      "unit": "px",
+      "label": "Left",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_right",
+      "min": 0,
+      "max": 60,
+      "step": 4,
+      "unit": "px",
+      "label": "Right",
+      "default": 0
+    }
+  ]
+}
+{% endschema %}
