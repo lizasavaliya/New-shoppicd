@@ -8,3 +8,7 @@ Thumbs.db
 # Shopify CLI
 .shopify/
 node_modules/
+
+# Node / testing
+node_modules/
+coverage/
