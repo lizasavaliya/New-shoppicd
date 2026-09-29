@@ -22,7 +22,7 @@ class ProductRecommendations extends HTMLElement {
 
       window.initLazyImages();
     } catch (error) {
-      console.log(error); // eslint-disable-line
+      console.log(error); // eslint-disable-line no-console
     }
   }
 }

@@ -19,7 +19,7 @@ if (!customElements.get('cart-terms')) {
     handleSubmit(evt) {
       if (!this.cartTermsCheckbox.checked) {
         evt.preventDefault();
-        alert(theme.strings.cartTermsConfirmation); // eslint-disable-line
+        alert(theme.strings.cartTermsConfirmation); // eslint-disable-line no-alert
       }
     }
   }

@@ -176,7 +176,7 @@ if (!customElements.get('cart-drawer')) {
 
             this.refreshCartDrawer();
           }).catch((error) => {
-            console.log('Error clearing cart:', error); // eslint-disable-line
+            console.log('Error clearing cart:', error); // eslint-disable-line no-console
             window.location.href = evt.target.href;
           });
         }
@@ -258,7 +258,7 @@ if (!customElements.get('cart-drawer')) {
           CartDrawer.recalculateCssVarHeights();
         }
       } catch (error) {
-        console.log(error); // eslint-disable-line
+        console.log(error); // eslint-disable-line no-console
         this.dispatchEvent(new CustomEvent('on:cart:error', {
           bubbles: true,
           detail: {

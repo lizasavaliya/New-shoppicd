@@ -84,11 +84,11 @@ if (!customElements.get('variant-picker')) {
       optionIds[inputOptionIndex] = input.dataset.valueId;
 
       // If all options are selected
-      if (optionIds.indexOf(null) === -1) {
+      if (!optionIds.includes(null)) {
         // Wait to predict click-intent and preload link
         label.dataset.preloadTimeout = setTimeout(() => {
           label.dataset.preloaded = true;
-          label.removeAttribute('data-preload-timeout');
+          delete label.dataset.preloadTimeout;
           const combinedProductUrl = input.dataset.productUrl;
           const url = this.constructVariantUrl(
             combinedProductUrl,
@@ -107,7 +107,7 @@ if (!customElements.get('variant-picker')) {
     static handleLabelMouseLeave(evt) {
       const label = evt.currentTarget;
       clearTimeout(label.dataset.preloadTimeout);
-      label.removeAttribute('data-preload-timeout');
+      delete label.dataset.preloadTimeout;
     }
 
     /**
@@ -224,7 +224,7 @@ if (!customElements.get('variant-picker')) {
       if (!target || !newContent) return;
 
       // Preselection - only update certain option value attributes
-      if (this.getSelectedOptions().indexOf(null) !== -1 && !productChange) {
+      if (this.getSelectedOptions().includes(null) && !productChange) {
         target.querySelectorAll('.js-option[data-value-id]').forEach((input) => {
           const newInput = newContent.querySelector(`.js-option[data-value-id="${input.dataset.valueId}"]`);
           input.className = newInput.className;
@@ -338,7 +338,7 @@ if (!customElements.get('variant-picker')) {
     updateStatusClasses() {
       const selectedOpts = this.getSelectedOptionIds();
       const nullCount = selectedOpts.filter((x) => x === null).length;
-      const isSingleNullAtEnd = nullCount === 1 && selectedOpts[selectedOpts.length - 1] === null;
+      const isSingleNullAtEnd = nullCount === 1 && selectedOpts.at(-1) === null;
       this.classList.toggle('variant-picker--preselection', nullCount > 0);
       this.classList.toggle('variant-picker--pre-last-selection', nullCount > 0 && !isSingleNullAtEnd);
     }
@@ -392,7 +392,7 @@ if (!customElements.get('variant-picker')) {
       }
 
       // Preselection
-      if (this.getSelectedOptions().indexOf(null) !== -1) {
+      if (this.getSelectedOptions().includes(null)) {
         if (this.addBtn.dataset.preselectionDisabled === 'true') {
           this.addBtn.disabled = true;
           this.addBtn.textContent = this.addBtn.dataset.preselectionText;

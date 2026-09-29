@@ -80,7 +80,7 @@ if (!customElements.get('product-inventory')) {
         this.hidden = false;
 
         // Set the inventory level data attribute
-        this.setAttribute('data-inventory-level', inventoryLevel);
+        this.dataset.inventoryLevel = inventoryLevel;
 
         // Determine whether to show the count or not
         if (inventoryLevel === 'backordered') {

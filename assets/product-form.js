@@ -251,9 +251,9 @@ if (!customElements.get('product-form')) {
           }, 700);
         }
 
-        const itemInOldCart = oldCartData.items.filter(
+        const itemInOldCart = oldCartData.items.find(
           (item) => item.variant_id === data.variant_id
-        )[0];
+        );
 
         let newQuantity = 1;
 
@@ -279,13 +279,13 @@ if (!customElements.get('product-form')) {
 
           // Update the quantity selectors if needed
           if (this.quantitySelector) {
-            this.setAttribute('data-show-quantity-selector', 'true');
+            this.dataset.showQuantitySelector = 'true';
             this.quantityInput.value = newQuantity;
             this.quantitySelector.currentQty = this.quantityInput.dataset.initialValue;
           }
         }
       } catch (error) {
-        console.log(error); // eslint-disable-line
+        console.log(error); // eslint-disable-line no-console
         this.dispatchEvent(new CustomEvent('on:cart:error', {
           bubbles: true,
           detail: {
@@ -299,8 +299,7 @@ if (!customElements.get('product-form')) {
         this.submitBtn.classList.add('is-success');
         this.submitBtn.removeAttribute('aria-disabled');
         setTimeout(() => {
-          this.submitBtn.classList.remove('is-loading');
-          this.submitBtn.classList.remove('is-success');
+          this.submitBtn.classList.remove('is-loading', 'is-success');
         }, 1400);
       }
     }
@@ -319,7 +318,7 @@ if (!customElements.get('product-form')) {
     updateQuantityState(newQuantity) {
       this.quantityInput.value = newQuantity;
       this.quantitySelector.currentQty = newQuantity;
-      this.setAttribute('data-show-quantity-selector', newQuantity > 0 ? 'true' : 'false');
+      this.dataset.showQuantitySelector = newQuantity > 0 ? 'true' : 'false';
     }
 
     async updateQuantity(quantity) {
@@ -348,13 +347,13 @@ if (!customElements.get('product-form')) {
         lineErrors.innerHTML = '';
         lineErrors.hidden = true;
       } catch (error) {
-        if (/^[0-9]+$/.test(error.message)) {
+        if (/^d+$/.test(error.message)) {
           lineErrors.textContent = theme.strings.cartError;
         } else {
           lineErrors.textContent = error.message;
         }
         lineErrors.hidden = false;
-        console.log(error); // eslint-disable-line
+        console.log(error); // eslint-disable-line no-console
 
         const oldQuantity = Number.parseInt(this.quantityInput.dataset.initialValue, 10);
         this.updateQuantityState(oldQuantity);

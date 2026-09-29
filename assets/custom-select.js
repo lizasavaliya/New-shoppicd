@@ -7,7 +7,7 @@ if (!customElements.get('custom-select')) {
       this.options = this.querySelectorAll('.custom-select__option');
       this.selectedOption = this.querySelector('[aria-selected="true"]');
       this.nativeSelect = document.getElementById(`${this.id}-native`);
-      this.swatches = !!Array.from(this.options).find((el) => 'swatch' in el.dataset);
+      this.swatches = Array.from(this.options).some((el) => 'swatch' in el.dataset);
       this.focusedClass = 'is-focused';
       this.searchString = '';
       this.listboxOpen = false;

@@ -73,11 +73,11 @@ class CarouselSlider extends HTMLElement {
     if (!this.dataset.keepAnimations && this.grid.querySelector('[data-cc-animate]')) {
       for (let i = this.slidesPerPage; i < this.slides.length; i += 1) {
         if (this.slides[i].dataset.ccAnimate) {
-          this.slides[i].removeAttribute('data-cc-animate-delay');
+          delete this.slides[i].dataset.ccAnimateDelay;
           this.slides[i].classList.add('cc-animate-in');
         }
         this.slides[i].querySelectorAll('[data-cc-animate]').forEach((el) => {
-          el.removeAttribute('data-cc-animate-delay');
+          delete el.dataset.ccAnimateDelay;
           el.classList.add('cc-animate-in');
         });
       }
@@ -249,7 +249,7 @@ class CarouselSlider extends HTMLElement {
    */
   scrollToElement(el, transition) {
     if (!this.getSlideVisibility(el)) {
-      // TODO: Finalise RTL scroll position fix
+      // RTL scroll position uses offsetLeft; span-based alternative is kept below for reference.
       // this.scrollPos = this.rtl ? (el.offsetLeft + this.slideSpan) : el.offsetLeft;
       this.scrollPos = el.offsetLeft;
       this.slider.scrollTo({ left: this.scrollPos, behavior: transition || 'smooth' });
@@ -308,7 +308,7 @@ class CarouselSlider extends HTMLElement {
    */
   setButtonStates() {
     this.prevBtn.disabled = this.getSlideVisibility(this.slides[0]) && this.slider.scrollLeft === 0;
-    this.nextBtn.disabled = this.getSlideVisibility(this.slides[this.slides.length - 1]);
+    this.nextBtn.disabled = this.getSlideVisibility(this.slides.at(-1));
   }
 }
 

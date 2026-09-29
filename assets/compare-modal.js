@@ -111,7 +111,7 @@ customElements.whenDefined('details-modal').then(() => {
         if (compareProductHtmlArr.length > 0) {
           compareProductHtmlArr.forEach((compareProductHtml) => {
             const responseHTML = document.implementation.createHTMLDocument();
-            responseHTML.documentElement.innerHTML = compareProductHtml; // eslint-disable-line
+            responseHTML.documentElement.innerHTML = compareProductHtml; // eslint-disable-line no-unsanitized/property
 
             responseHTML.querySelectorAll('.shopify-section > div').forEach((compareField) => {
               if (!compareFieldsArr[compareField.dataset.compareKey]) {

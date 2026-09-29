@@ -169,7 +169,7 @@ if (!customElements.get('custom-pagination')) {
             document.querySelectorAll('.js-when-paginated-only').forEach((elem) => elem.remove());
           }
         } catch (error) {
-          console.log('Unable to fetch next page of results', error); // eslint-disable-line
+          console.log('Unable to fetch next page of results', error); // eslint-disable-line no-console
           if (this.intersectingTimer) clearInterval(this.intersectingTimer);
         } finally {
           this.controller = null;

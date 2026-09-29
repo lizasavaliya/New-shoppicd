@@ -25,8 +25,8 @@ if (!customElements.get('speech-search-button')) {
 
       const userAgent = window.navigator.userAgent.toLowerCase();
       if ('webkitSpeechRecognition' in window
-        && userAgent.indexOf('chrome') > -1 && !!window.chrome
-        && userAgent.indexOf('edg/') === -1) {
+        && userAgent.includes('chrome') && !!window.chrome
+        && !userAgent.includes('edg/')) {
         // Browser webkit speech recognition api, and is chrome
         this.init();
         this.bindEvents();

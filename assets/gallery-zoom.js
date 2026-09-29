@@ -111,7 +111,7 @@ if (!customElements.get('gallery-zoom')) {
       const el = document.createElement(type);
       el.className = className;
       if (appendTo) {
-        appendTo.insertAdjacentElement('beforeend', el);
+        appendTo.append(el);
       }
       if (innerHTML) {
         el.innerHTML = innerHTML;
@@ -374,7 +374,7 @@ if (!customElements.get('gallery-zoom')) {
         if (evt.touches.length === 2) {
           // pinch
           const touch2 = evt.touches[1];
-          const pinchDistance = Math.sqrt((touch1.clientX - touch2.clientX) ** 2 + (touch1.clientY - touch2.clientY) ** 2);
+          const pinchDistance = Math.hypot(touch1.clientX - touch2.clientX, touch1.clientY - touch2.clientY);
           if (!this.pinchTracking.isTracking) {
             this.pinchTracking.lastPinchDistance = pinchDistance;
             this.pinchTracking.isTracking = true;

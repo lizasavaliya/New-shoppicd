@@ -41,7 +41,7 @@ class CustomerAddresses extends HTMLElement {
    */
   static handleDeleteBtnClick(evt) {
     // eslint-disable-next-line no-alert, no-restricted-globals
-    if (confirm(evt.target.getAttribute('data-confirm-message'))) {
+    if (confirm(evt.target.dataset.confirmMessage)) {
       const form = document.createElement('form');
       form.method = 'post';
       form.action = evt.target.dataset.target;
@@ -54,7 +54,7 @@ class CustomerAddresses extends HTMLElement {
 
       document.body.appendChild(form);
       form.submit();
-      document.body.removeChild(form);
+      form.remove();
     }
   }
 

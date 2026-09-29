@@ -201,7 +201,7 @@ if (!customElements.get('compare-drawer')) {
             );
             evt.target.closest('.card--product').classList.add('is-comparing');
           } else {
-            alert(`${theme.strings.compare.limit.replace('[quantity]', this.maxCompare)}`); // eslint-disable-line
+            alert(`${theme.strings.compare.limit.replace('[quantity]', this.maxCompare)}`); // eslint-disable-line no-alert
             evt.target.checked = false;
           }
         } else {
@@ -237,8 +237,7 @@ if (!customElements.get('compare-drawer')) {
      */
     open(opener) {
       opener.classList.add('is-open');
-      this.overlay.classList.add('overlay--over-nav');
-      this.overlay.classList.add('js-compare-overlay');
+      this.overlay.classList.add('overlay--over-nav', 'js-compare-overlay');
       super.open(opener);
       this.renderCompareBasket();
     }
@@ -248,8 +247,7 @@ if (!customElements.get('compare-drawer')) {
      */
     close() {
       this.openDrawerButton.classList.remove('is-open');
-      this.overlay.classList.remove('overlay--over-nav');
-      this.overlay.classList.remove('js-compare-overlay');
+      this.overlay.classList.remove('overlay--over-nav', 'js-compare-overlay');
       super.close();
     }
 

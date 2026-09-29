@@ -167,13 +167,13 @@ if (!customElements.get('cart-items')) {
         lineErrors.innerHTML = '';
         lineErrors.hidden = true;
       } catch (error) {
-        if (/^[0-9]+$/.test(error.message)) {
+        if (/^d+$/.test(error.message)) {
           lineErrors.textContent = theme.strings.cartError;
         } else {
           lineErrors.textContent = error.message;
         }
         lineErrors.hidden = false;
-        console.log(error); // eslint-disable-line
+        console.log(error); // eslint-disable-line no-console
 
         this.querySelectorAll('.cart-item__loader').forEach((loader) => {
           loader.hidden = true;
@@ -231,7 +231,7 @@ if (!customElements.get('cart-items')) {
           el.innerHTML = CartItems.getElementHTML(data[section.section], section.selector);
 
           if (section.id === 'cart-items') {
-            el.setAttribute('data-empty', !!el.querySelector('.js-cart-empty'));
+            el.dataset.empty = !!el.querySelector('.js-cart-empty');
           }
         });
 
@@ -245,7 +245,7 @@ if (!customElements.get('cart-items')) {
       } catch (error) {
         errors.textContent = theme.strings.cartError;
         errors.hidden = false;
-        console.log(error); // eslint-disable-line
+        console.log(error); // eslint-disable-line no-console
 
         this.dispatchEvent(new CustomEvent('on:cart:error', {
           bubbles: true,

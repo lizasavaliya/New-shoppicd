@@ -24,7 +24,7 @@ if (!customElements.get('countdown-timer')) {
     }
 
     timer() {
-      const timeDiff = this.endDate - new Date();
+      const timeDiff = this.endDate - Date.now();
 
       if (timeDiff < 0) {
         clearInterval(this.interval);

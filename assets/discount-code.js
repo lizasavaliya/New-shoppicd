@@ -29,12 +29,11 @@ if (!customElements.get('discount-code')) {
           }, 1800);
 
           setTimeout(() => {
-            this.copySuccess.classList.remove('is-closing');
-            this.copySuccess.classList.remove('is-visible');
+            this.copySuccess.classList.remove('is-closing', 'is-visible');
           }, 2000);
         },
         () => {
-          alert(theme.strings.discountCopyFail); // eslint-disable-line
+          alert(theme.strings.discountCopyFail); // eslint-disable-line no-alert
         }
       );
     }

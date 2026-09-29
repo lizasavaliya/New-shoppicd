@@ -225,14 +225,14 @@ if (!customElements.get('slide-show')) {
         if (this.counterCurrent) {
           this.counterCurrent.textContent = slideIndex + 1;
           this.counterCurrent.classList.remove('is-updating');
-          void this.counterCurrent.offsetWidth;
+          this.forcedReflow = this.counterCurrent.offsetWidth;
           this.counterCurrent.classList.add('is-updating');
         }
 
         // Restart progress circle animation from the beginning.
         if (this.progressCircle) {
           this.progressCircle.style.animationName = 'none';
-          void this.progressCircle.offsetWidth;
+          this.forcedReflow = this.progressCircle.offsetWidth;
           this.progressCircle.style.animationName = '';
         }
 

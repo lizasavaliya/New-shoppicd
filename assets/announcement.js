@@ -195,7 +195,7 @@ if (!customElements.get('announcement-bar')) {
       el.focus();
       el.select();
       try { document.execCommand('copy'); } catch (_) {}
-      document.body.removeChild(el);
+      el.remove();
       callback();
     }
 

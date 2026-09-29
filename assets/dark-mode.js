@@ -1,5 +1,5 @@
 (function () {
-  var STORAGE_KEY = 'shoppi-color-mode';
+  const STORAGE_KEY = 'shoppi-color-mode';
 
   function isDark() {
     return document.documentElement.classList.contains('dark-mode');
@@ -22,7 +22,7 @@
   }
 
   function toggle() {
-    var next = !isDark();
+    const next = !isDark();
     save(next ? 'dark' : 'light');
     applyMode(next);
   }

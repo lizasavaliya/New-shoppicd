@@ -41,7 +41,7 @@ if (!customElements.get('shipping-calculator')) {
           this.showErrors(data);
         }
       } catch (error) {
-        console.log(error); // eslint-disable-line
+        console.log(error); // eslint-disable-line no-console
       } finally {
         this.button.classList.remove('is-loading');
         this.button.disabled = false;

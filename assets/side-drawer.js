@@ -27,9 +27,9 @@ function trapFocus(container, elementToFocus = container) {
   const isVisible = (el) => el.offsetParent && getComputedStyle(el).visibility !== 'hidden';
 
   const setFirstLastEls = () => {
-    for (let i = 0; i < focusableEls.length; i += 1) {
-      if (isVisible(focusableEls[i])) {
-        firstEl = focusableEls[i];
+    for (const focusableEl of focusableEls) {
+      if (isVisible(focusableEl)) {
+        firstEl = focusableEl;
         break;
       }
     }

@@ -24,7 +24,7 @@ if (!customElements.get('media-gallery')) {
 
     init() {
       this.section = this.closest('.js-product');
-      this.mediaGroupingEnabled = this.hasAttribute('data-media-grouping-enabled')
+      this.mediaGroupingEnabled = this.dataset.mediaGroupingEnabled !== undefined
         && this.getMediaGroupData();
       this.stackedScroll = this.dataset.stackedScroll;
       this.stackedUnderline = this.dataset.stackedUnderline === 'true' && !this.mediaGroupingEnabled;
@@ -42,7 +42,7 @@ if (!customElements.get('media-gallery')) {
       this.loadingSpinner = this.querySelector('.loading-spinner');
       this.xrButton = this.querySelector('.media-xr-button');
 
-      if (this.hasAttribute('data-zoom-enabled')) {
+      if (this.dataset.zoomEnabled !== undefined) {
         this.galleryModal = this.querySelector('.js-media-zoom-template').content.firstElementChild.cloneNode(true);
       }
 
@@ -128,7 +128,7 @@ if (!customElements.get('media-gallery')) {
      * @returns {?object}
      */
     getMediaGroupData() {
-      if (typeof this.variantMediaData === 'undefined') {
+      if (this.variantMediaData === undefined) {
         const dataEl = this.querySelector('.js-data-variant-media');
         this.variantMediaData = dataEl ? JSON.parse(dataEl.textContent) : false;
       }
@@ -151,10 +151,10 @@ if (!customElements.get('media-gallery')) {
         let currentMediaOptionName = false;
         this.viewerItems = this.querySelectorAll('.media-viewer__item');
         this.viewerItems.forEach((item) => {
-          for (let i = 0; i < variantMediaData.variantMedia.length; i += 1) {
-            if (Number.parseInt(item.dataset.mediaId, 10) === variantMediaData.variantMedia[i].mediaId) {
-              if (currentMediaOptionName !== variantMediaData.variantMedia[i].option) {
-                currentMediaOptionName = variantMediaData.variantMedia[i].option;
+          for (const media of variantMediaData.variantMedia) {
+            if (Number.parseInt(item.dataset.mediaId, 10) === media.mediaId) {
+              if (currentMediaOptionName !== media.option) {
+                currentMediaOptionName = media.option;
               }
             }
           }
@@ -180,8 +180,8 @@ if (!customElements.get('media-gallery')) {
           const groups = Object.keys(this.mediaGroupMap.groups);
           for (let i = 0; i < groups; i += 1) {
             const group = groups[i];
-            for (let j = 0; j < this.mediaGroupMap.groups[group].items.length; j += 1) {
-              if (this.mediaGroupMap.groups[group].items[j] === item) {
+            for (const groupItem of this.mediaGroupMap.groups[group].items) {
+              if (groupItem === item) {
                 return this.mediaGroupMap.groups[group];
               }
             }
@@ -307,7 +307,7 @@ if (!customElements.get('media-gallery')) {
      * @param {?object} evt - Event object.
      */
     handleZoomMouseMove(evt) {
-      if (this.hasAttribute('data-zoom-enabled') && !this.dataset.zoomTrigger && !evt.target.closest('.gallery-zoom-modal')) {
+      if (this.dataset.zoomEnabled !== undefined && !this.dataset.zoomTrigger && !evt.target.closest('.gallery-zoom-modal')) {
         return;
       }
 
@@ -325,7 +325,7 @@ if (!customElements.get('media-gallery')) {
           hoverElem.classList.remove('media--zoom-not-loaded');
           this.loadingSpinner.classList.add('loading-spinner--out');
         };
-        zoomImage.removeAttribute('data-src');
+        delete zoomImage.dataset.src;
       }
 
       try {
@@ -399,7 +399,7 @@ if (!customElements.get('media-gallery')) {
      * Stub for variant-picker calls. Listening to change event instead.
      */
     // eslint-disable-next-line class-methods-use-this
-    setActiveMedia() {}
+    setActiveMedia() { /* Overridden by media-gallery subclasses; intentionally empty. */ }
 
     /**
      * Sets the active media item.

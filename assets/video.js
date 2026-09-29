@@ -51,7 +51,7 @@ if (!customElements.get('video-component')) {
 
       const s = document.createElement('script');
       s.src = src;
-      s.onerror = (err) => console.warn(`Unable to load script ${src}`, err);  // eslint-disable-line
+      s.onerror = (err) => console.warn(`Unable to load script ${src}`, err);  // eslint-disable-line no-console
 
       if (this.type === 'vimeo') {
         s.onload = () => document.dispatchEvent(new CustomEvent('on:vimeo-api:loaded'));
@@ -283,8 +283,8 @@ if (!customElements.get('video-component')) {
             this.inViewport = false;
             this.pause();
           }
-        }, { rootMargin: '0px 0px 200px 0px' });
-      });
+        });
+      }, { rootMargin: '0px 0px 200px 0px' });
 
       observer.observe(el);
     }

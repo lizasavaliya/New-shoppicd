@@ -101,7 +101,7 @@ if (!customElements.get('quick-order-list')) {
           }
         }));
       } catch (error) {
-        console.error(error); // eslint-disable-line
+        console.error(error); // eslint-disable-line no-console
 
         // Show errors
         const item = this.querySelector(`[data-variant-id="${variantId}"] .cart-item__details`);
@@ -172,7 +172,7 @@ if (!customElements.get('quick-order-list')) {
           this.disableLoading();
         }
       } catch (error) {
-        console.log(error); // eslint-disable-line
+        console.log(error); // eslint-disable-line no-console
 
         // Show errors
         const item = this.querySelector(`[data-variant-id="${variantId}"] .cart-item__qty`);

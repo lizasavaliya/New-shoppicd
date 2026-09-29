@@ -10,7 +10,7 @@ if (!localStorage.getItem(ccLSCheckKey) || localStorage.getItem(ccLSCheckKey) !=
     const scripts = [...document.querySelectorAll('script[type="application/ld+json"]')];
     for (const script of scripts) {
       try {
-        const data = [].concat(JSON.parse(script.textContent));
+        const data = [JSON.parse(script.textContent)].flat();
         const name = data.find((obj) => obj?.['@type']?.toLowerCase() === 'organization')?.name;
         if (name) return decode(String(name));
       } catch (e) { /* Skip */ }
@@ -113,12 +113,12 @@ const customEvents = [
 customEvents.forEach((event) => {
   document.addEventListener(event, (evt) => {
     if (event.includes('dispatch:cart-drawer') && theme.settings.cartType !== 'drawer') {
-      // eslint-disable-next-line
+      // eslint-disable-next-line no-console
       console.warn(
         'Various Theme: The Cart Drawer is not enabled. To enable it, change Theme Settings > Cart > Cart type.'
       );
     } else {
-      // eslint-disable-next-line
+      // eslint-disable-next-line no-console
       console.info(
         '%cTheme event triggered',
         'background: #000; color: #bada55',

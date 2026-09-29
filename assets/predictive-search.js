@@ -12,7 +12,7 @@ if (!customElements.get('predictive-search')) {
       this.results = this.querySelector('.js-search-results');
       this.overlay = this.querySelector('.js-search-overlay');
       this.statusEl = this.querySelector('.js-search-status');
-      this.loadingText = this.getAttribute('data-loading-text');
+      this.loadingText = this.dataset.loadingText;
       this.addListeners();
     }
 
@@ -220,7 +220,7 @@ if (!customElements.get('predictive-search')) {
         tmpl.innerHTML = await response.text();
 
         const resultsEl = tmpl.content.querySelector('#shopify-section-predictive-search');
-        const resultsMarkup = resultsEl.innerHTML.replace(/psearch/g, this.input.id);
+        const resultsMarkup = resultsEl.innerHTML.replaceAll('psearch', this.input.id);
 
         this.cachedResults[queryKey] = resultsMarkup;
         this.renderResults(resultsMarkup);
