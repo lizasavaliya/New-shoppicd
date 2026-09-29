@@ -438,7 +438,6 @@
   }
   .main-products-grid[data-layout=list] .quick-add-view-btn {
     display: block;
-    /* margin-top: calc(3 * var(--space-unit)); */
   }
   .quick-add-info {
     grid-template-columns: 30% auto;

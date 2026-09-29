@@ -107,10 +107,6 @@ tbody .product-comparison-grid__th--left::after,
   padding-bottom: 0.4em;
 }
 
-.product-comparison-grid .card__swatches {
-  /* stylelint-disable selector-max-compound-selectors */
-  /* stylelint-enable selector-max-compound-selectors */
-}
 .product-comparison-grid .card__swatches input:checked + .opt-label--swatch,
 .product-comparison-grid .card__swatches input:checked + .filter__label[data-swatch]::before {
   border: 1px solid rgb(var(--swatch-border-color-default));

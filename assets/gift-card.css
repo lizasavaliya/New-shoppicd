@@ -349,7 +349,7 @@ button {
   text-align: center;
   text-transform: var(--btn-text-transform, none);
   appearance: none;
-  word-break: break-word;
+  overflow-wrap: break-word;
 }
 .btn[disabled], .btn[aria-disabled=true] {
   opacity: 0.4;

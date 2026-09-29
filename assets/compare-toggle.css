@@ -303,7 +303,7 @@ compare-drawer .btn--icon .icon {
   border-inline-end: 1px solid rgba(var(--text-color) / 0.08);
   display: flex;
   align-items: center;
-  word-break: break-word;
+  overflow-wrap: break-word;
 }
 
 /* Header rows: transparent label background (no visual column for image/title/price/actions) */

@@ -97,10 +97,6 @@
   .product-details-section--relocated > .product-details__placeholder {
     display: none;
   }
-  [dir=rtl] {
-    /* stylelint-disable selector-max-compound-selectors */
-    /* stylelint-enable selector-max-compound-selectors */
-  }
   [dir=rtl] .product-main .product-info::before, [dir=rtl] .product-main .product-info::after {
     right: -1px;
     left: auto;

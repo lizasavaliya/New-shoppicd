@@ -1575,7 +1575,7 @@ button {
   text-align: center;
   text-transform: var(--btn-text-transform, none);
   appearance: none;
-  word-break: break-word;
+  overflow-wrap: break-word;
 }
 .btn[disabled], .btn[aria-disabled=true] {
   opacity: 0.4;
@@ -2842,9 +2842,6 @@ td {
   .card--article.card--featured {
     flex-direction: row;
   }
-  /* .card--article.card--featured .card__media {
-    flex: 0 0 50%;
-  } */
   .card--article.card--featured .card__info {
     
     padding: calc(8 * var(--space-unit));
