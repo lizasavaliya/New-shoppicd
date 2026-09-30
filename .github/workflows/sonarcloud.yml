@@ -38,4 +38,7 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         with:
-          args: -Dsonar.qualitygate.wait=true
+          args: >
+            -Dsonar.organization=shoppi
+            -Dsonar.projectKey=lizasavaliya_New-shoppicd
+            -Dsonar.qualitygate.wait=true
