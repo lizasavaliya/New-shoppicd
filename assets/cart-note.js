@@ -33,7 +33,16 @@ if (!customElements.get('cart-note')) {
       }
 
       this.fetchRequestOpts.body = JSON.stringify({ note: evt.target.value });
-      fetch(theme.routes.cartUpdate, this.fetchRequestOpts);
+      fetch(theme.routes.cartUpdate, this.fetchRequestOpts)
+        .then((response) => {
+          if (!response.ok) throw new Error(response.status);
+        })
+        .catch((error) => {
+          this.dispatchEvent(new CustomEvent('on:cart:error', {
+            bubbles: true,
+            detail: { error: error.message }
+          }));
+        });
     }
   }
 

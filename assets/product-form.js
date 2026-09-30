@@ -127,7 +127,7 @@ if (!customElements.get('product-form')) {
      * @param {object} evt - Event object.
      */
     handleChange(evt) {
-      this.updateQuantity(evt.target.value);
+      void this.updateQuantity(evt.target.value);
     }
 
     /**

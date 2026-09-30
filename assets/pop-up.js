@@ -35,7 +35,7 @@ function getCookie(name) {
 /* global Modal */
 
 if (!customElements.get('pop-up')) {
-  customElements.whenDefined('modal-dialog').then(() => {
+  void customElements.whenDefined('modal-dialog').then(() => {
     class PopUp extends Modal {
       constructor() {
         super();

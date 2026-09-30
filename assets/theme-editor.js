@@ -37,6 +37,9 @@ if (!localStorage.getItem(ccLSCheckKey) || localStorage.getItem(ccLSCheckKey) !=
       if (response.ok) {
         localStorage.setItem(ccLSCheckKey, ccThemeRole);
       }
+    })
+    .catch(() => {
+      localStorage.removeItem(ccLSCheckKey);
     });
 }
 
@@ -52,7 +55,7 @@ document.addEventListener('shopify:section:load', (evt) => {
 
   // If loaded section is a pop-up, open it.
   if (evt.target.matches('.cc-pop-up')) {
-    customElements.whenDefined('pop-up').then(() => {
+    void customElements.whenDefined('pop-up').then(() => {
       evt.target.querySelector('pop-up').open();
     });
   }

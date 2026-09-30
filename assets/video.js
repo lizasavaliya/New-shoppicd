@@ -132,10 +132,22 @@ if (!customElements.get('video-component')) {
       };
 
       if (!window.Vimeo) {
-        document.addEventListener('on:vimeo-api:loaded', initVimeoPlayer.bind(this));
+        document.addEventListener('on:vimeo-api:loaded', () => {
+          initVimeoPlayer().catch((error) => {
+            this.dispatchEvent(new CustomEvent('on:media:error', {
+              bubbles: true,
+              detail: { error }
+            }));
+          });
+        }, { once: true });
         this.loadScript('//player.vimeo.com/api/player.js');
       } else {
-        initVimeoPlayer();
+        initVimeoPlayer().catch((error) => {
+          this.dispatchEvent(new CustomEvent('on:media:error', {
+            bubbles: true,
+            detail: { error }
+          }));
+        });
       }
     }
 

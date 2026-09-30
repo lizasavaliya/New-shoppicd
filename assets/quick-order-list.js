@@ -32,7 +32,7 @@ if (!customElements.get('quick-order-list')) {
     handleClick(evt) {
       if (!evt.target.matches('.js-remove-item')) return;
       evt.preventDefault();
-      this.updateQuantity(evt.target.dataset.index, 0, evt.target.dataset.variantId, evt.target);
+      void this.updateQuantity(evt.target.dataset.index, 0, evt.target.dataset.variantId, evt.target);
     }
 
     /**
@@ -41,14 +41,14 @@ if (!customElements.get('quick-order-list')) {
      */
     handleChange(evt) {
       if (evt.target.dataset.index) {
-        this.updateQuantity(
+        void this.updateQuantity(
           evt.target.dataset.index,
           evt.target.value,
           evt.target.dataset.variantId,
           evt.target
         );
       } else {
-        this.addToCart(evt.target.dataset.variantId, evt.target.value);
+        void this.addToCart(evt.target.dataset.variantId, evt.target.value);
       }
     }
 

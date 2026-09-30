@@ -39,7 +39,7 @@ if (!customElements.get('cart-items')) {
     handleClick(evt) {
       if (!evt.target.matches('.js-remove-item')) return;
       evt.preventDefault();
-      this.updateQuantity(evt.target.dataset.index, 0);
+      void this.updateQuantity(evt.target.dataset.index, 0);
     }
 
     /**
@@ -47,7 +47,7 @@ if (!customElements.get('cart-items')) {
      * @param {object} evt - Event object.
      */
     handleChange(evt) {
-      this.updateQuantity(evt.target.dataset.index, evt.target.value, document.activeElement.name);
+      void this.updateQuantity(evt.target.dataset.index, evt.target.value, document.activeElement.name);
     }
 
     /**

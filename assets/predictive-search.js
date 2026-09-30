@@ -67,7 +67,7 @@ if (!customElements.get('predictive-search')) {
         return;
       }
 
-      this.getResults(searchTerm);
+      void this.getResults(searchTerm);
     }
 
     /**
@@ -78,7 +78,7 @@ if (!customElements.get('predictive-search')) {
       this.productTypeInput.value = evt.detail.selectedValue;
       const query = this.getQuery();
       if (query.length > 0) {
-        this.getResults(query);
+        void this.getResults(query);
       }
     }
 
@@ -92,7 +92,7 @@ if (!customElements.get('predictive-search')) {
       if (this.getAttribute('results') === 'true') {
         this.open();
       } else {
-        this.getResults(searchTerm);
+        void this.getResults(searchTerm);
       }
     }
 
@@ -224,9 +224,8 @@ if (!customElements.get('predictive-search')) {
 
         this.cachedResults[queryKey] = resultsMarkup;
         this.renderResults(resultsMarkup);
-      } catch (error) {
+      } catch {
         this.close();
-        throw error;
       }
     }
 

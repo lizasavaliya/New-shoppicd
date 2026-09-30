@@ -239,7 +239,12 @@ if (!customElements.get('compare-drawer')) {
       opener.classList.add('is-open');
       this.overlay.classList.add('overlay--over-nav', 'js-compare-overlay');
       super.open(opener);
-      this.renderCompareBasket();
+      this.renderCompareBasket().catch(() => {
+        this.loadingSpinner.setAttribute('hidden', 'true');
+        this.loadingSpinner.setAttribute('aria-hidden', 'true');
+        this.compareBasketArea.textContent = 'Unable to load compared products. Please try again.';
+        this.compareBasketArea.classList.add('revealable--in');
+      });
     }
 
     /**

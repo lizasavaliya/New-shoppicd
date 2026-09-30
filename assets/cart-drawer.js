@@ -174,7 +174,7 @@ if (!customElements.get('cart-drawer')) {
               }));
             });
 
-            this.refreshCartDrawer();
+            return this.refreshCartDrawer();
           }).catch((error) => {
             console.log('Error clearing cart:', error); // eslint-disable-line no-console
             window.location.href = evt.target.href;
@@ -254,7 +254,7 @@ if (!customElements.get('cart-drawer')) {
           const response = this.getSectionsToRender().map((section) => section.section);
           const cartResponse = await fetch(`?sections=${response.join(',')}`);
           const sections = await cartResponse.json();
-          this.renderContents({ sections }, false);
+          await this.renderContents({ sections }, false);
           CartDrawer.recalculateCssVarHeights();
         }
       } catch (error) {

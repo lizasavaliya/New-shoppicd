@@ -125,7 +125,7 @@ if (!customElements.get('facet-filters')) {
           searchParams.delete(key);
         });
 
-        this.applyFilters(searchParams.toString(), evt);
+        void this.applyFilters(searchParams.toString(), evt);
       }, timeoutDelay);
     }
 
@@ -139,7 +139,7 @@ if (!customElements.get('facet-filters')) {
       // Filter 'clear' button clicked.
       if (target.matches('.js-clear-filter')) {
         evt.preventDefault();
-        this.applyFilters(new URL(evt.target.href).searchParams.toString(), evt);
+        void this.applyFilters(new URL(evt.target.href).searchParams.toString(), evt);
       }
 
       // Filter 'show more' button clicked.
@@ -176,7 +176,7 @@ if (!customElements.get('facet-filters')) {
       });
       emptyParams.forEach((key) => searchParams.delete(key));
 
-      this.applyFilters(searchParams.toString(), evt);
+      void this.applyFilters(searchParams.toString(), evt);
     }
 
     /**
@@ -186,7 +186,7 @@ if (!customElements.get('facet-filters')) {
     handleActiveFiltersClick(evt) {
       if (evt.target.tagName !== 'A') return;
       evt.preventDefault();
-      this.applyFilters(new URL(evt.target.href).searchParams.toString(), evt);
+      void this.applyFilters(new URL(evt.target.href).searchParams.toString(), evt);
     }
 
     /**
@@ -201,7 +201,7 @@ if (!customElements.get('facet-filters')) {
           ({ searchParams } = evt.state);
         }
 
-        this.applyFilters(searchParams, null, false);
+        void this.applyFilters(searchParams, null, false);
       }
     }
 

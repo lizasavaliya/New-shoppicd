@@ -191,6 +191,12 @@ if (!customElements.get('variant-picker')) {
           // Update URL and announce changes
           const newVariantPicker = this.section.querySelector('variant-picker');
           setTimeout(() => newVariantPicker.announceChange(), 10);
+        })
+        .catch((error) => {
+          this.dispatchEvent(new CustomEvent('on:variant:load-error', {
+            bubbles: true,
+            detail: { error }
+          }));
         });
     }
 

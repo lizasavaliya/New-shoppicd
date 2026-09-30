@@ -1,6 +1,6 @@
 /* global DetailsModal, CompareUtil */
 
-customElements.whenDefined('details-modal').then(() => {
+void customElements.whenDefined('details-modal').then(() => {
   class CompareModal extends DetailsModal {
     constructor() {
       super();
@@ -62,7 +62,11 @@ customElements.whenDefined('details-modal').then(() => {
      */
     open() {
       this.modal.classList.remove('hidden');
-      this.renderCompareTable();
+      this.renderCompareTable().catch(() => {
+        this.loadingSpinner.setAttribute('hidden', 'true');
+        this.loadingSpinner.setAttribute('aria-hidden', 'true');
+        this.compareArea.textContent = 'Unable to compare products. Please try again later.';
+      });
       super.open();
     }
 

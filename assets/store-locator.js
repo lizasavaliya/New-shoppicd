@@ -1,7 +1,7 @@
 /* global Modal */
 
 if (!customElements.get('store-locator')) {
-  customElements.whenDefined('modal-dialog').then(() => {
+  void customElements.whenDefined('modal-dialog').then(() => {
     class StoreLocator extends Modal {
       constructor() {
         super();

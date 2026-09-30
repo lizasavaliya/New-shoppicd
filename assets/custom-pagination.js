@@ -54,7 +54,7 @@ if (!customElements.get('custom-pagination')) {
             (entries) => {
               entries.forEach((entry) => {
                 if (entry.isIntersecting) {
-                  this.loadMore();
+                  void this.loadMore();
 
                   // Continue to load results as long as the 'load more' button is visible
                   this.intersectingTimer = setInterval(this.loadMore.bind(this), 1000);
@@ -96,7 +96,7 @@ if (!customElements.get('custom-pagination')) {
      */
     handleLoadMoreClick(evt) {
       evt.preventDefault();
-      this.loadMore();
+      void this.loadMore();
     }
 
     /**

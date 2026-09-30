@@ -157,7 +157,13 @@ if (!customElements.get('quick-add-drawer')) {
      * @param {Element} opener - Element that triggered opening of the drawer.
      */
     open(opener) {
-      this.loadAndOpen(opener);
+      this.loadAndOpen(opener).catch(() => {
+        this.classList.remove('is-loading');
+        this.content.classList.remove('drawer__content--out');
+        this.footer.classList.remove('drawer__footer--out');
+        opener.removeAttribute('aria-disabled');
+        this.close();
+      });
     }
 
     /**

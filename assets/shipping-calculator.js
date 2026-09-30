@@ -55,7 +55,7 @@ if (!customElements.get('shipping-calculator')) {
     handleZipKeydown(evt) {
       if (evt.key === 'Enter') {
         evt.preventDefault();
-        this.handleSubmit(evt);
+        void this.handleSubmit(evt);
       }
     }
 
