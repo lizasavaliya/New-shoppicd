@@ -35,7 +35,8 @@ function getCookie(name) {
 /* global Modal */
 
 if (!customElements.get('theme-notification')) {
-  void customElements.whenDefined('modal-dialog').then(() => {
+  const notificationModalDefined = customElements.whenDefined('modal-dialog');
+  void notificationModalDefined.then(() => {
     class ThemeNotification extends Modal {
       constructor() {
         super();

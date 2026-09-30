@@ -35,7 +35,8 @@ function getCookie(name) {
 /* global Modal */
 
 if (!customElements.get('age-verification-pop-up')) {
-  void customElements.whenDefined('modal-dialog').then(() => {
+  const verificationModalDefined = customElements.whenDefined('modal-dialog');
+  void verificationModalDefined.then(() => {
     class AgeVerificationPopUp extends Modal {
       constructor() {
         super();
